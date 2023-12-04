@@ -108,7 +108,7 @@
 	<link href="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/cr-1.7.0/r-2.5.0/datatables.min.css" rel="stylesheet">
 
 	<script src="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/cr-1.7.0/r-2.5.0/datatables.min.js"></script>
-    <link href="assets/freeze/freeze-ui.min.css" type="text/css" rel="stylesheet"/>
+	<link href="assets/freeze/freeze-ui.min.css" type="text/css" rel="stylesheet" />
 	<script src="assets/freeze/freeze-ui.min.js" type="text/javascript"></script>
 
 	<script>
@@ -191,6 +191,8 @@
 				})
 				console.log('x: ', x);
 				setTimeout(() => {
+					UnFreezeUI();
+
 					Tabla(x)
 				}, 15000);
 
@@ -343,9 +345,9 @@
 		}
 
 		function AjaxSend(param, callback) {
-			// FreezeUI({
-			// 	text: 'Cargando'
-			// });
+			FreezeUI({
+				text: 'Cargando'
+			});
 			$.ajax({
 				data: param,
 				datatype: 'json',
