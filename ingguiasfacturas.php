@@ -9,6 +9,9 @@
 <link href="estilos/estilos2.css" rel="stylesheet" type="text/css">
 <link href="estilos/estilos.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="css/tablas.css">
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
 <body onload="setfocus()">
 	<div id="header" align="center">
@@ -20,6 +23,9 @@
 			$base = $_SESSION['base'];
 			$acceso	= $_SESSION['acceso'];
 			$bodega = $_SESSION['bodega'];
+			$drop = $_SESSION['drop'];
+			$drop_gye = $_SESSION['drop_gye'];
+			$drop_uio = $_SESSION['drop_uio'];
 
 			$nomsuc = $_SESSION['nomsuc'];
 			if ($base == 'CARTIMEX') {
@@ -69,236 +75,11 @@
 
 
 			<div class=\"table-responsive-xs\">
-				<form name="formfactura2" action="ingguiasfacturas0.php" method="POST" width="75%">
-					<table align="center">
-						<tr>
-							<th colspan="13">Ingresar Guias Facturas </th>
-						</tr>
-						<tr>
-							<th id="fila4"> SId </th>
-							<th id="fila4"> Factura </th>
-							<th id="fila4"> Cliente </th>
-							<th id="fila4"> Fecha </th>
-							<th id="fila4"> </th>
-							<th id="fila4"> Forma de Pago </th>
-							<th id="fila4"> F.Aprobacion</th>
-							<th id="fila4"> Estado </th>
-							<th id="fila4"> V.Factura </th>
-							<th id="fila4"> Por Cancelar </th>
-							<th id="fila4"> Entrega</th>
-							<th id="fila4"> Bodega Retiro</th>
-							<th id="fila4"> Hacer Pedido </th>
-						</tr>
-						<?php
 
-						$_SESSION['usuario'] = $usuario;
-						$_SESSION['bodega'] = $bodega;
-						//echo "bodega".$bodega.$base.$usuario.$acceso;
-						include('conexion_mssql.php');
+				<table id="Tabla_Guias" class="table table-striped">
 
-						//******Proceso aqui primero todas las facturas pendientes de GUIA para ver cual ha sido Anulada o
-						//Devuelta en su TOTALIDAD Y marcarla como ANULADA tanto en el SISCO como en SGL(facturaslistas)
-						$paso = 'VERIFICADA';
-						$pdo0 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-						$usuario = $_SESSION['usuario'];
-						$bodega = $_SESSION['bodega'];
-						$result0 = $pdo0->prepare("LOG_FACTURAS_PENDIENTES_DEVUELTAS @BODEGA=:bodega , @acceso=:acceso, @Estado=:estado");
-						$result0->bindParam(':bodega', $bodega, PDO::PARAM_STR);
-						$result0->bindParam(':acceso', $acceso, PDO::PARAM_STR);
-						$result0->bindParam(':estado', $paso, PDO::PARAM_STR);
-						$result0->execute();
-						$arreglod = array();
-						$xd = 0;
-						while ($row0 = $result0->fetch(PDO::FETCH_ASSOC)) {
-							$arreglod[$xd][2] = $row0['secuencia'];
-							//echo "Secuencia". $arreglod[$xd][2];
-							$xd++;
-						}
-						$countd = count($arreglod);
-						$yd = 0;
-						while ($yd <= $countd - 1) {
-							$devo = $arreglod[$yd][2];
-							$pdod = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-							$resultd = $pdod->prepare("LOG_FACTURAS_DEVUELTA_UPDATE @Secuencia=:secuencia");
-							$resultd->bindParam(':secuencia', $devo, PDO::PARAM_STR);
-							$resultd->execute();
+				</table>
 
-							$countarr = $resultd->rowcount();
-							//echo "Trae registro".$countarr;
-							if ($countarr == 1) {
-								$rowdd = $resultd->fetch(PDO::FETCH_ASSOC);
-								//echo "datos a actualizar en sisco". $usuario.$fh.$devo ;
-								include("conexion.php");
-								$sqlde = "update covidsales set Anulada= '1' , anuladapor= '$usuario', fechaanulada= '$fh' where factura = '$devo' ";
-								//echo $sqlde;
-								$resultde = mysqli_query($con, $sqlde);
-							}
-							$yd = $yd + 1;
-						}
-						//***************************xxxxxxxxxxxxxxxxxxxxxxx********************************
-
-
-
-						$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-						//new PDO($dsn, $sql_user, $sql_pwd);
-						//Select Query
-						$usuario = $_SESSION['usuario'];
-						$bodega = $_SESSION['bodega'];
-						// echo $bodega;
-						// echo $bodega;
-						$result = $pdo->prepare("LOG_FACTURAS_PENDIENTES_GUIAS_SELECT @BODEGA=:bodega , @acceso=:acceso");
-						$result->bindParam(':bodega', $bodega, PDO::PARAM_STR);
-						$result->bindParam(':acceso', $acceso, PDO::PARAM_STR);
-						//Executes the query
-						$result->execute();
-						$arreglo = array();
-						$x = 0;
-						while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-							$arreglo[$x][1] = $row['Sucursal'];
-							$arreglo[$x][2] = $row['secuencia'];
-							$arreglo[$x][3] = $row['fecha'];
-							$arreglo[$x][4] = $row['nombodega'];
-							$arreglo[$x][5] = number_format($row['saldo'], 2);
-							$arreglo[$x][6] = $row['Detalle'];
-							$arreglo[$x][7] = $row['bodegsuc'];
-							$arreglo[$x][8] = number_format($row['TOTAL'], 2);
-							$arreglo[$x][9] = number_format($row['rete'], 2);
-							$arreglo[$x][10] = $row['saldo'];
-							$arreglo[$x][11] = $row['rete'];
-							$arreglo[$x][12] = $row['BodegaFAC'];
-							$arreglo[$x][13] = $row['pedido'];
-							$arreglo[$x][14] = $row['estado2'];
-							$x++;
-						}
-						$count = count($arreglo);
-						$y = 0;
-						while ($y <= $count - 1) {
-							$numfac = $arreglo[$y][2];
-							// echo $numfac;
-							include("conexion.php");
-							$sql1 = "SELECT a.*, p.bodega as bodegaret, date_format(a.paymentez,'%d/%m/%Y') as fechapay,
-										date_format(a.tcfecha,'%d/%m/%Y') as tcfecha,date_format(a.l2pfecha,'%d/%m/%Y') as l2pfecha,
-										c.sucursalid as sucursal  FROM covidsales a
-										left outer join covidpickup p on p.orden= a.secuencia
-										left outer join sisco.covidciudades c on p.bodega= c.almacen
-										where a.factura = trim('$numfac') and a.anulada<> '1'  ";
-							$result1 = mysqli_query($con, $sql1);
-							$conrow = $result1->num_rows;
-							//echo "Contad". $conrow;
-							if ($conrow > 0) {
-								$row1 = mysqli_fetch_array($result1);
-								$estado = $row1['estado'];
-								$formapago = $row1['formapago'];
-								$bodegaretiro = $row1['bodegaret'];
-								$sucuret = $row1['sucursal'];
-								$tcfecha = $row1['tcfecha'];
-								$fechapay = $row1['fechapay'];
-								$l2pfecha = $row1['l2pfecha'];
-								if ($tcfecha == '00/00/0000') {
-									if ($fechapay == '00/00/0000') {
-										if ($l2pfecha == '00/00/0000') {
-											$faproba = '';
-										} else {
-											$faproba = $l2pfecha;
-										}
-									} else {
-										$faproba = $fechapay;
-									}
-								} else {
-									$faproba = $tcfecha;
-								}
-								//ACTUALIZA EL ESTADO EN SISCO PERMITE HACER GUIA
-								//si la forma de pago es Tienda y el saldo es 0 o es el valor de la retencion se activa para hacer la guia.
-								if (($formapago == 'Tienda') and ($arreglo[$y][5] == 0) or ($formapago == 'Tienda') and ($arreglo[$y][10]) <= ($arreglo[$y][11])) //saldo
-								{
-									$sql2 = "update covidsales set estado= 'Facturado'  where factura = '$numfac'";
-									$result2 = mysqli_query($con, $sql2);
-								}
-								//ESTABLECE SI ES PICKUP O ENVIO DE ACUERDO HABILITA EL CAMPO PARA INGRESAR # GUIA EN DETALLE
-								if ($row1['pickup'] == '1') {
-									$medio = "Pick-up";
-								} else {
-									$medio = "Envio";
-								}
-								//si el saldo es $0 y estado es facturado o entrega entienda x se activa para ingresar guia
-								if (($estado == "Facturado" or $estado == "Entrega en " . $bodegaretiro) and ($arreglo[$y][5] == 0)) {
-									$activar = "submit";
-									$sucufact = $arreglo[$y][7];
-								} else {
-									$activar = "label";
-									$sucufact = "";
-								}
-								if ($arreglo[$y][1] == 72) {
-									$activar = "submit";
-									$sucufact = $arreglo[$y][7];
-								}
-								//si el cliente paga y retira en otra tienda tambien se activa para hacer guia
-								if (($formapago == 'Tienda') and ($arreglo[$y][7] <> $sucuret) and ($sucuret <> '')) {
-									$activar = "submit";
-								}
-								//si el saldo a cancelar es menor q el 10% del total de la factura y el estado es facturado se activa para hacer guia
-								if ((($arreglo[$y][10]) <= ($arreglo[$y][11])) and ($estado == "Facturado" or $estado == "Entrega en " . $bodegaretiro)) {
-									$activar = "submit";
-								}
-							} else {
-								if ($arreglo[$y][14] == 'DROPSHIPPING') {
-									$estado = 'DROPSHIPPING';
-									$activar = "submit";
-								} else {
-									$estado = "NO SISCO";
-									$activar = "label";
-								}
-								if (trim($arreglo[$y][1]) == '72') {
-									$activar = "submit";
-									$sucufact = $arreglo[$y][7];
-								}
-							}
-						?>
-							<tr>
-								<td id="fila4"> 
-									<a href="trakingguia.php?secu=<?php echo $arreglo[$y][2] ?>&bodegaFAC=<?php echo $arreglo[$y][12] ?>"> <?php echo $arreglo[$y][1] ?></a>
-								 </td>
-
-								<?php
-								if ($activar == "label") { ?>
-									<td id="fila4" align="center"> <a> <?php echo $arreglo[$y][2] ?></a></td>
-
-								<?php
-								} else { ?>
-									<td id="fila4" align="center">
-										 <a href="ingguiasfacturas0.php?secu=<?php echo $arreglo[$y][2] ?>&bodegaFAC=<?php echo $arreglo[$y][12] ?>"> <?php echo $arreglo[$y][2] ?></a> 
-										</td>
-								<?php
-								} ?>
-								<td id="fila4" align="center"> <a> <?php echo $arreglo[$y][6] ?></a></td>
-								<td id="fila4"> <?php echo $arreglo[$y][3] ?> </td>
-								<td id="fila4"> <?php echo $arreglo[$y][4]   ?> </td>
-								<td id="fila4"> <?php echo $formapago ?> </td>
-								<td id="fila4"> <?php echo $faproba ?> </td>
-								<td id="fila4"> <?php echo $estado ?> </td>
-								<td id="label5"> <?php echo $arreglo[$y][8] ?> </td>
-								<td id="filax"> <?php echo $arreglo[$y][5] ?> </td>
-								<td id="fila4"> <?php echo $medio ?> </td>
-								<td id="fila4"> <?php echo $bodegaretiro   ?> </td>
-
-								<?php
-								if (($arreglo[$y][12] == "0000000072"  or $arreglo[$y][12] == '0500000008' or $arreglo[$y][12] == '0500000002' or $arreglo[$y][12] == '0500000004')  and $arreglo[$y][5] == 0 and $arreglo[$y][13] == null) { ?>
-									<td id="fila4"> <a href="mailproveedor.php?numfac=<?php echo $arreglo[$y][2] ?>&bodegaFAC=<?php echo $arreglo[$y][12] ?>"> Pedido</a> </td>
-
-								<?php
-								}
-								?> <td id="box"> <input name="bodega" type="hidden" id="bodega" size="30" value="<?php echo $bodega ?>"> </td>
-							</tr>
-						<?php
-							$formapago = '';
-							$medio = '';
-							$bodegaretiro = '';
-							$faproba = '';
-							$y = $y + 1;
-						}
-						?>
-					</table>
-				</form>
 			</div>
 			<a align="center"> Se activa para ingresar la guia cuando: <br>
 				1.) El saldo de la factura sea <strong>$0.00 </strong>
@@ -324,6 +105,9 @@
 
 	?>
 	</div>
+	<link href="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/cr-1.7.0/r-2.5.0/datatables.min.css" rel="stylesheet">
+
+	<script src="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/cr-1.7.0/r-2.5.0/datatables.min.js"></script>
 
 
 	<script>
@@ -331,13 +115,232 @@
 
 			let para = {
 				"Cargar_guias": 1,
-				bodega: <?php echo $bodega ?>
+				bodega: <?php echo $bodega ?>,
 				acceso: <?php echo $acceso ?>,
+				drop: <?php echo $drop ?>,
+				drop_gye: <?php echo $drop_gye ?>,
+				drop_uio: <?php echo $drop_uio ?>,
 			}
+			console.log('para: ', para);
+
 			AjaxSend(para, function(x) {
+
+				
+				x.map(function(x) {
+					let param = {
+						Cargar_guias_sisco: 1,
+						secuencia: x.secuencia
+					}
+					AjaxSend(param, function(obj) {
+						// console.log('obj: ', obj);
+						x.SISCO = obj
+						x.FORMA_PAGO = 0
+
+						if (obj.length > 0) {
+							x.ACTIVAR_LINK = 0
+							x.medio = ""
+							x.sucufact = ""
+							x.FORMA_PAGO = obj[0]["formapago"]
+							x.estado = obj[0]["estado"]
+							x.BODEGA_RETIRO = obj[0]["bodegaret"]
+							x.COMENTARIO = obj[0]["comentarios"]
+							if (obj[0]["pickup"] == 1) {
+								x.medio = "PICK UP"
+							} else {
+								x.medio = "ENVIO"
+							}
+
+							if ((obj[0]["estado"] == "Facturado" || obj[0]["estado"] == "Entrega en " + obj[0]["bodegaret"]) &&
+								(parseFloat(x.saldo) == 0)) {
+								x.ACTIVAR_LINK = 1
+								x.sucufact = x.bodegsuc
+							}
+							if (x.Sucursal == "72") {
+								x.ACTIVAR_LINK = 1
+							}
+							if ((obj[0]["formapago"] == "Tienda" && x.bodegsuc != obj[0]["sucursal"]) &&
+								obj[0]["sucursal"] != "") {
+								x.ACTIVAR_LINK = 1
+							}
+
+							if (((x.saldo) <= (x.rete)) && (obj[0]["estado"] == "Facturado" ||
+									obj[0]["estado"] == "Entrega en " + obj[0]["bodegaret"])) {
+								x.ACTIVAR_LINK = 1
+							}
+						} else {
+							x.ACTIVAR_LINK = 0
+							x.medio = ""
+							x.sucufact = ""
+							x.FORMA_PAGO = ""
+							x.BODEGA_RETIRO = ""
+							if (x.Sucursal == "72") {
+								x.ACTIVAR_LINK = 1
+							}
+
+							if (x.estado2 == "DROPSHIPPING") {
+								x.ACTIVAR_LINK = 1
+								x.estado = "DROPSHIPPING"
+								x.COMENTARIO = x.DROP_DIRECCION + " - " + x.DROP_REFERENCIA
+							} else {
+								x.estado = "NO SISCO"
+							}
+
+						}
+
+					})
+				})
 				console.log('x: ', x);
+				setTimeout(() => {
+					Tabla(x)
+
+				}, 15000);
 
 			})
+		}
+		Cargar_guias()
+
+		function Tabla(data) {
+			var table = $('#Tabla_Guias').DataTable({
+				destroy: true,
+				data: data,
+				dom: 'frtip',
+				// responsive: true,
+				deferRender: true,
+				buttons: [{
+					text: `<span class"fw-bolder">Refrescar </span> <i class="bi bi-arrow-clockwise"></i>`,
+					className: 'btn btn-success',
+					action: function(e, dt, node, config) {}
+				}],
+				// scrollY: '30vh',
+				// scrollCollapse: true,
+				// paging: false,
+				// info: false,
+				// "order": [
+				// 	[7, "asc"]
+				// ],
+				columns: [{
+						data: "Sucursal",
+						title: "SID",
+						render: function(x, y, r) {
+
+							x = `
+								<a href="trakingguia.php?secu=` + r.secuencia + `&bodegaFAC=` + r.BodegaFAC + `">` + r.Sucursal + `</a>
+
+							`
+							return x
+						}
+					},
+					{
+						data: "secuencia",
+						title: "FACTURA",
+						render: function(x, y, r) {
+
+							if (r.ACTIVAR_LINK == 1) {
+								x = `
+								<a href="ingguiasfacturas0.php?secu=` + r.secuencia + `&bodegaFAC=` + r.BodegaFAC + `">` + r.secuencia + `</a> 
+								`
+							}
+							return x
+						}
+					},
+
+					{
+						data: "Detalle",
+						title: "CLIENTE",
+						// render: $.fn.dataTable.render.number(',', '.', 2, "$"),
+					},
+					{
+						data: "fecha",
+						title: "FECHA",
+
+					}, {
+						data: "nombodega",
+						title: "BODEGA",
+					},
+					{
+						data: "FORMA_PAGO",
+						title: "FORMA DE PAGO",
+
+					},
+					{
+						data: "FORMA_PAGO",
+						title: "F. APROBACION",
+
+					},
+					{
+						data: "estado",
+						title: "ESTADO",
+
+					},
+					{
+						data: "TOTAL",
+						title: "V. FACTURADO",
+						render: $.fn.dataTable.render.number(',', '.', 2, "$"),
+
+					},
+					{
+						data: "saldo",
+						title: "POR CANCELAR",
+						render: $.fn.dataTable.render.number(',', '.', 2, "$"),
+
+					}, {
+						data: "medio",
+						title: "ENTREGA",
+
+					}, {
+						data: "BODEGA_RETIRO",
+						title: "BODEGA RETIRO",
+
+					}, {
+						data: "COMENTARIO",
+						title: "COMENTARIO",
+
+					}, {
+						data: null,
+						title: "HACER PEDIDO",
+						render: function(x, y, r) {
+
+							if ((r.BodegaFAC == "0000000072" || r.BodegaFAC == "0500000008" ||
+									r.BodegaFAC == "0500000002" || r.BodegaFAC == "0500000004") &&
+								parseFloat(r.saldo) == 0 && r.pedido == null) {
+								x = `
+									<a href="mailproveedor.php?numfac=` + r.secuencia + `&bodegaFAC=` + r.BodegaFAC + `">Pedido</a> 
+									`
+							} else {
+								x = ''
+							}
+							return x
+						}
+					}
+				],
+				"createdRow": function(row, data, index) {
+
+					if (data["estado"] == "DROPSHIPPING") {
+						$(row).addClass('bg-success');
+					}
+
+					$('td', row).eq(0).addClass("fs-6 fw-bolder");
+					$('td', row).eq(5).addClass("fs-6 fw-bolder bg-light-primary");
+					$('td', row).eq(1).addClass("fw-bolder bg-light-info");
+					$('td', row).eq(2).addClass("fw-bolder bg-light-warning");
+					$('td', row).eq(3).addClass("fw-bolder bg-light-success");
+					$('td', row).eq(4).addClass("fw-bolder bg-light-primary");
+					$('td', row).eq(6).addClass("fw-bolder");
+
+					if (data["estado"] == "Facturado") {
+						$('td', row).eq(7).addClass("fw-bolder text-success");
+					} else if (data["estado"] == "NO SISCO") {
+						$('td', row).eq(7).addClass("fw-bolder text-danger");
+					} else {
+						$('td', row).eq(7).addClass("fw-bolder text-dark");
+					}
+
+				},
+
+			});
+			setTimeout(function() {
+				$($.fn.dataTable.tables(true)).DataTable().columns.adjust().draw();
+			}, 500);
 		}
 
 		function AjaxSend(param, callback) {
@@ -347,6 +350,7 @@
 				url: 'ingguiasfacturas_f.php',
 				type: 'POST',
 				success: function(x) {
+					x = JSON.parse(x)
 					callback(x)
 				}
 			})
