@@ -255,8 +255,9 @@
 							}
 						?>
 							<tr>
-
-								<td id="fila4"> <a href="trakingguia.php?secu=<?php echo $arreglo[$y][2] ?>&bodegaFAC=<?php echo $arreglo[$y][12] ?>"> <?php echo $arreglo[$y][1] ?></a> </td>
+								<td id="fila4"> 
+									<a href="trakingguia.php?secu=<?php echo $arreglo[$y][2] ?>&bodegaFAC=<?php echo $arreglo[$y][12] ?>"> <?php echo $arreglo[$y][1] ?></a>
+								 </td>
 
 								<?php
 								if ($activar == "label") { ?>
@@ -264,7 +265,9 @@
 
 								<?php
 								} else { ?>
-									<td id="fila4" align="center"> <a href="ingguiasfacturas0.php?secu=<?php echo $arreglo[$y][2] ?>&bodegaFAC=<?php echo $arreglo[$y][12] ?>"> <?php echo $arreglo[$y][2] ?></a> </td>
+									<td id="fila4" align="center">
+										 <a href="ingguiasfacturas0.php?secu=<?php echo $arreglo[$y][2] ?>&bodegaFAC=<?php echo $arreglo[$y][12] ?>"> <?php echo $arreglo[$y][2] ?></a> 
+										</td>
 								<?php
 								} ?>
 								<td id="fila4" align="center"> <a> <?php echo $arreglo[$y][6] ?></a></td>
@@ -321,4 +324,32 @@
 
 	?>
 	</div>
+
+
+	<script>
+		function Cargar_guias() {
+
+			let para = {
+				"Cargar_guias": 1,
+				bodega: <?php echo $bodega ?>
+				acceso: <?php echo $acceso ?>,
+			}
+			AjaxSend(para, function(x) {
+				console.log('x: ', x);
+
+			})
+		}
+
+		function AjaxSend(param, callback) {
+			$.ajax({
+				data: param,
+				datatype: 'json',
+				url: 'ingguiasfacturas_f.php',
+				type: 'POST',
+				success: function(x) {
+					callback(x)
+				}
+			})
+		}
+	</script>
 </body>
