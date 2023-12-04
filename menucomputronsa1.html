@@ -1,0 +1,152 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!DOCTYPE html>
+<html>
+<script type="text/javascript">
+</script>
+<link href="estilos/menustyle.css" rel="stylesheet" type="text/css">
+
+<body>
+	<?php
+			session_start();
+		    $usuario = $_SESSION['usuario'];
+			$base = $_SESSION['base'];
+			$bodega = $_SESSION['bodega'];
+			$acceso = $_SESSION['acceso'];
+			$nomsuc = $_SESSION['nomsuc'];
+			$usuario1 = $usuario;
+			require('conexion_mssql.php');
+			$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+			$result = $pdo->prepare("LOG_FACTURAS_PENDIENTES_SELECT @BODEGA=:bodega , @acceso=:acceso" );
+			$result->bindParam(':bodega',$bodega,PDO::PARAM_STR);
+			$result->bindParam(':acceso',$acceso,PDO::PARAM_STR);
+			//$result->execute();
+			//$arreglo = array();
+			//$x=0;
+			//while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+			//		$arreglo[$x][1]=$row['Sucursal'];$x++;
+			//}
+			//$countp = count($arreglo);
+			$countp = "";
+
+			$pdo1 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+			$result1 = $pdo1->prepare("LOG_FACTURAS_PENDIENTES_VERIFICAR @BODEGA=:bodega , @acceso=:acceso" );
+			$result1->bindParam(':bodega',$bodega,PDO::PARAM_STR);
+			$result1->bindParam(':acceso',$acceso,PDO::PARAM_STR);
+			//$result1->execute();
+			//$arreglo1 = array();
+			//$x1=0;
+			//while ($row1 = $result1->fetch(PDO::FETCH_ASSOC)) {
+			//		$arreglo1[$x1][1]=$row1['Sucursal'];$x1++; 
+			//}
+			//$countv = count($arreglo1);
+			$countv ="";
+
+			$pdo2 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+			$result2 = $pdo2->prepare("LOG_FACTURAS_PENDIENTES_GUIAS_SELECT @BODEGA=:bodega , @acceso=:acceso" );
+			$result2->bindParam(':bodega',$bodega,PDO::PARAM_STR);
+			$result2->bindParam(':acceso',$acceso,PDO::PARAM_STR);
+			//$result2->execute();
+			//$arreglo2 = array();
+			//$x2=0;
+			//while ($row2 = $result2->fetch(PDO::FETCH_ASSOC)) {	
+			//	$arreglo2[$x2][1]=$row2['Sucursal'];$x2++; 
+			//}
+			//$countg = count($arreglo2);
+			$countg = "";
+
+			$pdo3 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+			$result3 = $pdo3->prepare("LOG_FACTURAS_PENDIENTES_DESPACHO_SELECT @BODEGA=:bodega , @acceso=:acceso" );
+			$result3->bindParam(':bodega',$bodega,PDO::PARAM_STR);
+			$result3->bindParam(':acceso',$acceso,PDO::PARAM_STR);
+			//$result3->execute();
+			//$arreglo3 = array();
+			//$x3=0;
+			//while ($row3 = $result3->fetch(PDO::FETCH_ASSOC)) {	
+			//	$arreglo3[$x3][1]=$row3['Sucursal'];$x3++;
+			//}
+			//$countd = count($arreglo3);
+			$countd = "";
+?>
+	<nav id="menu_gral">
+		<ul>
+			<li><a href="#">Toma de Inventario</a>
+				<ul>
+					<li><a href="inventario/mantenimientoinventario.php">Mantenimiento </a></li>
+					<li><a href="inventario/inventarios.php">Toma Fisica Inventario (Conteo1) </a></li>
+					<li><a href="inventario/segundoconteo.php">Toma Fisica Inventario (Conteo2) </a></li>
+					<li><a href="inventario/tercerconteo.php">Toma Fisica Inventario (Conteo3) </a></li>
+					<li><a href="inventario/reporteinventarios.php">Reportes de Inventario Final </a></li>
+				</ul>
+			</li>
+			<li><a href="#"> Almacen y Stock &nbsp;&nbsp;</a>
+				<ul>
+					<li><a href="consultarinventario.php?bodega=0500000001"> Kennedy </a></li>
+					<li><a href="consultarinventario.php?bodega=0000000017"> Ceibos </a></li>
+					<li><a href="consultarinventario.php?bodega=0000000019"> RioNorte </a></li>
+				</ul>
+			</li>
+			<li><a href="#">&nbsp;&nbsp;Picking y Acopio&nbsp;&nbsp;(
+					<?php echo $countp?>)
+				</a>
+				<ul>
+					<li><a href="prepararfacturas.php">Facturas </a></li>
+					<li><a href="dropshipping.php">Drop-Shipping </a></li>
+					<li><a href="revertirpreparacion.php">Revertir Preparacion </a></li>
+					<li><a href="modificarmultibodegas.php">Modificar multibodegas </a></li>
+				</ul>
+			</li>
+
+			<li><a href="#">Verificacion y Series (
+					<?php echo $countv?>)
+				</a>
+				<ul>
+					<li><a href="verificarfacturas.php">Facturas</a></li>
+					<li><a href="modificarseries.php">Modificar Series</a></li>
+					<li><a href="modificarseriesm/modificar.php">Ingresar Series Parcial</a></li>
+					<li><a href="devolucionseries.php">Devolucion de series</a></li>
+				</ul>
+			</li>
+			<li><a href="#">Guias Pickup (
+					<?php echo $countg?>)
+				</a>
+				<ul>
+					<li><a href="ingguiasfacturas.php">Facturas</a></li>
+				</ul>
+			</li>
+			<li><a href="#">Confirmar Envios/Entregas (
+					<?php echo $countd?>)
+				</a>
+				<ul>
+					<li><a href="despacharfacturas.php">Facturas</a></li>
+				</ul>
+			</li>
+			<li><a href="#">Entregas Vehiculo &nbsp;&nbsp;</a>
+				<ul>
+					<li><a href="entregarfacturas.php">Facturas </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Consulta Traking &nbsp;&nbsp;</a>
+				<ul>
+					<li><a href="facturasdespachadas.php">Facturas </a></li>
+					<li><a href="facturasanuladas.php">Facturas Anuladas</a></li>
+				</ul>
+			</li>
+			<li><a href="#">Mantenimiento General</a>
+				<ul>
+					<li><a href="consultarusuarios.php">Usuarios</a></li>
+					<li><a href="computron/ingresonovedades.php">Novedades</a></li>
+					<li><a href="computron/bandejanovedades.php">Bandeja Novedades</a></li>
+				</ul>
+			</li>
+		</ul>
+	</nav>
+	<?php
+			$usuario= $usuario1;
+			$_SESSION['base']= $base;
+			$_SESSION['usuario']=$usuario;
+			$_SESSION['acceso']=$acceso;
+			$_SESSION['bodega']=$bodega;
+			$_SESSION['nomsuc']=$nomsuc;
+		?>
+
+</body>

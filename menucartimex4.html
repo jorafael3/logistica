@@ -1,0 +1,56 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!DOCTYPE html>
+<html>
+<script type="text/javascript">
+</script>
+<link href="estilos/menustyle.css" rel="stylesheet" type="text/css">
+<body>
+<?php
+			session_start();
+		    $usuario = $_SESSION['usuario'];
+			$base = $_SESSION['base'];
+			$bodega = $_SESSION['bodega'];
+			$usuario1 = $usuario;
+			/*
+			require('conexion_mssql.php');
+			$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+			$result = $pdo->prepare("LOG_FACTURAS_PENDIENTES_SELECT @BODEGA=:bodega , @acceso=:acceso" );
+			$result->bindParam(':bodega',$bodega,PDO::PARAM_STR);
+			$result->bindParam(':acceso',$acceso,PDO::PARAM_STR);
+			$result->execute();
+			$arreglo = array();
+			$x=0;
+			while ($row = $result->fetch(PDO::FETCH_ASSOC)) {	$arreglo[$x][1]=$row['Sucursal'];$x++; }$countp = count($arreglo); */
+?>
+<nav id="menu_gral">
+			  <ul>
+				<li><a href="#">Toma de Inventario</a>
+					<ul>
+							<li><a href="inventario/inventarios.php">Toma Fisica Inventario (Conteo1)</a></li>
+							<li><a href="inventario/segundoconteo.php">Toma Fisica Inventario (Conteo2) </a></li>
+							<li><a href="inventario/tercerconteo.php">Toma Fisica Inventario (Conteo3) </a></li>
+					</ul>
+				</li>
+				<li><a href="#">Almacen y Stock </a>
+				<ul>
+						<li><a href="consultarinventario.php?bodega=0000000006">Cartimex- Gye  </a></li>
+						<li><a href="consultarinventario.php?bodega=0200000001">Cartimex- UIO </a></li>
+					</ul>
+				</li>
+				<li><a href="#">Picking y Acopio (<?php echo $countp?>)</a>
+				<ul>
+						<li><a href="cartimex/prepararfacturas.php">Facturas</a></li>
+						<li><a href="cartimex/preparartransferencias.php">Transferencias</a></li>
+					</ul>
+				</li>
+			  </ul>
+</nav>
+		<?php
+			$usuario= $usuario1;
+			$_SESSION['base']= $base;
+			$_SESSION['usuario']=$usuario;
+			$_SESSION['bodega']=$bodega;
+			$_SESSION['acceso']=$acceso;
+		?>
+
+</body>

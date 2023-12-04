@@ -1,0 +1,32 @@
+.modern-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+}
+
+.form-label {
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+input[type="text"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.submit-button {
+    padding: 8px 15px;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+}

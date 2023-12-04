@@ -1,0 +1,82 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: -10vh 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  #header {
+    margin: -4vh 0 0;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  #Cuerpo {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    width: 100%;
+  }
+
+  #Cuerpo table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+  }
+  a {
+    font-size: 18px; /* Ajusta el tamaño de fuente según tus preferencias */
+    margin-top: 1cm; /* Baja la etiqueta 3cm desde su posición original */
+    display: block; /* Hace que la etiqueta se comporte como un bloque */
+    text-decoration: none; /* Quita la decoración de subrayado del enlace */
+  }
+
+  #Cuerpo td,
+  #Cuerpo th {
+    padding: 8px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+
+  #Cuerpo th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+
+  #Cuerpo select,
+  #Cuerpo input[type="text"],
+  #Cuerpo input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #d4d3d3;
+    border-radius: 10px;
+  }
+
+  #Cuerpo input[type="submit"] {
+    width: 100%;
+    padding: 8px;
+    background-color: #4CAF50;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  #Cuerpo input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+
+  #footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: #2e2b2b;
+  }

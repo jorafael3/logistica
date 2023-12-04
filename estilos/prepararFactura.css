@@ -1,0 +1,120 @@
+#Cuerpo {
+    font-family: Arial;
+    font-size: 14px;
+  }
+  
+  #cuerpo2 {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  #izq,
+  #centro,
+  #derecha {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+  .titulo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+  }
+  
+  hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+  }
+  
+  #label {
+    text-align: right;
+    padding-right: 10px;
+  }
+  
+  #box input[type="text"] {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    font-family: inherit;
+    font-size: inherit;
+  }
+  
+  #etiqueta a,
+  #etiqueta a img {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  #etiqueta a:hover {
+    text-decoration: underline;
+  }
+  
+  #submit {
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  #submit:hover {
+    opacity: 0.7;
+  }
+  
+  #submit img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  #submit:focus {
+    outline: none;
+  }
+  
+  #submit,
+  #submit .button-label,
+  a {
+    font-size: 14px;
+    color: #000;
+  }
+  
+  #submit .button-label {
+    vertical-align: middle;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  form[name="formfactura"] input[type="text"] {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    height: 30px;
+    margin: 10px auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 14px;
+  }
+  
+  form[name="formfactura"] input[type="image"] {
+    width: 20px;
+    height: 20px;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    margin-left: 5px;
+    cursor: pointer;
+  }

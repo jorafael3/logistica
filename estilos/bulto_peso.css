@@ -1,0 +1,20 @@
+
+/* Estilo para los nuevos campos de entrada */
+input[type="number"] {
+    border: 1px solid #ccc;
+    /* Borde con color gris */
+    padding: 8px;
+    /* Espaciado interno */
+    border-radius: 5px;
+    /* Bordes redondeados */
+    outline: none;
+    /* Quita el borde resaltado al enfocar el campo */
+    transition: border-color 0.3s ease-in-out;
+    /* Transición suave al cambiar el color del borde */
+}
+
+/* Cambio de color del borde al enfocar el campo */
+input[type="number"]:focus {
+    border-color: #3498db;
+    /* Color azul al enfocar */
+}

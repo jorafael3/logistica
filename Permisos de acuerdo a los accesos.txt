@@ -1,0 +1,24 @@
+Acceso 3 
+Puede 
+Administrar Usuarios 
+BUsqueda de Productos (SKU)
+
+
+
+Acceso C
+Entra a series/serial.asp y se va a series/ventas1.asp
+
+Acceso v 
+Entra a series/serial.asp y se va a /verifica/verifica0a.php
+
+Acceso P 
+Entra a series/serial.asp y se va a series/serial_p.asp
+
+Acceso 2
+BUsqueda de Productos (SKU)
+ 
+
+
+
+
+

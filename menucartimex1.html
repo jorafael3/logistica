@@ -1,0 +1,137 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!DOCTYPE html>
+<html>
+<script type="text/javascript">
+</script>
+<link href="estilos/menustyle.css" rel="stylesheet" type="text/css">
+<body>
+<?php
+			session_start();
+		    $usuario = $_SESSION['usuario'];
+			$base = $_SESSION['base'];
+			$bodega = $_SESSION['bodega'];
+			//echo "Bodega".$bodega;
+			$usuario1 = $usuario;
+			/*
+			require('conexion_mssql.php');
+			$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+			$result = $pdo->prepare("LOG_FACTURAS_PENDIENTES_SELECT @BODEGA=:bodega , @acceso=:acceso" );
+			$result->bindParam(':bodega',$bodega,PDO::PARAM_STR);
+			$result->bindParam(':acceso',$acceso,PDO::PARAM_STR);
+			$result->execute();
+			$arreglo = array();
+			$x=0;
+			while ($row = $result->fetch(PDO::FETCH_ASSOC)) {	$arreglo[$x][1]=$row['Sucursal'];$x++; }$countp = count($arreglo);
+
+			$pdo1 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+			$result1 = $pdo1->prepare("LOG_FACTURAS_PENDIENTES_VERIFICAR @BODEGA=:bodega , @acceso=:acceso" );
+			$result1->bindParam(':bodega',$bodega,PDO::PARAM_STR);
+			$result1->bindParam(':acceso',$acceso,PDO::PARAM_STR);
+			$result1->execute();
+			$arreglo1 = array();
+			$x1=0;
+			while ($row1 = $result1->fetch(PDO::FETCH_ASSOC)) {	$arreglo1[$x1][1]=$row1['Sucursal'];$x1++; }$countv = count($arreglo1);
+
+			$pdo2 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+			$result2 = $pdo2->prepare("LOG_FACTURAS_PENDIENTES_GUIAS_SELECT @BODEGA=:bodega , @acceso=:acceso" );
+			$result2->bindParam(':bodega',$bodega,PDO::PARAM_STR);
+			$result2->bindParam(':acceso',$acceso,PDO::PARAM_STR);
+			$result2->execute();
+			$arreglo2 = array();
+			$x2=0;
+			while ($row2 = $result2->fetch(PDO::FETCH_ASSOC)) {	$arreglo2[$x2][1]=$row2['Sucursal'];$x2++; }$countg = count($arreglo2); */
+?>
+<nav id="menu_gral">
+			  <ul>
+				<!--<li><a href="#">Recepcion de Mercaderia </a>
+					<ul>
+						<li><a href="cartimex/compras/recepcioncompras.php">Recepcion Ordenes/Compras </a></li>
+						<li><a href="cartimex/compras/ingresarordenes.php">Ordenes Pendientes de Ingresar  </a></li>
+						<li><a href="cartimex/compras/recepcionimportaciones.php">Liquidaciones por Recibir  </a></li>
+						<li><a href="cartimex/compras/comprasrecibidas.php">Traking Liq/Compras (Recibidas) </a></li>
+						<li><a href="cartimex/compras/statusdearribos.php">Traking Liq/Compras (Todas) </a></li>
+					</ul>
+				</li>-->
+				<li><a href="#">Almacen y Stock </a>
+					<ul>
+							<li><a href="consultarinventario.php?bodega=0000000006">Cartimex- Gye  </a></li>
+							<li><a href="consultarinventario.php?bodega=0200000001">Cartimex- UIO </a></li>
+					</ul>
+				</li>
+				<li><a href="#">Picking y Acopio (<?php echo $countp?>)</a>
+					<ul>
+							<li><a href="cartimex/prepararfacturas.php">Facturas</a></li>
+							<li><a href="cartimex/agrupartransferencias.php">Agrupar Transferencias</a></li>
+							<li><a href="cartimex/preparartransferencias.php">Transferencias</a></li>
+							<li><a href="cartimex/revertirpreparacion.php">Revertir Proceso Preparacion</a></li>
+					</ul>
+				</li>
+				<li><a href="#">Verificacion y Series (<?php echo $countv?>)</a>
+					<ul>
+						<li><a href="cartimex/verificarfacturas.php">Facturas</a></li>
+						<li><a href="cartimex/recibirfacturas2.php">Recibir Facturas</a></li>
+						<li><a href="cartimex/verificartransferencias.php">Transferencias</a></li>
+						<li><a href="cartimex/modificarseries.php">Modificar Series Facturas</a></li>
+						<li><a href="cartimex/devolucionseries.php">Devolver Series</a></li>
+						<li><a href="cartimex/reemplazoseries.php">Reemplazo Series Facturas</a></li>
+						<li><a href="cartimex/modificarseriestransfer.php">Modificar Series Transferencias</a></li>		
+					</ul>
+				</li>
+				<li><a href="#">Guias Pickup (<?php echo $countg?>)</a>
+					<ul>
+						<li><a href="cartimex/ingguiasfacturas.php">Facturas</a></li>
+						<li><a href="cartimex/ingguiastransferencias.php">Transferencias</a></li>
+						<li><a href="cartimex/cambiotipopedido1.php">Cambiar Tipo de Despacho </a></li>
+					</ul>
+				</li>
+				<li><a href="#">Toma de Inventario</a>
+					<ul>
+							<li><a href="inventario/mantenimientoinventario.php">Mantenimiento </a></li>
+							<li><a href="inventario/inventarios.php">Toma Fisica Inventario (Conteo1) </a></li>
+							<li><a href="inventario/segundoconteo.php">Toma Fisica Inventario (Conteo2) </a></li>
+							<li><a href="inventario/tercerconteo.php">Toma Fisica Inventario (Conteo3) </a></li>
+							<li><a href="inventario/reporteinventarios.php">Reportes de Inventario Final </a></li>
+					</ul>
+				</li>
+				<li><a href="#">Confirmar Envios/Entregas</a>
+					<ul>
+						<li><a href="cartimex/despacharfacturas.php">Facturas</a></li>
+						<li><a href="cartimex/despachartransferencias.php">Transferencias</a></li>
+					</ul>
+				</li>
+				<li><a href="#">Envios facturas GYE/UIO  &nbsp;&nbsp;</a>
+					<ul>
+						<li><a href="cartimex/enviarfacturas.php">Enviar Facturas </a></li>
+					</ul>
+				</li>
+				<li><a href="#">Entregas Vehiculo  &nbsp;&nbsp;</a>
+					<ul>
+						<li><a href="cartimex/entregarfacturas.php">Facturas </a></li>
+					</ul>
+				</li>
+				<li><a href="#">Consulta Traking &nbsp;&nbsp;</a>
+					<ul>
+						<li><a href="cartimex/facturasdespachadas.php">Facturas Despachadas</a></li>
+						<li><a href="cartimex/facturasanuladas.php">Facturas Anuladas</a></li>
+						<li><a href="cartimex/facturaspendientes.php">Facturas Pendientes </a></li>
+						<li><a href="cartimex/transferenciasdespachadas.php">Transferencias </a></li>
+					</ul>
+				</li>
+				<li><a href="#">Mantenimiento General</a>
+					<ul>
+						<li><a href="consultarusuarios.php">Usuarios</a></li>
+
+					</ul>
+				</li>
+			  </ul>
+</nav>
+		<?php
+			$usuario= $usuario1;
+		    //echo "Usuario envio ".$usuario;
+			$_SESSION['base']= $base;
+			$_SESSION['usuario']=$usuario;
+			$_SESSION['bodega']=$bodega;
+			$_SESSION['acceso']=$acceso;
+		?>
+
+</body>

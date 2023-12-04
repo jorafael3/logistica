@@ -1,0 +1,23 @@
+.table-moderna {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+.table-moderna th, .table-moderna td {
+  text-align: left;
+  padding: 8px;
+}
+
+.table-moderna th {
+  background-color: #5bd67a;
+  color: white;
+}
+
+.table-moderna tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table-moderna tr:hover {
+  background-color: #ddd;
+}

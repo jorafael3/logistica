@@ -1,0 +1,153 @@
+#submit {
+    background-color: #5bd67a;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Cambiar el color del botón cuando se pasa el mouse sobre él */
+#submit:hover {
+    background-color: #9ceac8;
+}
+
+/* Cambiar el color del botón cuando está presionado */
+#submit:active {
+    background-color: #25ce65;
+}
+
+
+#cuerpo2 {
+    
+    text-align: center;
+}
+
+#codigo {
+    width: 280px;
+    height: 30px;
+    border: 2px solid #ccc;
+    padding: 5px;
+}
+
+#submit {
+    background-color: #5bd67a;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.8s ease-in-out;
+    margin-left: 10px;
+}
+
+#submit:hover {
+    background-color: #9ceac8;
+}
+
+#submit:active {
+    background-color: #25ce65;
+}
+
+/* Tabla */
+
+#listado2 {
+    width: 85%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 20px #0706061a;
+}
+
+/* Estilo para la cabecera */
+#listado2 th {
+    background-color: #5bd67a;
+    /* Color de fondo de la cabecera */
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Estilo para las celdas de datos */
+#listado2 td {
+    padding: 11px;
+    text-align: center;
+    border-bottom: 1px solid #120e0e;
+}
+
+#listado2 tr:hover {
+    background-color: #1b1818;
+}
+
+
+/* Estilo para los titulares */
+#label2 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Estilo para los enlaces */
+#cuerpo2 a {
+    color: #515253;
+    text-decoration: none;
+}
+
+
+
+
+/*******************/
+
+#cuerpo2 {
+
+    padding: 5px;
+    border-radius: 5px;
+    margin: 8px 0;
+    text-align: center;
+    /* Centrar contenido horizontalmente */
+}
+
+/* Estilo para el título "Verificar Transferencias" */
+.titulo {
+    display: inline-block;
+    background-color: #95ecab;
+    color: white;
+    padding: 10px 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(71, 70, 70, 0.3);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+
+/* Boton producto */
+
+
+#boton-div {
+    text-align: right;
+    margin-right: 20px;
+}
+
+.btn-primary {
+    background-color: #5bd67a;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.8s ease-in-out;
+    margin-left: 10px;
+}
+
+.btn-primary:hover {
+    background-color: rgb(150, 244, 166);
+}
+
+.btn-primary i {
+    margin-left: 8px;
+}

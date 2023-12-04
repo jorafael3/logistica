@@ -1,0 +1,337 @@
+@charset "utf-8";
+/* CSS Document */
+body{ 
+  margin-left: 10px;
+  margin-right: 10px;
+  /*border: yellow 2px solid;*/
+}
+
+#header{
+	margin-left:0px;
+	margin-right:0px;
+	align:center;
+	padding:0; 
+	width: 100%;
+	/*border: red 2px solid;*/*/
+} 	
+
+#Cuerpo{
+		margin-left:0px;
+		margin-right:0px;
+		width: 100%;
+
+		/*border: yellow 2px solid;*/
+}
+#cuerpo2{
+		margin-left:0px;
+		margin-right:0px;
+		width: 100%;
+		font-family: verdana, sans sherif;
+		font-size:12;
+		/*border: blue 2px solid;*/
+}
+
+#cuerpo3{
+		margin-left:55px;
+		margin-right:25px;
+		align:center;
+		width: 40%;
+		font-family: verdana, sans sherif;
+		font-size:12;
+		border: red 2px solid;
+		display:inline-block; 
+}
+#leyenda{
+		margin-left:25px;
+		margin-right:25px;
+		align:center;
+		width: 95%;
+		font-family: verdana, sans sherif;
+		font-size:20;
+		color : red ; 
+		/*border: orange 2px solid;*/
+		text-align: center;
+		font-weight: bold;
+	}
+#container {
+	margin-left:0px;
+	margin-right:0px;
+	align:center;
+    width:95%;
+    text-align:center;
+	height: 60px;
+	/*border: purple 1px solid;*/
+	
+}
+
+#izq{
+		width:15%;
+		height: 20px;
+		text-align:left;		
+		display:inline-block;
+		align:left;
+		/*border: pink 1px solid;*/
+	}
+
+#centro{
+		width:60%;
+		height: 20px;
+		display:inline-block;
+		align : center; 
+		/*border: pink 1px solid;*/
+	}	
+#derecha{ 
+		width:15%;
+		height: 20px;
+		text-align:right;		
+		display:inline-block;
+		align:left;
+		/*border: pink 1px solid;*/
+	}
+#footer{
+	margin-left:25px;
+	margin-right:25px;
+	align:center;
+	width: 95%;
+	/*border: red 5px solid;*/
+}
+
+
+#listado {
+	width: 100%;
+	font-size:12px;
+	border: 0px solid;
+}
+
+#listado2 {
+	width: 80%;
+	font-size:12px;
+	border: 0px solid;
+}
+
+
+#series {
+	width: 80%;
+	font-size:12px;
+	border: 0px solid;
+}
+/*columna cabecera de tabla verde*/
+th {
+  background: lightgreen;  
+}
+
+/*celdas cabecera de tabla verde*/
+#td1 {
+  background: lightgreen; 
+  font-size: 13;
+}
+
+
+/*Columnas del listado */
+#fila  {
+  border:1px solid #ccc;
+  text-align: center;
+}
+/*Columnas del listado alineadas a la izq */
+
+#fila2  {
+  border: 1px solid #ccc;
+  text-align: left;
+  font-size: 12;
+}
+
+#fila3  {
+  border: 1px solid #ccc;
+  font-weight: bold;
+  text-align: center;
+}
+
+/*listado de facturas y transferencias pendientes*/
+#fila4  {
+  border: 1px solid #ccc;
+  text-align: left;
+  font-size: 12 ;
+}
+
+#filax  {
+  border: 1px solid #ccc;
+  text-align: center;
+  font-size: 12;
+  font-weight: bold;
+}
+
+/*Etiqueta de las busquedas individuales y de los botones de consultar, agregar, eliminar*/ 
+#label  {
+		border: 0px ;
+		font-weight: bold;
+		text-align: left;	
+}
+/*Etiqueta de las busquedas individuales y de los botones de consultar, agregar, eliminar*/ 
+#box  {
+		border: 0px;
+		text-align: left;	
+}
+
+/*Etiqueta de cabeceras y datos preparar facturas*/
+#label2  {
+		border: 0px;
+		text-align: left;
+		font-size:13px; 	
+}
+
+/*Etiqueta de cabeceras Preparado */
+#label3  {
+		border: 0px ;
+		text-align: left;
+		font-size:15px; 	
+}
+#label4  {
+		border: 1px solid #ccc;
+		text-align: left;
+		font-size:13px; 	
+}
+
+#label5 {
+		border: 1px solid #ccc;
+		text-align: right;
+		font-size:13px; 	
+}
+
+
+#etiqueta{
+		border: 0px;
+		font-weight: bold;
+		text-align: center;
+}
+
+.titulo{
+	color: green;
+	font-size:25px; 
+	align:center; 
+}
+
+
+
+#despacho{
+     overflow:scroll;
+     
+     width:100%;
+}
+
+/*************Estilos Servitech ************/
+
+#textform {
+		border: 0px solid #ccc;
+		text-align: right;
+		font-size:12px; 	
+}
+
+/********************Falta revisar estilos abajo ******************/
+
+
+
+
+
+#principal{
+		width: 100%;
+		height: 50px;
+		/*border: orange 1px solid;*/
+	}
+	
+
+
+#uno{
+		width:40%;
+		height: 95%;
+		float: left;
+		text-align:center;
+		/*border: orange 1px solid;*/
+	}
+
+#mensaje{
+		width:28%;
+		height: 95%;
+		float: left;
+		font-size: 20;
+		color: red;
+		text-align:center;
+		/*border: orange 1px solid;*/
+	}
+#dos{
+		width:30%;
+		height: 95%;
+		float: right;
+		text-align:center;
+		/*border: orange 1px solid;*/
+	}
+
+
+#Datos{
+	width: 95%;
+}
+	
+	
+#campo{
+		border: 0px;
+	}
+
+#menu_gral {
+    font-family: verdana, sans sherif;
+    width: 100%;
+}
+
+#menu_gral ul {
+    list-style-type: none; 
+    text-align: left;
+    font-size: 0;
+	padding-left:0;
+}
+
+#menu_gral > ul li {
+    display: inline-block;
+    width: 20%;
+    position: relative;
+    background:lightgreen;
+	
+	
+}
+#menu_gral li a {
+    display: block;
+    text-decoration: none;
+    font-size: 14;
+    color: #444;
+	text-align: center;
+}
+#menu_gral li:hover a, #menu_gral li a:focus {
+    background: #8DA889;
+    color: #fff;
+}
+
+#menu_gral li ul {
+    position: absolute;
+    width: 0;
+    overflow: hidden;
+}
+
+#menu_gral li:hover ul, #menu_gral li:focus ul {
+    width: 100%;
+	margin: 0 -4rem -4rem -4rem;
+    padding: 0 4rem 4rem 4rem;
+    z-index: 5;
+}
+#menu_gral li li {
+    display: block;
+    width: 100%;
+}
+#menu_gral li:hover li a, #menu_gral li:focus li a {
+    font-family: monospace;
+    font-size: .9rem;
+    line-height: 1.7rem;
+    border-top: 1px solid #e5e5e5;
+    background: #444;
+}
+#menu_gral li li a:hover, #menu_gral li li a:focus {
+    background: #8AA9B8; 
+}
+
+ 

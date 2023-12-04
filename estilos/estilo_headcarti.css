@@ -1,0 +1,59 @@
+/* Estilos para el encabezado */
+#Cabecera {
+    background-color: #f8f8f8;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  #logo {
+    margin-bottom: 20px;
+  }
+  
+  #logo img {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+  }
+  
+  #logo font {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  #usuario {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: #777;
+    font-size: 16px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+  }
+  
+  .icono-usuario {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #777;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+  
+  #cerrar-sesion {
+    text-decoration: none;
+    color: #7f3838;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  #cerrar-sesion:hover {
+    color: #761919;
+  }
+  
+  hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+  }

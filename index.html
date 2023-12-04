@@ -1,0 +1,69 @@
+<meta name="viewport" content="width=device-width, height=device-height">
+<html>
+<head>
+<title> SGL </title>
+</head>
+<script type="text/javascript">
+ 
+function setfocus(){
+    document.getElementById("Empresa").focus();
+}
+</script>
+<!-- <link href="estilos/estilos2.css" rel="stylesheet" type="text/css">
+<link href="estilos/estilos.css" rel="stylesheet" type="text/css"> -->
+<link href="estilos/style.css" rel="stylesheet" type="text/css">
+
+<body  onload="setfocus()"> 
+<div id= "header" align= "center" style="font-weight: bold"><img src="assets/img/logo400.png"><br>
+	<a> SISTEMA DE GESTION LOGISTICA SGL </a>
+	<?php 
+		session_destroy();
+	?> 
+</div>
+<div id="Cuerpo" align="center">
+			<table border="1" cellpadding="5" cellspacing="1" width="300">
+			<tbody>
+				<form action="login.php"  method="post"  >
+				<tr>
+					<td>
+					<left><strong>Empresa</strong></left>
+					</td>
+					<td>
+					<center><select name="Empresa" id = "Empresa">
+					<option value="CARTIMEX">Cartimex</option>
+					<option value="COMPUTRONSA">Computron</option>
+					<option value="SERVITECH">Servitech</option>
+					</select></center>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<left><strong>Usuario:</strong></left>
+					</td>
+					<td>
+					<center><input size="10" maxlenght="15" name="Usr" type="text" id="Usr" setfocus ></center>
+					</td>
+				</tr>
+				<tr>
+					<td><left><strong>Contrase&ntilde;a:</strong></left></td>
+					<td><center><input size="10" maxlength="15" name="Pwd" type="password" id="Pwd"></center></td>
+				  </tr>
+				<tr>
+				<td><center></center></td>
+				<td><center><input type="Submit" value="LOGIN" id = "ingresar"></center></td>
+				</tr>
+				</form>
+
+				
+			</tbody>
+			</table>
+	</div>
+</div>
+
+<div id="footer" align = "center">
+<br>
+&copy; Copyright 2020 All Rights Reserved.  <br> This website was built by 
+Cartimex S.A
+</div> 
+</body>
+</html>

@@ -1,0 +1,153 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+  margin: 10px;
+  font-family: verdana, sans-serif;
+}
+
+#header {
+  text-align: center;
+  padding: 0;
+}
+
+#Cuerpo {
+  width: 100%;
+}
+
+#cuerpo2 {
+  width: 100%;
+  font-size: 12px;
+}
+
+#leyenda {
+  width: 95%;
+  font-size: 20px;
+  color: red;
+  text-align: center;
+  font-weight: bold;
+  margin: 25px;
+}
+
+#container {
+  width: 95%;
+  text-align: center;
+  height: 60px;
+  margin: 0 auto;
+}
+
+#izq {
+  width: 15%;
+  text-align: left;
+  display: inline-block;
+}
+
+#centro {
+  width: 60%;
+  text-align: center;
+  display: inline-block;
+}
+
+#derecha {
+  width: 15%;
+  text-align: right;
+  display: inline-block;
+}
+
+#footer {
+  width: 95%;
+  margin: 25px;
+}
+
+#listado {
+  width: 100%;
+  font-size: 12px;
+  border-collapse: collapse;
+}
+
+#listado th {
+  background: lightgreen;
+  padding: 5px;
+}
+
+#listado td {
+  border: 1px solid #ccc;
+  text-align: center;
+  padding: 5px;
+}
+
+#listado2 {
+  width: 80%;
+  font-size: 12px;
+  border-collapse: collapse;
+}
+
+#series {
+  width: 80%;
+  font-size: 12px;
+  border-collapse: collapse;
+}
+
+#series td {
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+#fila4 {
+  border: 1px solid #ccc;
+  text-align: left;
+  font-size: 12px;
+  padding: 5px;
+}
+
+#filax {
+  border: 1px solid #ccc;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 5px;
+}
+
+#label,
+#box {
+  text-align: left;
+}
+
+#label2 {
+  text-align: left;
+  font-size: 13px;
+}
+
+#label3 {
+  text-align: left;
+  font-size: 15px;
+}
+
+#label4 {
+  border: 1px solid #ccc;
+  text-align: left;
+  font-size: 13px;
+  padding: 5px;
+}
+
+#label5 {
+  border: 1px solid #ccc;
+  text-align: right;
+  font-size: 13px;
+  padding: 5px;
+}
+
+#etiqueta {
+  font-weight: bold;
+  text-align: center;
+}
+
+.titulo {
+  color: green;
+  font-size: 25px;
+  text-align: center;
+}
+
+#textform {
+  text-align: right;
+  font-size: 12px;
+}

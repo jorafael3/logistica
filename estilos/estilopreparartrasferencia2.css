@@ -1,0 +1,41 @@
+#cuerpo2 {
+    text-align: center;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th,
+  td {
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+
+  /* Estilos para el encabezado de la tabla */
+  th {
+    background-color: #b1f8b1;
+    color: #f7f0f0;
+    font-weight: bold;
+  }
+
+  /* Estilos para las filas impares */
+  tr:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+
+  /* Estilos para las filas pares (opcional) */
+  tr:nth-child(even) {
+    background-color: #ffffff;
+  }
+
+
+  #listado2 th {
+		background-color: black;
+		color: white;
+		/* Cambia este color según tu diseño */
+	}
+
+
+  

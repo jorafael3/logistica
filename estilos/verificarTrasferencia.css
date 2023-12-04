@@ -1,0 +1,67 @@
+#Cuerpo {
+    width: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  #cuerpo2 {
+    width: 75%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+  }
+  
+  #izq,
+  #centro,
+  #derecha {
+    flex: 1;
+  }
+  #Tabla_transferencias {
+    margin: 0 auto;
+  }
+  #centro {
+    text-align: center;
+  }
+  
+  .titulo {
+    color: #007bff;
+    font-size: 24px;
+  }
+  
+  #derecha {
+    text-align: right;
+  }
+  
+  #derecha a img {
+    width: 32px;
+    height: 32px;
+  }
+  
+  #Tabla_transferencias {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+  }
+  
+  #Tabla_transferencias th,
+  #Tabla_transferencias td {
+    padding: 10px;
+    text-align: center;
+  }
+  
+  #Tabla_transferencias th {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  #Tabla_transferencias tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  #Tabla_transferencias tr:hover {
+    background-color: #ddd;
+  }
+ 

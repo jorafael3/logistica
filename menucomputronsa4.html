@@ -1,0 +1,48 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!DOCTYPE html>
+<html>
+<script type="text/javascript">
+</script>
+<link href="estilos/menustyle.css" rel="stylesheet" type="text/css">
+<body align= "center"> 
+<?php 
+			session_start();
+		    $usuario = $_SESSION['usuario'];
+			$base = $_SESSION['base']; 
+			$bodega = $_SESSION['bodega'];
+			$acceso = $_SESSION['acceso'];
+			$nomsuc = $_SESSION['nomsuc'];
+ 
+?>	
+		<div align= "center">
+				<nav id="menu_gral">
+					<ul>
+						<li><a href="#"> </a> 
+						<li><a href="#">Almacen y Stock &nbsp;&nbsp;</a> 
+							<ul>		
+								<li><a href="consultarinventario.php?bodega="<?php echo $bodega; ?> > <?php echo substr($nomsuc,10,20); ?>  </a></li> 						
+							</ul>
+						</li>
+						<li><a href="#">&nbsp;&nbsp;Picking y Acopio&nbsp;&nbsp;</a>
+							<ul>
+								<li><a href="prepararfacturas.php">Facturas</a></li>								
+							</ul>
+						</li>
+						<li><a href="#">Verificacion y Series</a>
+							<ul>
+								<li><a href="verificarfacturas.php">Facturas</a></li>
+								<li><a href="modificarseries.php">Modificar Series</a></li>
+							</ul>
+						</li>
+					 </ul>
+				</nav>
+		</div>			
+		<?php
+			$_SESSION['base']= $base; 
+			$_SESSION['usuario']=$usuario;
+			$_SESSION['acceso']=$acceso;
+			$_SESSION['bodega']=$bodega; 
+			$_SESSION['nomsuc']=$nomsuc; 
+		?>
+
+</body>	

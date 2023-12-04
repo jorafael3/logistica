@@ -1,0 +1,66 @@
+#menu_gral ul ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    background: #444;
+    white-space: nowrap;
+    text-align: center;
+    /* Añadir esta línea */
+}
+
+#menu_gral ul ul li a {
+    padding: 0.5em 1em;
+    color: #fff;
+    display: block;
+    white-space: nowrap; /* Añadir esta línea */
+  }
+
+#menu_gral ul ul li a {
+    padding: 0.5em 1em;
+    color: #fff;
+    display: block;
+}
+
+#menu_gral ul li a {
+    text-decoration: none;
+    color: #0e0e0e;
+    display: block;
+    padding: 0.50em 1em;
+    transition: background 0.2s;
+}
+
+#menu_gral ul li:hover>a {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#menu_gral ul ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    background: #444;
+    white-space: nowrap;
+}
+
+#menu_gral ul li:hover>ul {
+    display: block;
+}
+
+#menu_gral ul ul li {
+    position: relative;
+}
+
+#menu_gral ul ul li a {
+    padding: 0.5em 1em;
+}
+
+#menu_gral ul ul ul {
+    top: 0;
+    left: 100%;
+}
+
+#menu_gral ul ul {
+    width: auto;
+    min-width: 100%;
+}

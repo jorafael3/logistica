@@ -1,0 +1,171 @@
+#Cuerpo {
+    font-family: Arial;
+    font-size: 14px;
+  }
+  
+  #cuerpo2 {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  #izq, #centro, #derecha {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+  .titulo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+  }
+  
+  hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+  }
+  
+  #label {
+    text-align: right;
+    padding-right: 10px;
+  }
+  
+  #box input[type="text"] {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    font-family: inherit;
+    font-size: inherit;
+  }
+  
+  #etiqueta a,
+  #etiqueta a img {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  #etiqueta a:hover {
+    text-decoration: underline;
+  }
+  
+  #submit {
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  #submit:hover {
+    opacity: 0.7;
+  }
+  
+  #submit img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  #submit:focus {
+    outline: none;
+  }
+  
+  #submit,
+  #submit .button-label,
+  a {
+    font-size: 14px;
+    color: #000;
+  }
+  
+  #submit .button-label {
+    vertical-align: middle;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  form[name="formproducto_d"] input[type="submit"] {
+    display: block;
+    width: 120px;
+    height: 30px;
+    margin: 10px auto;
+    background-color: #00b36b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  form[name="formproducto_d"] input[type="submit"]:hover {
+    background-color: #00b33f;
+  }
+  
+  form[name="formproducto_d"] input[type="submit"]:focus {
+    outline: none;
+  }
+
+  
+/* --------------------------------------------------- */
+
+#Tabla_facturas {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+}
+
+#Tabla_facturas th,
+#Tabla_facturas td {
+  padding: 15px;
+  text-align: center;
+}
+
+#Tabla_facturas th {
+  background-color: #a8f7a5;
+  color: #2a2a2a;
+}
+
+#Tabla_facturas tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#Tabla_facturas tr:hover {
+  background-color: #e2e2e2;
+}
+
+/* --------------------------------------------------- */
+
+#btnContainer {
+  text-align: center;
+}
+
+#btnExport {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  background-color: #00b36b;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#btnExport:hover {
+  background-color: #28473b;
+}

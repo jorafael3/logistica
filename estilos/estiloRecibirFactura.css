@@ -1,0 +1,153 @@
+#cuerpo2 {
+  width: 100%;
+  font-family: verdana, sans-serif;
+  font-size: 12px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-container {
+  width: 75%;
+  margin: 0 auto;
+}
+
+.modern-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.modern-table td {
+  padding: 10px;
+}
+
+.modern-table .form-label {
+  text-align: right;
+}
+
+.modern-table .form-input {
+  text-align: left;
+}
+
+.modern-table .refresh-icon {
+  text-align: center;
+}
+
+.modern-table .refresh-icon img {
+  width: 16px;
+  height: 16px;
+}
+
+.modern-table a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.modern-table a:hover {
+  text-decoration: underline;
+}
+
+.modern-table input[type="text"] {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 8px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: Arial;
+}
+
+.modern-table .titulo {
+  text-align: center;
+}
+
+.modern-table .form-label.center {
+  text-align: center;
+}
+
+.modern-table .form-label.center input[type="image"] {
+  display: block;
+  margin: 0 auto;
+}
+
+.modern-table .form-label.center a {
+  display: block;
+  text-align: center;
+}
+.form-container form[name="formproducto_d"] {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.form-container form[name="formproducto_d"] input[type="submit"] {
+  border: none;
+  background-color: #55a654;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-container form[name="formproducto_d"] input[type="submit"]:hover {
+  background-color: #83b088;
+}
+
+.form-container tr td.form-input a {
+  display: inline-block;
+  text-align: center;
+}
+
+.form-container tr td.form-input a {
+  margin-top: 10px;
+}
+
+/* -------------------------------------- */
+
+#btnContainer {
+  text-align: center;
+}
+
+#btnExport {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  background-color: #00b36b;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#btnExport:hover {
+  background-color: #28473b;
+}
+
+/* -------------------------------------- */
+
+
+#Tabla_facturas {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 15px; /* Agrega esta línea */
+}
+
+#Tabla_facturas th, #Tabla_facturas td {
+  padding: 15px;
+  text-align: center;
+}
+
+#Tabla_facturas th {
+  background-color: #a8f7a5;
+  color: #2a2a2a;
+}
+
+#Tabla_facturas tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#Tabla_facturas tr:hover {
+  background-color: #e2e2e2;
+}

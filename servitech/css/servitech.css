@@ -1,0 +1,71 @@
+div#contenedor{
+	margin:auto;
+	margin-top:10px;
+	width: 90%;
+	border: 0px solid purple;
+}
+div#contenedor2{
+	margin:auto;
+	width: 100%;
+	border: 0px solid yellow;
+}
+div#head{
+	margin:auto;
+	margin-top:10px;
+	width: 90%;
+	height: 80px;
+	border: 0px solid black;
+}
+#vinetas {
+  text-align: left;
+  font-size: 15  ;
+  color : black ;
+  height: 20px;
+  background-color:lightblue;
+  font-weight: bold;
+}
+#vinetas2 {
+  text-align: left;
+  font-size: 15  ;
+  color : black ;
+  height: 40px;
+  border: 0px solid red;
+}
+#vinetas3 {
+  text-align: left;
+  font-size: 15  ;
+  color : black ;
+  border: 0px solid blue;
+}
+#filaserviizq {
+  text-align: left;
+  font-size: 15  ;
+  color : black ;
+  height: 30px;
+  width: 45%;
+  font-weight: bold;
+  display:inline-block;
+}
+#filaservider {
+  text-align: right;
+  font-size: 15  ;
+  color : black ;
+  height: 30px;
+  width: 45%;
+  font-weight: bold;
+  display:inline-block;
+}
+div#izquierda{
+	margin-left:0px;
+	margin-right:0px;
+	width: 100%;
+	background-color: #fafafa;
+	border: 0px solid red;
+}
+div#izquierda1{
+	width: 100%;
+	height: 100px;
+	background-color: #fafafa;
+	float:left;
+	border: 0px solid pink ;
+}

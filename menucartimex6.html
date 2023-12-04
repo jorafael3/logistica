@@ -1,0 +1,41 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!DOCTYPE html>
+<html>
+<script type="text/javascript">
+</script>
+<link href="estilos/menustyle.css" rel="stylesheet" type="text/css">
+<body align= "center"> 
+<?php 
+			session_start();
+		    $usuario = $_SESSION['usuario'];
+			$base = $_SESSION['base']; 
+			$bodega = $_SESSION['bodega'];
+			$acceso = $_SESSION['acceso'];
+			$nomsuc = $_SESSION['nomsuc'];
+ 
+?>	
+		<div align= "center">
+				<nav id="menu_gral">
+					<ul>
+						<li><a href="#"> </a></li>
+						<li><a href="#"> </a></li>		
+						<li><a href="#">Consulta Traking </a>
+							<ul>
+							<li><a href="cartimex/facturasdespachadasventas.php">Facturas</a></li>
+							<li><a href="cartimex/consultarseriesservitech.php">Series</a></li>
+							</ul>
+						</li>
+						<li><a href="#"> </a></li>
+						<li><a href="#"></a></li>
+					 </ul>
+				</nav>
+		</div>			
+		<?php
+			$_SESSION['base']= $base; 
+			$_SESSION['usuario']=$usuario;
+			$_SESSION['acceso']=$acceso;
+			$_SESSION['bodega']=$bodega; 
+			$_SESSION['nomsuc']=$nomsuc; 
+		?>
+
+</body>	
