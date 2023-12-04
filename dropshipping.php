@@ -107,9 +107,12 @@ function setfocus(){
 									$resultd->execute();
 									$yd=$yd+1;
 								}	
-							
+							// echo $bodega;
 							$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-							$result = $pdo->prepare("LOG_FACTURAS_DROP_SHIPPING @BODEGA=:bodega , @acceso=:acceso" );	 
+							$result = $pdo->prepare("LOG_FACTURAS_DROP_SHIPPING 
+							@BODEGA=:bodega, 
+							@acceso=:acceso
+							" );	 
 							$result->bindParam(':bodega',$bodega,PDO::PARAM_STR);
 							$result->bindParam(':acceso',$acceso,PDO::PARAM_STR);
 							$result->execute();

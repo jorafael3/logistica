@@ -208,7 +208,7 @@
 	$_SESSION['usuario']=$usuariof;
 	$_SESSION['base']= $base ;
 	$_SESSION['acceso']=$acceso;
-	$_SESSION['bodega']=$bodegaf;
+	//$_SESSION['bodega']=$bodegaf;
 	$_SESSION['nomsuc']=$nomsuc;
 	$_SESSION['bodegaFAC']=$bodegaFAC;
 	//echo $datamail;
