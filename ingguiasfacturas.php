@@ -343,9 +343,9 @@
 		}
 
 		function AjaxSend(param, callback) {
-			FreezeUI({
-				text: 'Cargando'
-			});
+			// FreezeUI({
+			// 	text: 'Cargando'
+			// });
 			$.ajax({
 				data: param,
 				datatype: 'json',
