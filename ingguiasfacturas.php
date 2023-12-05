@@ -344,6 +344,11 @@
 					} else {
 						$('td', row).eq(7).addClass("fw-bolder text-dark");
 					}
+					if(data["TOTAL"] == data["saldo"]){
+						$('td', row).eq(8).addClass("text-danger");
+						$('td', row).eq(9).addClass("text-danger");
+
+					}
 
 				},
 
