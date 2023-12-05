@@ -268,7 +268,7 @@
 
 					},
 					{
-						data: "FORMA_PAGO",
+						data: "fecha",
 						title: "F. APROBACION",
 
 					},
@@ -297,14 +297,13 @@
 						title: "BODEGA RETIRO",
 
 					}, 
-					// {
-					// 	data: null,
-					// 	title: "COMENTARIO",
-					// 	render:function(x){
-					// 		return x.COMENTARIO == null ? "" : x.COMENTARIO
-					// 	}
-
-					// }, 
+					{
+						data: null,
+						title: "COMENTARIO",
+						render:function(x){
+							return x.COMENTARIO == null ? "" : x.COMENTARIO
+						}
+					}, 
 					{
 						data: null,
 						title: "HACER PEDIDO",
