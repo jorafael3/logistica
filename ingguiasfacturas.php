@@ -131,10 +131,13 @@
 						Cargar_guias_sisco: 1,
 						secuencia: x.secuencia
 					}
+					x.COMENTARIO =  ""
+
 					AjaxSend(param, function(obj) {
 						// console.log('obj: ', obj);
 						x.SISCO = obj
 						x.FORMA_PAGO = 0
+						x.COMENTARIO =  ""
 
 						if (obj.length > 0) {
 							x.ACTIVAR_LINK = 0
@@ -173,6 +176,7 @@
 							x.sucufact = ""
 							x.FORMA_PAGO = ""
 							x.BODEGA_RETIRO = ""
+							x.COMENTARIO =  ""
 							if (x.Sucursal == "72") {
 								x.ACTIVAR_LINK = 1
 							}
@@ -194,7 +198,7 @@
 					UnFreezeUI();
 
 					Tabla(x)
-				}, 15000);
+				}, 20000);
 
 			})
 		}
@@ -292,11 +296,16 @@
 						data: "BODEGA_RETIRO",
 						title: "BODEGA RETIRO",
 
-					}, {
-						data: "COMENTARIO",
-						title: "COMENTARIO",
+					}, 
+					// {
+					// 	data: null,
+					// 	title: "COMENTARIO",
+					// 	render:function(x){
+					// 		return x.COMENTARIO == null ? "" : x.COMENTARIO
+					// 	}
 
-					}, {
+					// }, 
+					{
 						data: null,
 						title: "HACER PEDIDO",
 						render: function(x, y, r) {

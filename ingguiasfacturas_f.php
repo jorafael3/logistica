@@ -52,12 +52,17 @@ if (isset($_POST['Cargar_guias_sisco'])) {
 
         $secuencia = $_POST["secuencia"];
         $pdo = new PDO("mysql:host=10.5.1.245;dbname=" . $sql_database, $sql_user, $sql_pwd);
-        $query = $pdo->prepare("SELECT a.*, p.bodega as bodegaret, date_format(a.paymentez,'%d/%m/%Y') as fechapay,
-            date_format(a.tcfecha,'%d/%m/%Y') as tcfecha,date_format(a.l2pfecha,'%d/%m/%Y') as l2pfecha,
-            c.sucursalid as sucursal  FROM covidsales a
-            left outer join covidpickup p on p.orden= a.secuencia
-            left outer join sisco.covidciudades c on p.bodega= c.almacen
-            where a.factura = :factura and a.anulada<> '1'  
+        $query = $pdo->prepare("SELECT 
+        a.*,
+        p.bodega as bodegaret, 
+        date_format(a.paymentez,'%d/%m/%Y') as fechapay,
+        date_format(a.tcfecha,'%d/%m/%Y') as tcfecha,
+        date_format(a.l2pfecha,'%d/%m/%Y') as l2pfecha,
+        c.sucursalid as sucursal  
+        FROM covidsales a
+        left outer join covidpickup p on p.orden= a.secuencia
+        left outer join sisco.covidciudades c on p.bodega= c.almacen
+        where a.factura = :factura and a.anulada<> '1'  
         ");
         $query->bindParam(':factura', $secuencia, PDO::PARAM_STR);
         if ($query->execute()) {
