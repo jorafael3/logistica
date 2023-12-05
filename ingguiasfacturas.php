@@ -55,7 +55,7 @@
 		<hr>
 		<div id="cuerpo2" align="center">
 
-			<div>
+			<div style="display: none;">
 				<form name="formfactura" action="ingguiasfacturas0.php" method="POST" width="75%">
 					<table align="center">
 						<tr>
