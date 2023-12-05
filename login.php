@@ -15,7 +15,7 @@
 
 				error_reporting(E_ALL);
 				ini_set('display_errors', 'On');
-				$usuario = $_POST['Usr'];
+				$usuario = trim($_POST['Usr']);
 				$pass = $_POST['Pwd'];
 				$empresa = $_POST['Empresa'];
 				$base = $_POST['Empresa'];
