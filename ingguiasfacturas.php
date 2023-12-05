@@ -23,6 +23,7 @@
 			$base = $_SESSION['base'];
 			$acceso	= $_SESSION['acceso'];
 			$bodega = $_SESSION['bodega'];
+			$BODEGA = strval($bodega);
 			$drop = $_SESSION['drop'];
 			$drop_gye = $_SESSION['drop_gye'];
 			$drop_uio = $_SESSION['drop_uio'];
@@ -45,7 +46,8 @@
 
 			<div id="izq"> </div>
 			<div id="centro"> <a class="titulo">
-					<center> Guias Facturass <?php echo substr($nomsuc, 10, 20); ?> </center>
+					<center> Guias Facturas <?php echo substr($nomsuc, 10, 20); ?> </center>
+					<input hidden id="BODEGA" type="text" value="<?php echo $BODEGA ?>">
 				</a></div>
 			<div id="derecha"> <a href="menu.php"><img src="assets\img\home.png"></a> </div>
 
@@ -93,12 +95,12 @@
 		</div>
 
 	<?php
-
-			$_SESSION['usuario'] = $usuario;
-			$_SESSION['base'] = $base;
-			$_SESSION['acceso'] = $acceso;
-			$_SESSION['bodega'] = $bodega;
-			$_SESSION['nomsuc'] = $nomsuc;
+			// echo $BODEGA;
+			// $_SESSION['usuario'] = $usuario;
+			// $_SESSION['base'] = $base;
+			// $_SESSION['acceso'] = $acceso;
+			// $_SESSION['bodega'] = $bodega;
+			// $_SESSION['nomsuc'] = $nomsuc;
 		} else {
 			header("location: index.html");
 		}
@@ -113,10 +115,11 @@
 
 	<script>
 		function Cargar_guias() {
+			let BODEGA = $("#BODEGA").val()
 
 			let para = {
 				"Cargar_guias": 1,
-				bodega: <?php echo $bodega ?>,
+				bodega: BODEGA,
 				acceso: <?php echo $acceso ?>,
 				drop: <?php echo $drop ?>,
 				drop_gye: <?php echo $drop_gye ?>,
@@ -131,13 +134,13 @@
 						Cargar_guias_sisco: 1,
 						secuencia: x.secuencia
 					}
-					x.COMENTARIO =  ""
+					x.COMENTARIO = ""
 
 					AjaxSend(param, function(obj) {
 						// console.log('obj: ', obj);
 						x.SISCO = obj
 						x.FORMA_PAGO = 0
-						x.COMENTARIO =  ""
+						x.COMENTARIO = ""
 
 						if (obj.length > 0) {
 							x.ACTIVAR_LINK = 0
@@ -176,7 +179,7 @@
 							x.sucufact = ""
 							x.FORMA_PAGO = ""
 							x.BODEGA_RETIRO = ""
-							x.COMENTARIO =  ""
+							x.COMENTARIO = ""
 							if (x.Sucursal == "72") {
 								x.ACTIVAR_LINK = 1
 							}
@@ -296,7 +299,7 @@
 						data: "BODEGA_RETIRO",
 						title: "BODEGA RETIRO",
 
-					}, 
+					},
 					// {
 					// 	data: null,
 					// 	title: "COMENTARIO",
@@ -343,7 +346,7 @@
 					} else {
 						$('td', row).eq(7).addClass("fw-bolder text-dark");
 					}
-					if(data["TOTAL"] == data["saldo"]){
+					if (data["TOTAL"] == data["saldo"]) {
 						$('td', row).eq(8).addClass("text-danger");
 						$('td', row).eq(9).addClass("text-danger");
 
