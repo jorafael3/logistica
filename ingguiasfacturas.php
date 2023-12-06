@@ -188,6 +188,10 @@
 								x.ACTIVAR_LINK = 1
 								x.estado = "DROPSHIPPING"
 								x.COMENTARIO = x.DROP_DIRECCION + " - " + x.DROP_REFERENCIA
+								if (x.tipo_pedido == 1 || x.tipo_pedido == 2) {
+									x.medio = 'PICK UP'
+									x.BODEGA_RETIRO = x.tienda_retiro_nombre
+								}
 							} else {
 								x.estado = "NO SISCO"
 							}
@@ -303,10 +307,10 @@
 					{
 						data: null,
 						title: "COMENTARIO",
-						render:function(x){
+						render: function(x) {
 							return x.COMENTARIO == null ? "" : x.COMENTARIO
 						}
-					}, 
+					},
 					{
 						data: null,
 						title: "HACER PEDIDO",

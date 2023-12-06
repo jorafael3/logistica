@@ -328,6 +328,7 @@
 					<form id="Drop_Form" Action='dropshipping1.php' Method='post'>
 						<Input Type=hidden Name='numfac' value='<?php echo $ID ?>'>
 						<Input Type=hidden Name='bodegaf' value=<?php echo $bodegaf ?>'>
+						<Input Type=hidden Name='Sucursal_ID' value='<?php echo $CABECERA["Sucursal_ID"] ?>'>
 						<div class='col'>
 							<table class='table table-bordered'>
 								<thead class='thead-dark'>

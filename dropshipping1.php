@@ -22,6 +22,7 @@ $numfac = $_POST['numfac'];
 $bodegaf = $_POST['bodegaf'];
 $tipoenvio = $_POST['medio'];
 $sucursales = $_POST['sucursales'];
+$SUCUSAL_ID = $_POST['Sucursal_ID'];
 
 echo "Dirección: " . $direccion . "<br>";
 echo "Referencia: " . $referencia . "<br>";
@@ -31,8 +32,11 @@ echo "Número de factura: " . $numfac . "<br>";
 echo "Bodega: " . $bodegaf . "<br>";
 echo "Tipo de envío: " . $tipoenvio . "<br>";
 echo "sucursales: " . $sucursales . "<br>";
+echo "SUCUSAL_ID: " . $SUCUSAL_ID . "<br>";
 
-
+if ($tipoenvio == 1) {
+	$sucursales = $SUCUSAL_ID;
+}
 
 if (!isset($_SESSION["usuario"])) {
 	header("Location: index1.php");
