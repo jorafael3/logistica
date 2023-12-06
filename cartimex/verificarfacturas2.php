@@ -792,6 +792,11 @@
 
 		}
 	})
+
+	window.onbeforeunload = function() {
+		// No retornar nada o retornar null desactivará el mensaje emergente
+		return null;
+	};
 </script>
 
 </html>

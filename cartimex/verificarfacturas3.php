@@ -192,9 +192,9 @@
 				$_SESSION['codigo'] = $codigo;
 				$_SESSION['nomsuc'] = $nomsuc;
 				$_SESSION['numfac'] = $numerorecibido;
-				//header("Refresh: 0 ; maildespachoyseries.php");
+				header("Refresh: 0 ; maildespachoyseries.php");
 			} else {
-				//header("Refresh: 0 ; verificarfacturas.php");
+				header("Refresh: 0 ; verificarfacturas.php");
 			}
 			//echo "<h1>Factura completa!</h1>";
 			$_SESSION['cliente'] = $cliente;
@@ -206,7 +206,7 @@
 			$_SESSION['nomsuc'] = $nomsuc;
 			$_SESSION['numfac'] = $numerorecibido;
 		} else {
-			//header("location: index.html");
+			header("location: index.html");
 		}
 
 ?>
