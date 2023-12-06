@@ -77,4 +77,4 @@ $_SESSION['bodega'] = $bodega;
 $_SESSION['nomsuc'] = $nomsuc;
 $_SESSION['numfac'] = $numfac;
 
-//header("location: dropshipping.php");
+header("location: dropshipping.php");
