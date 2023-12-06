@@ -123,20 +123,31 @@
 					$x++;
 				}
 			}
-			
+
+
+			$tipo = 'VEN-FA';
 			$bultoIngresado = $_POST['bulto'];
 			$FIRMA = $_POST['firma'];
+			// echo $FIRMA;
 
 			// Actualizar el campo BULTOS en tu base de datos
 			$pdo6 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-			$result6 = $pdo6->prepare('UPDATE facturaslistas SET BULTOS = :bulto, FIRMA = :firma WHERE factura = :facturaid AND Tipo = :tipo');
+			$result6 = $pdo6->prepare('UPDATE facturaslistas 
+			SET 
+				BULTOS = :bulto,
+				FIRMA = :firma 
+			WHERE factura = :facturaid AND Tipo = :tipo');
 			$result6->bindParam(':bulto', $bultoIngresado, PDO::PARAM_STR);
 			$result6->bindParam(':facturaid', $numerorecibido, PDO::PARAM_STR);
 			$result6->bindParam(':tipo', $tipo, PDO::PARAM_STR);
 			$result6->bindParam(':firma', $FIRMA, PDO::PARAM_STR);
-			$result6->execute();
+			if ($result6->execute()) {
+				// echo "asdasd";
+			} else {
+				$err = $result6->errorInfo();
+				var_dump($err);
+			}
 
-			$tipo = 'VEN-FA';
 			$pdo5 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 			$result5 = $pdo5->prepare('LOG_VERIFICAR_FACTURA_UPDATE  @verificado =:usuario, @factura=:facturaid, @tipo=:tipo, @tipotrans=:tipotrans');
 			$result5->bindParam(':facturaid', $numerorecibido, PDO::PARAM_STR);
@@ -181,9 +192,9 @@
 				$_SESSION['codigo'] = $codigo;
 				$_SESSION['nomsuc'] = $nomsuc;
 				$_SESSION['numfac'] = $numerorecibido;
-				header("Refresh: 0 ; maildespachoyseries.php");
+				//header("Refresh: 0 ; maildespachoyseries.php");
 			} else {
-				header("Refresh: 0 ; verificarfacturas.php");
+				//header("Refresh: 0 ; verificarfacturas.php");
 			}
 			//echo "<h1>Factura completa!</h1>";
 			$_SESSION['cliente'] = $cliente;
@@ -195,7 +206,7 @@
 			$_SESSION['nomsuc'] = $nomsuc;
 			$_SESSION['numfac'] = $numerorecibido;
 		} else {
-			header("location: index.html");
+			//header("location: index.html");
 		}
 
 ?>

@@ -609,37 +609,45 @@
 					<p style="font-weight: bold" align="center">
 						<input name="factura" type="hidden" id="factura" value="<?php echo $numerorecibido ?>">
 						<input name="firma" type="hidden" id="firma" value="">
-						<input class="form-control" name="bulto" type="text" id="bulto" size="30" placeholder="Ingrese los bultos" value="<?php echo $butorecibido ?>" style="width: 100%; max-width: 200px;">
-						<input class="btn btn-success" type="submit" name="submit" id="submit" value="FACTURA COMPLETA presione aquí para CONTINUAR">
+						<input class="form-control" name="bulto" type="text" id="bulto" size="30" placeholder="Ingrese los bultos" value="<?php echo $butorecibido ?>" style="width: 100%; max-width: 200px; margin-bottom: 10px;"><br>
+						<!-- <input style="background-color: #27AE60;color: white;font-weight: bold;font-size: 16px;" class="btn btn-success" type="submit" name="submit" id="submit" value="FACTURA COMPLETA presione aquí para CONTINUAR"> -->
 					</p>
 				</form>
-				<!-- <h3>HOLA PRUEBA DE FIRMA NO TOMAR EN CUENTA AUN</h3>
-				<button onclick=" Ejecutar_formulario() "> Ejecutar_formulario() </button>
+
+				<!-- <h3>HOLA PRUEBA DE FIRMA NO TOMAR EN CUENTA AUN</h3> -->
 				<div align="center" class="col-md-4 fv-row fv-plugins-icon-container">
-					<label class="d-flex align-items-center fs-4 fw-semibold form-label mb-2">
-						<span class="required">* Click para iniciar firma</span>
-					</label>
-					<input style="font-size: 20px;" id="SignBtn" name="SignBtn" type="button" value="Firmar" onclick="javascript:onSign()" />
-					<table border="1" cellpadding="0" width="30%" style="margin-top: 5px;">
-						<tr>
-							<td height="100" width="300%">
-								<canvas style="width: 100%; height: 100px;" id="cnv" name="cnv"></canvas>
-							</td>
-						</tr>
-					</table>
-					<button style="font-size: 16px;margin-top: 5px;" onclick="clearCanvas()">Borrar firma</button>
-					<button onclick="saveSignature()">Guardar firma</button>
-					<p id="SigWebVersion"></p>
-					<p id="SigWebTabletJSVersion"></p>
-					<p id="CertificateExpirationDate"></p>
-					<p id="sigWebVrsnNote" style="font-family: Arial;"></p>
-					<p id="daysUntilExpElement" style="font-family: Arial;"></p>
+					<button style="background-color: #27AE60;color: white;font-weight: bold;font-size: 16px;" onclick=" Ejecutar_formulario() "> FACTURA COMPLETA presione aquí para CONTINUAR </button><br>
+					<div id="SECC_FIRMA_G">
 
-					
+						<input style="font-size: 24px;zoom: 1.5;" id="CH_FIRMA" type="checkbox" checked><span style="font-size: 16px;">Necesita Firmar</span><br>
+						<span style="color: red;font-size: 14px;font-weight: bold;" id="TEXT_NO_F"></span>
+						<div id="SECC_FIRMA" style="margin-top: 10px;">
+							<label style="font-size: 16px;font-weight: bold;margin-top: 8px;" class="d-flex align-items-center fs-4 fw-semibold form-label mb-2">
+								<span class="required">* Click para iniciar firma</span>
+							</label><br>
+							<input style="font-size: 20px;background-color: #3498DB;color: white;margin-top: 10px;" id="SignBtn" name="SignBtn" type="button" value="Firmar" onclick="javascript:onSign()" />
+							<table border="1" cellpadding="0" width="30%" style="margin-top: 5px;">
+								<tr>
+									<td height="100" width="300%">
+										<canvas style="width: 100%; height: 100px;" id="cnv" name="cnv"></canvas>
+									</td>
+								</tr>
+							</table>
+							<button style="font-size: 16px;margin-top: 5px;background-color: #EC7063;color: white; font-weight: bold; " onclick="clearCanvas()">Borrar firma</button>
+							<!-- <button onclick="saveSignature()">Guardar firma</button> -->
+							<p id="SigWebVersion"></p>
+							<p id="SigWebTabletJSVersion"></p>
+							<p id="CertificateExpirationDate"></p>
+							<p id="sigWebVrsnNote" style="font-family: Arial;"></p>
+							<p id="daysUntilExpElement" style="font-family: Arial;"></p>
+						</div>
+					</div>
 				</div>
-				<img src="" alt=""> -->
+				<img src="" alt="">
+			</div>
 
-			<?php
+
+		<?php
 					}
 
 					$_SESSION['cliente'] = $cliente;
@@ -660,39 +668,83 @@
 					//echo '<pre>', print_r($arregloseries2),'</pre>'; //arreglo de series ingresadas
 					$_SESSION['tipotrans'] = $pedido;
 
-			?>
+		?>
 
-			</div>
+		</div>
 
-		<?php
+	<?php
 		} else {
 			header("location: index.html");
 		}
-		?>
-		</div>
-
+	?>
 	</div>
 
-</body>
-<!-- <script src="signweb.js"></script> -->
-<!-- <script src="signweblib.js"></script> -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	</div>
+	<?php
+	// Obtener el agente de usuario
+	$userAgent = $_SERVER['HTTP_USER_AGENT'];
+	$ISMOVIL = 0;
+	// Verificar si el agente de usuario indica un dispositivo móvil
+	$isMobile = (strpos($userAgent, 'Mobile') !== false || strpos($userAgent, 'Android') !== false);
 
+	if ($isMobile) {
+		echo 'Estás en un dispositivo móvil.';
+		$ISMOVIL = 1;
+	} else {
+		echo 'Estás en un navegador web estándar.';
+	?>
+		<script src="signweb.js"></script>
+		<script src="signweblib.js"></script>
+	<?php
+
+	}
+	?>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>
-	
+	let ismovil = '<?php echo $ISMOVIL ?>';
+	if (ismovil == 1) {
+		$("#SECC_FIRMA_G").hide()
+	}
+
 	function Ejecutar_formulario() {
 		var formulario = document.getElementById("facturaForm");
-		//formulario.submit();
-		let firma = saveSignature();
-		if (firma == 1) {
-			console.log("dasd");
-		} else {
-			Swal.fire(
-				'Debe firmar para continuar',
-				'',
-				'error'
-			)
+		let NESECITA_FIRMA = $("#CH_FIRMA").is(":checked") ? 1 : 0;
+		let ismovil = '<?php echo $ISMOVIL ?>'
+		console.log('NESECITA_FIRMA: ', NESECITA_FIRMA);
+
+		if (ismovil == 1) {
+			NESECITA_FIRMA = 0;
 		}
+		if (NESECITA_FIRMA == 1) {
+			let firma = saveSignature();
+			if (firma == 1) {
+				console.log("GUARDAR");
+				formulario.submit();
+
+			} else {
+				Swal.fire(
+					'Debe firmar para continuar',
+					'',
+					'error'
+				);
+			}
+		} else {
+
+			if (ismovil == 1) {
+				formulario.submit();
+			} else {
+				clearCanvas();
+				console.log("GUARDAR 2");
+				formulario.submit();
+
+
+			}
+
+		}
+
 	}
 
 	function saveSignature() {
@@ -726,6 +778,20 @@
 	function clearCanvas() {
 		ClearTablet();
 	}
+
+	$("#CH_FIRMA").on("change", function(x) {
+		let val = $(this).is(":checked");
+		console.log('val: ', val);
+		if (val == true) {
+			$("#SECC_FIRMA").show();
+			$("#TEXT_NO_F").text("");
+
+		} else {
+			$("#SECC_FIRMA").hide();
+			$("#TEXT_NO_F").text("* la firma no se guardara");
+
+		}
+	})
 </script>
 
 </html>
