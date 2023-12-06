@@ -688,10 +688,10 @@
 	$isMobile = (strpos($userAgent, 'Mobile') !== false || strpos($userAgent, 'Android') !== false);
 
 	if ($isMobile) {
-		echo 'Estás en un dispositivo móvil.';
+		// echo 'Estás en un dispositivo móvil.';
 		$ISMOVIL = 1;
 	} else {
-		echo 'Estás en un navegador web estándar.';
+		// echo 'Estás en un navegador web estándar.';
 	?>
 		<script src="signweb.js"></script>
 		<script src="signweblib.js"></script>
