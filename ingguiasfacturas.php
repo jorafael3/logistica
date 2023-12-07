@@ -191,6 +191,8 @@
 								if (x.tipo_pedido == 1 || x.tipo_pedido == 2) {
 									x.medio = 'PICK UP'
 									x.BODEGA_RETIRO = x.tienda_retiro_nombre
+								}else{
+									x.medio = 'ENVIO'
 								}
 							} else {
 								x.estado = "NO SISCO"
