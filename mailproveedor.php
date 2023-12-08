@@ -156,7 +156,7 @@ while ($row = $result->fetch(PDO::FETCH_ASSOC))
 					$result1->bindParam(':bodegaFAC',$bodegaFAC,PDO::PARAM_STR);
 					$result1->execute();
 
-					$msg = $msg .   "<table border=1 cellpadding=5 cellspacing=1 width=600>";
+					$msg = $msg .  "<table border=1 cellpadding=5 cellspacing=1 width=600>";
 					$msg = $msg .  "<th align=left  width=100>Codigo</th> ";
 					$msg = $msg .  "<th align=left  width=500>Articulo</th> ";
 					$msg = $msg .  "<th align=right width=45>Cantidad</th>";

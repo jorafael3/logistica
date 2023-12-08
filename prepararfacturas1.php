@@ -25,6 +25,7 @@
 			$bodega	= $_SESSION['bodega'];
 			$nomsuc = $_SESSION['nomsuc'];
 			$bodegaFAC = $_SESSION['bodegaFAC'];
+			$drop = $_SESSION['drop'];
 			// echo "aaaaaaaaaaa".$bodegaFAC;
 			$usuario1 = trim($usuario);
 
@@ -182,9 +183,9 @@
 			$result6->execute();
 
 			while ($row6 = $result6->fetch(PDO::FETCH_ASSOC)) {
+				var_dump($row6);
 				$Preparando = $row6['Preparando'];
-				$Fechapre = $row6['
-						'];
+				$Fechapre = $row6[''];
 			}
 
 
@@ -198,9 +199,11 @@
 			$result4->bindParam(':bodegaid', $bodegaFAC, PDO::PARAM_STR);
 			$result4->execute();
 			while ($row4 = $result4->fetch(PDO::FETCH_ASSOC)) {
+				var_dump($row4);
 				$PreparadoPor = $row4['PREPARADOPOR'];
 				$Fechaprepa = $row4['FECHAYHORA'];
 			}
+			echo $PreparadoPor;
 			if ($Preparando <> '' and $PreparadoPor == '.') {
 				$lprepa = $Preparando;
 				$lfecha = $Fechapre;
@@ -211,6 +214,9 @@
 				$lfecha = $Fechaprepa;
 				$ltitulo = "Preparado";
 				$activar = "hidden";
+			}
+			if($drop == 1){
+				$activar = "submit";
 			}
 			$pdo2 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 			//new PDO($dsn, $sql_user, $sql_pwd);

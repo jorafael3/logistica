@@ -20,6 +20,9 @@
 			$acceso	= $_SESSION['acceso'];
 			$bodega = $_SESSION['bodega'];
 			$nomsuc = $_SESSION['nomsuc'];
+			$drop = $_SESSION['drop'];
+			$drop_gye = $_SESSION['drop_gye'];
+			$drop_uio = $_SESSION['drop_uio'];
 			if ($base == 'CARTIMEX') {
 				require 'headcarti.php';
 			} else {
@@ -119,14 +122,24 @@
 								array_push($LISTA, $row["secuencia"]);
 							}
 							//var_dump($res);
-						}else{
+						} else {
 							$err = $result2->errorInfo();
 							//echo json_encode($err);
 						}
 
-						$result = $pdo->prepare("LOG_FACTURAS_PENDIENTES_SELECT @BODEGA=:bodega , @acceso=:acceso");
-						$result->bindParam(':bodega', $bodega, PDO::PARAM_STR);
-						$result->bindParam(':acceso', $acceso, PDO::PARAM_STR);
+						if ($drop == 1) {
+							$result = $pdo->prepare("LOG_FACTURAS_PENDIENTES_SELECT_DROPSHIPING 
+							@gye=:bodega , 
+							@uio=:acceso");
+							$result->bindParam(':bodega', $drop_gye, PDO::PARAM_STR);
+							$result->bindParam(':acceso', $drop_uio, PDO::PARAM_STR);
+						} else {
+							$result = $pdo->prepare("LOG_FACTURAS_PENDIENTES_SELECT @BODEGA=:bodega , @acceso=:acceso");
+							$result->bindParam(':bodega', $bodega, PDO::PARAM_STR);
+							$result->bindParam(':acceso', $acceso, PDO::PARAM_STR);
+						}
+
+
 						//Executes the query
 						$result->execute();
 						$arreglo = array();

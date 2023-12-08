@@ -13,20 +13,24 @@
 <body onload="setfocus()">
 	<div id="header" align="center">
 		<!-- <?php
-		session_start();
-		if (isset($_SESSION['loggedin'])) {
-			$usuario = $_SESSION['usuario'];
-			$base = $_SESSION['base'];
-			$acceso	= $_SESSION['acceso'];
-			$bodega = $_SESSION['bodega'];
-			$nomsuc = $_SESSION['nomsuc'];
-			if ($base == 'CARTIMEX') {
-				require 'headcarti.php';
-			} else {
-				require 'headcompu.php';
-			}
-			//echo "Bodega". $bodega; 
-		?> -->
+				session_start();
+				if (isset($_SESSION['loggedin'])) {
+					$usuario = $_SESSION['usuario'];
+					$base = $_SESSION['base'];
+					$acceso	= $_SESSION['acceso'];
+					$bodega = $_SESSION['bodega'];
+					$nomsuc = $_SESSION['nomsuc'];
+					$drop = $_SESSION['drop'];
+					$drop_gye = $_SESSION['drop_gye'];
+					$drop_uio = $_SESSION['drop_uio'];
+
+					if ($base == 'CARTIMEX') {
+						require 'headcarti.php';
+					} else {
+						require 'headcompu.php';
+					}
+					//echo "Bodega". $bodega; 
+				?> -->
 	</div>
 	<div id="Cuerpo">
 		<div id="cuerpo2">
@@ -123,9 +127,21 @@
 						$usuario = $_SESSION['usuario'];
 						$bodega = $_SESSION['bodega'];
 						$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-						$result = $pdo->prepare("LOG_FACTURAS_PENDIENTES_VERIFICAR @BODEGA=:bodega , @acceso=:acceso");
-						$result->bindParam(':bodega', $bodega, PDO::PARAM_STR);
-						$result->bindParam(':acceso', $acceso, PDO::PARAM_STR);
+
+						if ($drop == 1) {
+							$result = $pdo->prepare("LOG_FACTURAS_PENDIENTES_VERIFICAR_DROPSHIPING
+							 @gye=:gye, 
+							 @uio=:uio");
+							$result->bindParam(':gye', $drop_gye, PDO::PARAM_STR);
+							$result->bindParam(':uio', $drop_uio, PDO::PARAM_STR);
+						} else {
+							$result = $pdo->prepare("LOG_FACTURAS_PENDIENTES_VERIFICAR @BODEGA=:bodega , @acceso=:acceso");
+							$result->bindParam(':bodega', $bodega, PDO::PARAM_STR);
+							$result->bindParam(':acceso', $acceso, PDO::PARAM_STR);
+						}
+
+
+
 						//Executes the query
 						$result->execute();
 						$arreglo = array();
@@ -160,13 +176,13 @@
 			</div>
 		</div>
 	<?php
-			$_SESSION['usuario'] = $usuario;
-			$_SESSION['base'] = $base;
-			$_SESSION['acceso'] = $acceso;
-			$_SESSION['bodega'] = $bodega;
-		} else {
-			header("location: index.html");
-		}
+					$_SESSION['usuario'] = $usuario;
+					$_SESSION['base'] = $base;
+					$_SESSION['acceso'] = $acceso;
+					$_SESSION['bodega'] = $bodega;
+				} else {
+					header("location: index.html");
+				}
 	?>
 	</div>
 </body>
