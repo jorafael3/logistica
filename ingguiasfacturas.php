@@ -183,23 +183,26 @@
 							if (x.Sucursal == "72") {
 								x.ACTIVAR_LINK = 1
 							}
-
-							if (x.estado2 == "DROPSHIPPING") {
-								x.ACTIVAR_LINK = 1
-								x.estado = "DROPSHIPPING"
+							if (x.hasOwnProperty("ESTADO_DROP")) {
+								if (x.TIENE_DROP != 0) {
+									x.ACTIVAR_LINK = 1
+									x.estado = "DROPSHIPPING"
+								} else {
+									x.ACTIVAR_LINK = 0
+									x.estado = 'FALTAN DATOS'
+								}
+//33058
 								x.COMENTARIO = x.DROP_DIRECCION + " - " + x.DROP_REFERENCIA
-								if (x.tipo_pedido == 1 || x.tipo_pedido == 2) {
+								if (x.DROP_PEDIDO == 1 || x.DROP_PEDIDO == 2) {
 									x.medio = 'PICK UP'
 									x.BODEGA_RETIRO = x.tienda_retiro_nombre
-								}else{
+								} else {
 									x.medio = 'ENVIO'
 								}
 							} else {
 								x.estado = "NO SISCO"
 							}
-
 						}
-
 					})
 				})
 				console.log('x: ', x);
