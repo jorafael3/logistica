@@ -331,7 +331,8 @@
 								x = ''
 							}
 							return x
-						}
+						},
+						visible:false
 					}
 				],
 				"createdRow": function(row, data, index) {
