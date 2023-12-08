@@ -217,6 +217,9 @@
 			}
 			if($drop == 1){
 				$activar = "submit";
+				$ltitulo = "Preparando";
+				$lprepa = $Preparando;
+				$lfecha = $Fechapre;
 			}
 			$pdo2 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 			//new PDO($dsn, $sql_user, $sql_pwd);
