@@ -107,16 +107,18 @@
 
 	?>
 	</div>
-	<link href="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/cr-1.7.0/r-2.5.0/datatables.min.css" rel="stylesheet">
+	<link href="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/b-html5-2.4.2/rr-1.4.1/datatables.min.css" rel="stylesheet">
 
-	<script src="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/cr-1.7.0/r-2.5.0/datatables.min.js"></script>
+	<script src="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/b-html5-2.4.2/rr-1.4.1/datatables.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+	
 	<link href="assets/freeze/freeze-ui.min.css" type="text/css" rel="stylesheet" />
 	<script src="assets/freeze/freeze-ui.min.js" type="text/javascript"></script>
 
 	<script>
-
-
-
 		function Cargar_guias() {
 			let BODEGA = $("#BODEGA").val()
 
@@ -145,7 +147,7 @@
 						bodega: x.BodegaFAC
 					}
 
-					AjaxSend(param2,function(ob){
+					AjaxSend(param2, function(ob) {
 						let d = ob.filter(item => item.Section != "HEADER");
 						d = d.filter(item => item.MULTI == "MULTI")
 						x.MULTI = d.length;
@@ -234,14 +236,14 @@
 			var table = $('#Tabla_Guias').DataTable({
 				destroy: true,
 				data: data,
-				dom: 'frtip',
+				dom: 'Bfrtip',
 				// responsive: true,
 				deferRender: true,
 				buttons: [{
-					text: `<span class"fw-bolder">Refrescar </span> <i class="bi bi-arrow-clockwise"></i>`,
-					className: 'btn btn-success',
-					action: function(e, dt, node, config) {}
-				}],
+					extend: 'excelHtml5',
+					title: "Excel",
+
+				}, ],
 				// scrollY: '30vh',
 				// scrollCollapse: true,
 				// paging: false,
@@ -317,12 +319,12 @@
 					}, {
 						data: "MULTI",
 						title: "MULTIBODEGA",
-					}, 
+					},
 					{
 						data: "medio",
 						title: "ENTREGA",
 
-					}, 
+					},
 					{
 						data: "BODEGA_RETIRO",
 						title: "BODEGA RETIRO",
@@ -351,7 +353,7 @@
 							}
 							return x
 						},
-						visible:false
+						visible: false
 					}
 				],
 				"createdRow": function(row, data, index) {
@@ -381,10 +383,10 @@
 						$('td', row).eq(9).addClass("text-danger");
 					}
 
-					if(data["MULTI"] > 0){
+					if (data["MULTI"] > 0) {
 						$('td', row).eq(10).html("SI");
 						$('td', row).eq(10).addClass("text-info");
-					}else{
+					} else {
 						$('td', row).eq(10).html("NO");
 					}
 
