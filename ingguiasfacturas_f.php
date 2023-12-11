@@ -14,6 +14,22 @@ if (isset($_POST['Cargar_guias'])) {
         $drop_uio = $_POST["drop_uio"];
         $pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 
+
+
+        $sql_nc = "{CALL LOG_FACTURAS_PENDIENTES_DEVUELTAS}";
+        $query_nc = $pdo->prepare($sql_nc);
+        $query_nc->execute();
+        $LISTA_NC = [];
+        $RESNC = $query_nc->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($RESNC as $row) {
+            array_push($LISTA_NC, trim($row["secuencia"]));
+        }
+
+
+
+
+
+
         if ($drop == 1) {
             $sql = "LOG_FACTURAS_PENDIENTES_GUIAS_SELECT_2_DROPSHIPPING
             @gye = :gye,
@@ -32,8 +48,18 @@ if (isset($_POST['Cargar_guias'])) {
         }
 
         if ($query->execute()) {
+            $ARRAY = [];
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode($result);
+            foreach ($result as $row) {
+                if (in_array(trim($row["secuencia"]), $LISTA_NC)) {
+                    
+                } else {
+                    array_push($ARRAY, $row);
+                }
+            }
+
+
+            echo json_encode($ARRAY);
         } else {
             $err = $query->errorInfo();
             echo json_encode($err);
@@ -154,7 +180,7 @@ function NC()
         if ($query->execute()) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             foreach ($result as $row) {
-                $sql2 = "{CALL [LOG_FACTURAS_DEVUELTA_UPDATE] (?)}";
+                $sql2 = "{CALL LOG_FACTURAS_DEVUELTA_UPDATE (?)}";
                 $query2 = $pdo->prepare($sql2);
                 $query2->bindParam(1, $row["secuencia"], PDO::PARAM_STR);
                 if ($query2->execute()) {
