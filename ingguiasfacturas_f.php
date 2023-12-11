@@ -49,7 +49,7 @@ if (isset($_POST['Cargar_guias'])) {
 if (isset($_POST['Cargar_guias_sisco'])) {
     include("conexion_2sisco.php");
     try {
-
+        // NC();
         $secuencia = $_POST["secuencia"];
         $pdo = new PDO("mysql:host=10.5.1.245;dbname=" . $sql_database, $sql_user, $sql_pwd);
         $query = $pdo->prepare("SELECT 
@@ -138,4 +138,46 @@ if (isset($_POST['Cargar_Multi'])) {
     }
 }
 
+function NC()
+{
+    try {
+        include('conexion_2.php');
+        include("conexion_2sisco.php");
+        $fecha = date("y-m-d", time());
+        $hora = date("H:i:s", time());
+        $fh = $fecha . " " . $hora;
 
+        $pdo_s = new PDO("mysql:host=10.5.1.245;dbname=" . $sql_database, $sql_user, $sql_pwd);
+        $pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+        $sql = "{CALL LOG_FACTURAS_PENDIENTES_DEVUELTAS}";
+        $query = $pdo->prepare($sql);
+        if ($query->execute()) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($result as $row) {
+                $sql2 = "{CALL [LOG_FACTURAS_DEVUELTA_UPDATE] (?)}";
+                $query2 = $pdo->prepare($sql2);
+                $query2->bindParam(1, $row["secuencia"], PDO::PARAM_STR);
+                if ($query2->execute()) {
+                    $query3 = $pdo_s->prepare("UPDATE covidsales 
+                    set Anulada= '1' , 
+                        anuladapor= '', 
+                        fechaanulada= :fh
+                    where factura = :factura
+                    ");
+                    $query3->bindParam(":factura", $row["secuencia"], PDO::PARAM_STR);
+                    $query3->bindParam(":fh", $fh, PDO::PARAM_STR);
+                    $query3->execute();
+                }
+            }
+            //echo json_encode($result);
+        } else {
+            $err = $query->errorInfo();
+            echo json_encode($err);
+        }
+    } catch (PDOException $e) {
+        //return [];
+        $e = $e->getMessage();
+        echo json_encode($e);
+        exit();
+    }
+}
