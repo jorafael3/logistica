@@ -114,6 +114,9 @@
 	<script src="assets/freeze/freeze-ui.min.js" type="text/javascript"></script>
 
 	<script>
+
+
+
 		function Cargar_guias() {
 			let BODEGA = $("#BODEGA").val()
 
@@ -135,6 +138,18 @@
 						secuencia: x.secuencia
 					}
 					x.COMENTARIO = ""
+
+					let param2 = {
+						Cargar_Multi: 1,
+						secuencia: x.secuencia,
+						bodega: x.BodegaFAC
+					}
+
+					AjaxSend(param2,function(ob){
+						let d = ob.filter(item => item.Section != "HEADER");
+						d = d.filter(item => item.MULTI == "MULTI")
+						x.MULTI = d.length;
+					})
 
 					AjaxSend(param, function(obj) {
 						// console.log('obj: ', obj);
@@ -191,7 +206,6 @@
 									x.ACTIVAR_LINK = 0
 									x.estado = 'FALTAN DATOS'
 								}
-//33058
 								x.COMENTARIO = x.DROP_DIRECCION + " - " + x.DROP_REFERENCIA
 								if (x.DROP_PEDIDO == 1 || x.DROP_PEDIDO == 2) {
 									x.medio = 'PICK UP'
@@ -301,10 +315,15 @@
 						render: $.fn.dataTable.render.number(',', '.', 2, "$"),
 
 					}, {
+						data: "MULTI",
+						title: "MULTIBODEGA",
+					}, 
+					{
 						data: "medio",
 						title: "ENTREGA",
 
-					}, {
+					}, 
+					{
 						data: "BODEGA_RETIRO",
 						title: "BODEGA RETIRO",
 
@@ -348,6 +367,7 @@
 					$('td', row).eq(3).addClass("fw-bolder bg-light-success");
 					$('td', row).eq(4).addClass("fw-bolder bg-light-primary");
 					$('td', row).eq(6).addClass("fw-bolder");
+					$('td', row).eq(10).addClass("fw-bolder bg-light-primary");
 
 					if (data["estado"] == "Facturado") {
 						$('td', row).eq(7).addClass("fw-bolder text-success");
@@ -359,7 +379,13 @@
 					if (data["TOTAL"] == data["saldo"]) {
 						$('td', row).eq(8).addClass("text-danger");
 						$('td', row).eq(9).addClass("text-danger");
+					}
 
+					if(data["MULTI"] > 0){
+						$('td', row).eq(10).html("SI");
+						$('td', row).eq(10).addClass("text-info");
+					}else{
+						$('td', row).eq(10).html("NO");
 					}
 
 				},

@@ -108,3 +108,34 @@ if (isset($_POST['Cargar_Dropshiping'])) {
         exit();
     }
 }
+
+if (isset($_POST['Cargar_Multi'])) {
+    include('conexion_2.php');
+
+    try {
+
+        $secuencia = $_POST["secuencia"];
+        $bodega = $_POST["bodega"];
+        $pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+        $query = $pdo->prepare("PER_Detalle_Facturas2 
+            @Secuencia=:secuencia,
+            @bodegaFAC=:bodega
+        ");
+        $query->bindParam(':secuencia', $secuencia, PDO::PARAM_STR);
+        $query->bindParam(':bodega', $bodega, PDO::PARAM_STR);
+        if ($query->execute()) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($result);
+        } else {
+            $err = $query->errorInfo();
+            echo json_encode($err);
+        }
+    } catch (PDOException $e) {
+        //return [];
+        $e = $e->getMessage();
+        echo json_encode($e);
+        exit();
+    }
+}
+
+
