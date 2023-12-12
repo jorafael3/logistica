@@ -87,6 +87,7 @@
 							header("location: menu.php");
 
 							if ($empresa == "COMPUTRONSA") {
+								$_SESSION['PMDROP'] = $row["PMDROP"];
 								$_SESSION['drop'] = $row["SGL_DROPSHIPING"];
 								$_SESSION['drop_gye'] = $row["SGL_DROPSHIPING_GYE"];
 								$_SESSION['drop_uio'] = $row["SGL_DROPSHIPING_UIO"];

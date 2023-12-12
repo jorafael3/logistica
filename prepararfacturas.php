@@ -9,6 +9,8 @@
 <link href="estilos/estilos2.css" rel="stylesheet" type="text/css">
 <link href="estilos/estilos.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="css/tablas.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
 <body onload="setfocus()">
 	<div id="header" align="center">
@@ -20,7 +22,11 @@
 			$acceso	= $_SESSION['acceso'];
 			$bodega = $_SESSION['bodega'];
 			$nomsuc = $_SESSION['nomsuc'];
+			$PMDROP = $_SESSION['PMDROP'];
+			echo $PMDROP;
 			$drop = $_SESSION['drop'];
+			echo $drop;
+
 			$drop_gye = $_SESSION['drop_gye'];
 			$drop_uio = $_SESSION['drop_uio'];
 			if ($base == 'CARTIMEX') {
@@ -127,7 +133,7 @@
 							//echo json_encode($err);
 						}
 
-						if ($drop == 1) {
+						if ($drop == 1 || $PMDROP == 1) {
 							$result = $pdo->prepare("LOG_FACTURAS_PENDIENTES_SELECT_DROPSHIPING 
 							@gye=:bodega , 
 							@uio=:acceso");
@@ -145,7 +151,6 @@
 						$arreglo = array();
 						$x = 0;
 						while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-
 							if (in_array(trim($row['secuencia']), $LISTA)) {
 							} else {
 								$arreglo[$x][1] = $row['Sucursal'];
@@ -160,20 +165,39 @@
 						}
 						$count = count($arreglo);
 						$y = 0;
-						while ($y <= $count - 1) {
+						if ($PMDROP == 1) {
+							while ($y <= $count - 1) {
 						?>
-							<tr>
-								<td id="fila4"> <?php echo $arreglo[$y][1] ?></td>
-								<td id="fila4"> <?php echo $arreglo[$y][5] ?></td>
-								<td id="label2" align="center"> <input name="secu" type="submit" id="secu" size="20" value="<?php echo $arreglo[$y][2] . " " . $arreglo[$y][7] ?>"> </td>
-								<td id="fila4"> <?php echo $arreglo[$y][3] ?> </td>
-								<td id="fila4"> <?php echo $arreglo[$y][4] ?> </td>
-								<td id="fila4"> <?php echo $arreglo[$y][6] ?> </td>
-								<td id="label2"> <input name="bodegaFAC" type="hidden" id="bodegaFAC" size="30" value="<?php echo $bodega ?>"> </td>
-							</tr>
+								<tr>
+									<td id="fila4"> <?php echo $arreglo[$y][1] ?></td>
+									<td id="fila4"> <?php echo $arreglo[$y][5] ?></td>
+									<td id="label2" align="center"> <input name="secu" type="submit" id="secu" size="20" value="<?php echo $arreglo[$y][2] . " " . $arreglo[$y][7] ?>"> </td>
+									<td id="fila4"> <?php echo $arreglo[$y][3] ?> </td>
+									<td id="fila4"> <?php echo $arreglo[$y][4] ?> </td>
+									<td id="fila4"> <?php echo $arreglo[$y][6] ?> </td>
+									<td id="label2"> <input name="bodegaFAC" type="hidden" id="bodegaFAC" size="30" value="<?php echo $bodega ?>"> </td>
+								</tr>
+							<?php
+								$y = $y + 1;
+							}
+						} else {
+							while ($y <= $count - 1) {
+							?>
+
+								<tr>
+									<td id="fila4"> <?php echo $arreglo[$y][1] ?></td>
+									<td id="fila4"> <?php echo $arreglo[$y][5] ?></td>
+									<td id="label2" align="center"> <input name="secu" type="submit" id="secu" size="20" value="<?php echo $arreglo[$y][2] . " " . $arreglo[$y][7] ?>"> </td>
+									<td id="fila4"> <?php echo $arreglo[$y][3] ?> </td>
+									<td id="fila4"> <?php echo $arreglo[$y][4] ?> </td>
+									<td id="fila4"> <?php echo $arreglo[$y][6] ?> </td>
+									<td id="label2"> <input name="bodegaFAC" type="hidden" id="bodegaFAC" size="30" value="<?php echo $bodega ?>"> </td>
+								</tr>
 						<?php
-							$y = $y + 1;
+								$y = $y + 1;
+							}
 						}
+
 						?>
 					</table>
 				</form>
