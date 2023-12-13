@@ -23,9 +23,7 @@
 			$bodega = $_SESSION['bodega'];
 			$nomsuc = $_SESSION['nomsuc'];
 			$PMDROP = $_SESSION['PMDROP'];
-			echo $PMDROP;
 			$drop = $_SESSION['drop'];
-			echo $drop;
 
 			$drop_gye = $_SESSION['drop_gye'];
 			$drop_uio = $_SESSION['drop_uio'];
@@ -84,6 +82,8 @@
 							<th id="fila4"> Fecha </th>
 							<th id="fila4"> </th>
 							<th id="fila4"> Comentario </th>
+							<th id="fila4"> Forma de Pago </th>
+							<th id="fila4"> F de Aprobacion </th>
 						</tr>
 						<?php
 
@@ -166,7 +166,27 @@
 						$count = count($arreglo);
 						$y = 0;
 						if ($PMDROP == 1) {
+
+							include("conexion.php");
+
+
 							while ($y <= $count - 1) {
+								$secu = $arreglo[$y][2];
+								$sql1 = "SELECT a.*, 
+								p.bodega as bodegaret, 
+								date_format(a.paymentez,'%d/%m/%Y') as fechapay,
+								date_format(a.tcfecha,'%d/%m/%Y') as tcfecha,date_format(a.l2pfecha,'%d/%m/%Y') as l2pfecha,
+								c.sucursalid as sucursal  FROM covidsales a
+								left outer join covidpickup p on p.orden= a.secuencia
+								left outer join sisco.covidciudades c on p.bodega= c.almacen
+								where a.factura = trim('$secu') and a.anulada<> '1'  ";
+								$result1 = mysqli_query($con, $sql1);
+								$row1 = mysqli_fetch_array($result1);
+								// echo count([$row1]);
+
+								$FORMA_PAGO = $row1["formapago"] ? $row1["formapago"] : "";
+								$FECHA = $row1["fecha"] ? $row1["fecha"] : "";
+
 						?>
 								<tr>
 									<td id="fila4"> <?php echo $arreglo[$y][1] ?></td>
@@ -175,7 +195,12 @@
 									<td id="fila4"> <?php echo $arreglo[$y][3] ?> </td>
 									<td id="fila4"> <?php echo $arreglo[$y][4] ?> </td>
 									<td id="fila4"> <?php echo $arreglo[$y][6] ?> </td>
+									<td id="fila4"> <?php echo  $FORMA_PAGO ?> </td>
+									<td id="fila4"> <?php echo $FECHA ?> </td>
 									<td id="label2"> <input name="bodegaFAC" type="hidden" id="bodegaFAC" size="30" value="<?php echo $bodega ?>"> </td>
+
+
+
 								</tr>
 							<?php
 								$y = $y + 1;

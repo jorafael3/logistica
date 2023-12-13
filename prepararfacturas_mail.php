@@ -192,8 +192,7 @@ function enviar_correo($ARRAY)
                                 </table>
 
                             </div>
-                        </div>
-                       
+                        </div>            
                     </div>
                 </body>
                 </html>';
