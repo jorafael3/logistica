@@ -82,9 +82,16 @@
 							<th id="fila4"> Fecha </th>
 							<th id="fila4"> </th>
 							<th id="fila4"> Comentario </th>
-							<th id="fila4"> Forma de Pago </th>
-							<th id="fila4"> F de Aprobacion </th>
-							<th id="fila4"> ESTADO </th>
+							<?php
+							if ($PMDROP == 1) {
+							?>
+								<th id="fila4"> VALOR</th>
+								<th id="fila4"> SALDO</th>
+							<?php
+
+							}
+							?>
+
 						</tr>
 						<?php
 
@@ -161,6 +168,8 @@
 								$arreglo[$x][5] = $row['Detalle'];
 								$arreglo[$x][6] = $row['nota'];
 								$arreglo[$x][7] = $row['BodegaFAC'];
+								$arreglo[$x][8] = $row['saldo'];
+								$arreglo[$x][9] = $row['TOTAL'];
 								$x++;
 							}
 						}
@@ -183,12 +192,11 @@
 								where a.factura = trim('$secu') and a.anulada<> '1'  ";
 								$result1 = mysqli_query($con, $sql1);
 								$row1 = mysqli_fetch_array($result1);
-								// echo count([$row1]);
+								// echo ($row1["saldo"]);
 
-								$FORMA_PAGO = isset($row1["formapago"]) ? $row1["formapago"] : "";
-								$FECHA = isset($row1["fecha"]) ? $row1["fecha"] : "";
-								$estado = isset($row1["estado"]) ? $row1["estado"] : "";
-								
+								$FORMA_PAGO = isset($row1["valortotal"]) ? $row1["valortotal"] : "";
+								// $FECHA = isset($row1["saldo"]) ? $row1["saldo"] : "";
+
 						?>
 								<tr>
 									<td id="fila4"> <?php echo $arreglo[$y][1] ?></td>
@@ -197,13 +205,9 @@
 									<td id="fila4"> <?php echo $arreglo[$y][3] ?> </td>
 									<td id="fila4"> <?php echo $arreglo[$y][4] ?> </td>
 									<td id="fila4"> <?php echo $arreglo[$y][6] ?> </td>
-									<td id="fila4"> <?php echo  $FORMA_PAGO ?> </td>
-									<td id="fila4"> <?php echo $FECHA ?> </td>
-									<td id="fila4" style="font-weight: bold;"> <?php echo $estado ?> </td>
+									<td id="fila4"> <?php echo  round($arreglo[$y][9],2) ?> </td>
+									<td id="fila4"> <?php echo round(floatval($arreglo[$y][8]),2) ?> </td>
 									<td id="label2"> <input name="bodegaFAC" type="hidden" id="bodegaFAC" size="30" value="<?php echo $bodega ?>"> </td>
-
-
-
 								</tr>
 							<?php
 								$y = $y + 1;
