@@ -33,7 +33,7 @@ if (isset($_POST['Fatura_Detalle'])) {
             from VEN_FACTURAS_DT dt
             left join INV_PRODUCTOS inv
             on dt.ProductoID = inv.ID
-            left join ACR_ACREEDORES acr
+            left join CARTIMEX..ACR_ACREEDORES acr
             on acr.ID = inv.ProveedorID
             where FacturaID = @factura_id
             and BodegaID = :bodega_fac
