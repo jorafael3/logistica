@@ -355,6 +355,12 @@
 			<button onclick="Hacer_Pedido()" style="font-size: 18px; font-weight: bold;background-color: #2E86C1;color: white;">
 				Hacer Pedido
 			</button>
+			<div class="col-6 mt-5" id="SECC_NO" style="display: none;">
+				<h3>Correos no validos</h3>
+				<ul id="NO_VAL">
+
+				</ul>
+			</div>
 		</div>
 	<?php
 			$usuario = $usuario1;
@@ -397,38 +403,38 @@
 		}
 		AjaxSend(param, function(x) {
 			console.log('x: ', x);
-			x = [{
-					"codigo": "ECO-AMARIS",
-					"ProveedorID": "0000001575",
-					"producto": "COCINA A GAS ECOLINE 21\" AMARIS MIDNIGHT 4 HORNILLAS - BLACK",
-					"Cantidad": "1.00",
-					"Nombre": "AAADD S.A.",
-					"Email": ""
-				},
-				{
-					"codigo": "ECO-CORINA",
-					"ProveedorID": "0000001572",
-					"producto": "COCINA A GAS ECOLINE 21\" AMARIS MIDNIGHT 4 HORNILLAS - BLACK",
-					"Cantidad": "1.00",
-					"Nombre": "FIBROACERO S.A.",
-					"Email": "jalvarado@cartimex.com"
-				},
-				{
-					"codigo": "NEV0070",
-					"ProveedorID": "0000001573",
-					"producto": "REFRIGERADORA ECOLINE 271 LITROS - TITANIUM",
-					"Cantidad": "1.00",
-					"Nombre": "ECOLINE",
-					"Email": "jalvaradoe3@gmail.com"
-				}, {
-					"codigo": "NEV0080",
-					"ProveedorID": "0000001573",
-					"producto": "REFRIGERADORA ECOLINE 271 LITROS - TITANIUM",
-					"Cantidad": "1.00",
-					"Nombre": "ECOLINE",
-					"Email": "jalvaradoe3@gmail.com"
-				}
-			]
+			// x = [{
+			// 		"codigo": "ECO-AMARIS",
+			// 		"ProveedorID": "0000001575",
+			// 		"producto": "COCINA A GAS ECOLINE 21\" AMARIS MIDNIGHT 4 HORNILLAS - BLACK",
+			// 		"Cantidad": "1.00",
+			// 		"Nombre": "AAADD S.A.",
+			// 		"Email": ""
+			// 	},
+			// 	{
+			// 		"codigo": "ECO-CORINA",
+			// 		"ProveedorID": "0000001572",
+			// 		"producto": "COCINA A GAS ECOLINE 21\" AMARIS MIDNIGHT 4 HORNILLAS - BLACK",
+			// 		"Cantidad": "1.00",
+			// 		"Nombre": "FIBROACERO S.A.",
+			// 		"Email": "jalvarado@cartimex.com"
+			// 	},
+			// 	{
+			// 		"codigo": "NEV0070",
+			// 		"ProveedorID": "0000001573",
+			// 		"producto": "REFRIGERADORA ECOLINE 271 LITROS - TITANIUM",
+			// 		"Cantidad": "1.00",
+			// 		"Nombre": "ECOLINE",
+			// 		"Email": "jalvaradoe3@gmail.com"
+			// 	}, {
+			// 		"codigo": "NEV0080",
+			// 		"ProveedorID": "0000001573",
+			// 		"producto": "REFRIGERADORA ECOLINE 271 LITROS - TITANIUM",
+			// 		"Cantidad": "1.00",
+			// 		"Nombre": "ECOLINE",
+			// 		"Email": "jalvaradoe3@gmail.com"
+			// 	}
+			// ]
 			ARRAY_DETALLE = x;
 			var table = $('#tabla_prod').DataTable({
 				destroy: true,
@@ -465,14 +471,18 @@
 					}, {
 						data: "Email",
 						title: "Email",
+					}, {
+						data: "PEDIDO_DROP",
+						title: "ENVIADO",
 					}
 				],
 				"createdRow": function(row, data, index) {
 					$('td', row).eq(0).addClass("fs-6 fw-bolder");
 					$('td', row).eq(1).addClass("fw-bolder");
 					$('td', row).eq(2).addClass("fw-bolder");
-					$('td', row).eq(3).addClass("fw-bolder");
-					$('td', row).eq(4).addClass("fw-bolder");
+					$('td', row).eq(3).addClass("fw-bolder bg-warning bg-opacity-50");
+					$('td', row).eq(4).addClass("fw-bolder bg-warning bg-opacity-50");
+					$('td', row).eq(5).addClass("fw-bolder bg-warning bg-opacity-50");
 					$('td', row).eq(6).addClass("fw-bolder");
 					$('td', row).eq(10).addClass("fw-bolder");
 					if (data["Email"] == "" || data["Email"] == null) {
@@ -483,6 +493,15 @@
 						$('td', row).eq(3).addClass("text-danger");
 						$('td', row).eq(3).html("No tiene Proveedor");
 					}
+					if (data["PEDIDO_DROP"] == 0) {
+						$('td', row).eq(5).html("NO");
+						$('td', row).eq(5).addClass("text-danger");
+
+					} else {
+						$('td', row).eq(5).html("SI");
+						$('td', row).eq(5).addClass("text-success");
+
+					}
 				},
 
 			});
@@ -491,6 +510,7 @@
 			}, 500);
 		})
 	}
+
 	Factura_Detalle();
 
 	function Hacer_Pedido() {
@@ -512,6 +532,7 @@
 		})
 		console.log('DATOS: ', DATOS);
 
+		DATOS = DATOS.filter(item => item.PEDIDO_DROP == 0);
 		let ARRAY_FINAL = DATOS.filter(item => item.EMAIL != "")
 
 		if (ARRAY_FINAL.length > 0) {
@@ -524,13 +545,32 @@
 
 			AjaxSend(param, function(x) {
 				console.log('x: ', x);
+				if (x[0] == 1) {
+					Swal.fire({
+						title: "Datos Enviado!",
+						text: "",
+						icon: "success"
+					});
+					if (x[1].length > 0) {
+						$("#SECC_NO").show();
+						$("#NO_VAL").empty();
+						x[1].map(function(x) {
+							let a = `
+								<li>` + x + `</li>
+							`
+							$("#NO_VAL").append(a);
+						})
+
+					}
+
+				}
 			});
 
 		} else {
 			Swal.fire({
 				title: "No hay datos para enviar!",
 				text: "Asegurese tener los datos de proveedro e Email completos!",
-				icon: "Warning"
+				icon: "warning"
 			});
 		}
 	}

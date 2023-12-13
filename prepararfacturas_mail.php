@@ -1,8 +1,8 @@
 <?php
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\SMTP;
+// use PHPMailer\PHPMailer\Exception;
 
 
 if (isset($_POST['Fatura_Detalle'])) {
@@ -22,12 +22,14 @@ if (isset($_POST['Fatura_Detalle'])) {
             select @factura_id = ID from VEN_FACTURAS where Secuencia = :secuencia
 
             select 
+            inv.ID as producto_id,
             inv.Código as codigo, 
             inv.Nombre as producto,
             dt.Cantidad,
             inv.ProveedorID,
+            isnull(dt.PEDIDO_DROP,0) as PEDIDO_DROP,
             RTRIM(LTRIM(acr.Nombre)) as Nombre,
-            RTRIM(LTRIM(acr.Email)) as Email 
+            RTRIM(LTRIM(acr.Email)) as Email
             from VEN_FACTURAS_DT dt
             left join INV_PRODUCTOS inv
             on dt.ProductoID = inv.ID
@@ -62,11 +64,13 @@ if (isset($_POST['Mail_Drop'])) {
     try {
         $DATOS = $_POST["DATOS"];
         $CORREOS_NO = [];
+        $CORREOS_SI = [];
         foreach ($DATOS as $row) {
 
             $VAL = validarEmail($row["EMAIL"]);
             if ($VAL == 1) {
-                enviar_correo($row);
+                $ENV = enviar_correo($row);
+                array_push($CORREOS_SI, $ENV);
             } else {
                 array_push(
                     $CORREOS_NO,
@@ -78,7 +82,7 @@ if (isset($_POST['Mail_Drop'])) {
             }
             // enviar_correo($row)
         }
-        echo json_encode($CORREOS_NO);
+        echo json_encode([1, $CORREOS_NO, $ENV]);
     } catch (PDOException $e) {
         //return [];
         $e = $e->getMessage();
@@ -92,9 +96,9 @@ function enviar_correo($ARRAY)
 {
 
 
-    require 'PHPMailer/src/Exception.php';
-    require 'PHPMailer/src/PHPMailer.php';
-    require 'PHPMailer/src/SMTP.php';
+    // require 'PHPMailer/src/Exception.php';
+    // require 'PHPMailer/src/PHPMailer.php';
+    // require 'PHPMailer/src/SMTP.php';
     // Configurar las opciones del correo electrónico
     $val = 0;
     $error = 0;
@@ -102,27 +106,31 @@ function enviar_correo($ARRAY)
     try {
         $correoDestino = trim($ARRAY["EMAIL"]);
         $message = "";
+        $LISTA_CODIGOS = [];
         foreach ($ARRAY["DATOS"] as $row) {
+            array_push($LISTA_CODIGOS, $row["producto_id"]);
+
             $message .= '
             <tr>
-                <td style="padding: 10px;">' . $row["codigo"] . '</td>
+                <td style="padding: 10px;font-weight:bold;">' . $row["codigo"] . '</td>
                 <td style="padding: 10px;">' . $row["producto"] . '</td>
                 <td style="padding: 10px;">' . $row["Cantidad"] . '</td>
             </tr>
             ';
         }
-
+        include 'vendor/autoload.php';
         $mail = new PHPMailer();
         $mail->isSMTP();
         $mail->Host       = 'mail.cartimex.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = 'sgo';
         $mail->Password   = 'sistema2021*';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->addAddress($correoDestino);
+        // $mail->addAddress('gcassis@cartimex.com');
         // $mail->addAddress('jalvarado@cartimex.com');
-        $mail->setFrom('sgo@cartimex.com', 'Computron');
-        // $mail->AddCC($usuario_email);
+        $mail->setFrom('sgo@cartimex.com', 'CARTIMEX');
+        $mail->AddCC("gcassis@cartimex.com");
         $mail->isHTML(true);
         $mail->CharSet = 'UTF-8';
         $mail->Subject = 'ORDEN DE COMPRA';
@@ -143,7 +151,7 @@ function enviar_correo($ARRAY)
                             background-color: #fff;
                         }
                         .header {
-                            background-color: #F9E79F;
+                            background-color: #fff;
                             color: #000;
                             padding: 20px;
                             text-align: center;
@@ -165,26 +173,27 @@ function enviar_correo($ARRAY)
                 <body>
                     <div class="container">
                         <div class="header">
-
+                            <img src="https://www.cartimex.com/assets/img/logo200.png"></img>
                             <h2>ORDEN DE COMPRA</h2>
                         </div>
                         <div class="content">
-                            <span>Numero :  </span><br>
-                            <span>Proveedor :  </span><br>
-                            <span>Transporte :  </span><br>
-                            <span>Guia :  </span><br>
-                            <span>Detalle Despacho :  </span><br>
+                            <span style="font-size:20px">Numero :  ' . $ARRAY["SECUENCIA"] . '</span><br>
+                            <span style="font-size:20px">Proveedor :  ' . $ARRAY["PROVEEDOR"] . '</span><br>
                             
+                            <div style="margin-top:20px" class="header">
+
+                                <table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse;">
+                                    <tr>
+                                        <th style="padding: 10px;">Codigo</th>
+                                        <th style="padding: 10px;">Producto</th>
+                                        <th style="padding: 10px;">Cantidad</th>
+                                    </tr>
+                                    ' . $message . '
+                                </table>
+
+                            </div>
                         </div>
-                        <table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse;">
-                            <tr>
-                                <th style="padding: 10px;">Codigo</th>
-                                <th style="padding: 10px;">Producto</th>
-                                <th style="padding: 10px;">Cantidad</th>
-                            </tr>
-                            ' . $message . '
-                           
-                        </table>
+                       
                     </div>
                 </body>
                 </html>';
@@ -195,10 +204,52 @@ function enviar_correo($ARRAY)
             $error = 'Mail error: ' . $mail->ErrorInfo;
         } else {
             $val++;
+            // $ACT = Actualizar_Pedido($ARRAY["SECUENCIA"], $LISTA_CODIGOS);
+            $ACT = [1, "PEDIDO_ACTUALIZADO"];
         }
-        return [$val, $error];
+        return [$ACT, $error];
     } catch (Exception $u) {
         return ($mail->ErrorInfo);
+    }
+}
+
+function Actualizar_Pedido($SECUENCIA, $PRODUCTO)
+{
+    include('conexion_2.php');
+    try {
+        $val = 0;
+        $pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+        foreach ($PRODUCTO as $row) {
+            $query = $pdo->prepare("
+        declare 
+        @factura_id varchar(10)
+        select @factura_id = ID from VEN_FACTURAS where Secuencia = :secuencia
+        
+        UPDATE VEN_FACTURAS_DT
+            SET PEDIDO_DROP = 1
+            WHERE FacturaID = @factura_id
+            and ProductoID = :ProductoID
+        ");
+            $query->bindParam(':secuencia', $SECUENCIA, PDO::PARAM_STR);
+            $query->bindParam(':ProductoID', $row, PDO::PARAM_STR);
+            $query->execute();
+            if ($query->execute()) {
+                $result = $query->fetchAll(PDO::FETCH_ASSOC);
+                $val++;
+            } else {
+                $err = $query->errorInfo();
+            }
+        }
+        if ($val == count($PRODUCTO)) {
+            return [1, "PEDIDO_ACTUALIZADO"];
+        } else {
+            return [0, "ERROR AL ACTUALIZAR"];
+        }
+    } catch (PDOException $e) {
+        //return [];
+        $e = $e->getMessage();
+        echo json_encode($e);
+        exit();
     }
 }
 
