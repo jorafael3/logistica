@@ -203,8 +203,8 @@ function enviar_correo($ARRAY)
             $error = 'Mail error: ' . $mail->ErrorInfo;
         } else {
             $val++;
-            // $ACT = Actualizar_Pedido($ARRAY["SECUENCIA"], $LISTA_CODIGOS);
-            $ACT = [1, "PEDIDO_ACTUALIZADO"];
+            $ACT = Actualizar_Pedido($ARRAY["SECUENCIA"], $LISTA_CODIGOS);
+            // $ACT = [1, "PEDIDO_ACTUALIZADO"];
         }
         return [$ACT, $error];
     } catch (Exception $u) {
