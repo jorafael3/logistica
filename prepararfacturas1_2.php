@@ -401,6 +401,8 @@
 			BODEGAFAC: '<?php echo $bodegaFAC ?>',
 			SECUENCIA: '<?php echo $secu ?>',
 		}
+		console.log('param: ', param);
+
 		AjaxSend(param, function(x) {
 			console.log('x: ', x);
 			// x = [{
