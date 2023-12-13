@@ -84,6 +84,7 @@
 							<th id="fila4"> Comentario </th>
 							<th id="fila4"> Forma de Pago </th>
 							<th id="fila4"> F de Aprobacion </th>
+							<th id="fila4"> ESTADO </th>
 						</tr>
 						<?php
 
@@ -186,7 +187,8 @@
 
 								$FORMA_PAGO = isset($row1["formapago"]) ? $row1["formapago"] : "";
 								$FECHA = isset($row1["fecha"]) ? $row1["fecha"] : "";
-
+								$estado = isset($row1["estado"]) ? $row1["estado"] : "";
+								
 						?>
 								<tr>
 									<td id="fila4"> <?php echo $arreglo[$y][1] ?></td>
@@ -197,6 +199,7 @@
 									<td id="fila4"> <?php echo $arreglo[$y][6] ?> </td>
 									<td id="fila4"> <?php echo  $FORMA_PAGO ?> </td>
 									<td id="fila4"> <?php echo $FECHA ?> </td>
+									<td id="fila4" style="font-weight: bold;"> <?php echo $estado ?> </td>
 									<td id="label2"> <input name="bodegaFAC" type="hidden" id="bodegaFAC" size="30" value="<?php echo $bodega ?>"> </td>
 
 
