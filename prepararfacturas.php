@@ -184,8 +184,8 @@
 								$row1 = mysqli_fetch_array($result1);
 								// echo count([$row1]);
 
-								$FORMA_PAGO = $row1["formapago"] ? $row1["formapago"] : "";
-								$FECHA = $row1["fecha"] ? $row1["fecha"] : "";
+								$FORMA_PAGO = isset($row1["formapago"]) ? $row1["formapago"] : "";
+								$FECHA = isset($row1["fecha"]) ? $row1["fecha"] : "";
 
 						?>
 								<tr>
