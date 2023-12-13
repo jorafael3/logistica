@@ -534,7 +534,7 @@
 		})
 		console.log('DATOS: ', DATOS);
 
-		DATOS = DATOS.filter(item => item.PEDIDO_DROP == 0);
+		DATOS = DATOS.filter(item => item.PEDIDO_DROP == 0 || item.PEDIDO_DROP == null);
 		let ARRAY_FINAL = DATOS.filter(item => item.EMAIL != "")
 
 		if (ARRAY_FINAL.length > 0) {
