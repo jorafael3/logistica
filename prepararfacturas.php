@@ -93,6 +93,7 @@
 							<?php
 							if ($PMDROP == 1) {
 							?>
+								<th id="fila4"> F. PAGO</th>
 								<th id="fila4"> VALOR</th>
 								<th id="fila4"> SALDO</th>
 							<?php
@@ -178,6 +179,7 @@
 								$arreglo[$x][7] = $row['BodegaFAC'];
 								$arreglo[$x][8] = $row['saldo'];
 								$arreglo[$x][9] = $row['TOTAL'];
+								$arreglo[$x][10] = $row['Termino_n'];
 								$x++;
 							}
 						}
@@ -201,7 +203,7 @@
 								$result1 = mysqli_query($con, $sql1);
 								$row1 = mysqli_fetch_array($result1);
 								// echo ($row1["saldo"]);
-								$FORMA_PAGO = isset($row1["valortotal"]) ? $row1["valortotal"] : "";
+								$FORMA_PAGO = isset($row1["formapago"]) ? $row1["formapago"] : "";
 								// $FECHA = isset($row1["saldo"]) ? $row1["saldo"] : "";
 						?>
 								<tr>
@@ -210,7 +212,7 @@
 									<td id="label2" align="center"> <input name="secu" type="submit" id="secu" size="20" value="<?php echo $arreglo[$y][2] . " " . $arreglo[$y][7] ?>"> </td>
 									<td id="fila4"> <?php echo $arreglo[$y][3] ?> </td>
 									<td id="fila4"> <?php echo $arreglo[$y][4] ?> </td>
-									<!-- <td id="fila4"> <?php echo $arreglo[$y][6] ?> </td> -->
+									<td id="fila4" style="font-weight: bold;"> <?php echo $arreglo[$y][10] ?> </td>
 									<td id="fila4" style="text-align: right; font-weight: bold;font-size: 14px;"> <?php echo round($arreglo[$y][9], 2) ?> </td>
 									<td id="fila4" style="text-align: right; font-weight: bold;font-size: 14px;"> <?php echo round(floatval($arreglo[$y][8]), 2) ?> </td>
 									<td id="label2"> <input name="bodegaFAC" type="hidden" id="bodegaFAC" size="30" value="<?php echo $bodega ?>"> </td>
