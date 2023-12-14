@@ -114,7 +114,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-	
+
 	<link href="assets/freeze/freeze-ui.min.css" type="text/css" rel="stylesheet" />
 	<script src="assets/freeze/freeze-ui.min.js" type="text/javascript"></script>
 
@@ -171,6 +171,12 @@
 								x.medio = "PICK UP"
 							} else {
 								x.medio = "ENVIO"
+							}
+
+							if ((obj[0]["formapago"] == "Tienda" && parseFloat(x.saldo) == 0) ||
+								(obj[0]["formapago"] == "Tienda" && parseFloat(x.saldo) <= parseFloat(x.rete))) {
+								x.ACTIVAR_LINK = 1
+
 							}
 
 							if ((obj[0]["estado"] == "Facturado" || obj[0]["estado"] == "Entrega en " + obj[0]["bodegaret"]) &&

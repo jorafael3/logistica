@@ -362,6 +362,7 @@
 				</ul>
 			</div>
 		</div>
+		
 	<?php
 			$usuario = $usuario1;
 			$_SESSION['usuario'] = $usuario;
@@ -593,6 +594,7 @@
 			}
 		})
 	}
+
 </script>
 
 </html>
