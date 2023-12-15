@@ -328,7 +328,7 @@
 					</div>
 				</div>
 
-				<div class='row mt-5'>
+				<!-- <div class='row mt-5'>
 					<div class='col'>
 						<h3>Documentos</h3>
 					</div>
@@ -340,7 +340,7 @@
 					</div>
 					<div class="col-6">
 					</div>
-				</div>
+				</div> -->
 
 				<div class='row mt-5'>
 					<div class='col'>
