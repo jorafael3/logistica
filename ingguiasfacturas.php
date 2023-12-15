@@ -194,16 +194,16 @@
 									obj[0]["estado"] == "Entrega en " + obj[0]["bodegaret"])) {
 								x.ACTIVAR_LINK = 1
 							}
-							if (x.hasOwnProperty("ESTADO_DROP")) {
-								console.log('x.TIENE_DROP: ', x.secuencia);
-								if (x.TIENE_DROP == 0) {
-									x.ACTIVAR_LINK = 0
-									x.estado = 'FALTAN DATOS DROPSHIPPING'
-								} else {
-									x.ACTIVAR_LINK = 1
-									x.estado = "DROPSHIPPING"
-								}
-							}
+							// if (x.hasOwnProperty("ESTADO_DROP")) {
+							// 	console.log('x.TIENE_DROP: ', x.secuencia);
+							// 	if (x.TIENE_DROP == 0) {
+							// 		x.ACTIVAR_LINK = 0
+							// 		x.estado = 'FALTAN DATOS DROPSHIPPING'
+							// 	} else {
+							// 		x.ACTIVAR_LINK = 1
+							// 		x.estado = "DROPSHIPPING"
+							// 	}
+							// }
 						} else {
 							x.ACTIVAR_LINK = 0
 							x.medio = ""
