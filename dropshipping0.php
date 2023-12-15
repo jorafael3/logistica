@@ -84,10 +84,12 @@
 
 			//echo "Factura: ".$secu. $bodegaf;
 			$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-			$result = $pdo->prepare('PER_Detalle_Facturas2 @secuencia=:secu , @bodegaFAC=:bodegaf');
+			$result = $pdo->prepare('PER_Detalle_Facturas2 @secuencia=:secu , 
+			@bodegaFAC=:bodegaf');
 			$result->bindParam(':secu', $secu, PDO::PARAM_STR);
 			$result->bindParam(':bodegaf', $bodegaf, PDO::PARAM_STR);
 			$result->execute();
+			echo $bodegaf;
 			/*$sql = "PER_Detalle_Facturas'" . $numfac . "' ";
 	$result = mssql_query(utf8_decode($sql));*/
 			$count = $result->rowcount();
@@ -225,6 +227,9 @@
 			//echo $datamail2;
 			// var_dump($CABECERA);
 			$CABECERA = $CABECERA[0];
+			// echo "<pre>";
+			// var_dump($CABECERA);
+			// echo "</pre>";
 			$result2 = $pdo->prepare("SELECT ID,Nombre,Código as codigo from SIS_SUCURSALES
 			where Región != 'OMNICANAL'
 			and Anulado = 0
@@ -287,6 +292,8 @@
 								<tr>
 									<th class="bg-dark text-light">Código</th>
 									<th class="bg-dark text-light">Descripción</th>
+									<th class="bg-dark text-light">BODEGA</th>
+									<th class="bg-dark text-light">BODEGA N</th>
 									<th class="bg-dark text-light">Cant.</th>
 									<th class="bg-dark text-light">Precio</th>
 									<th class="bg-dark text-light">SubTotal</th>
@@ -302,6 +309,8 @@
 									<tr>
 										<td><?php echo $row[('Codigo')] ?></td>
 										<td><?php echo $row[('Nombre')] ?></td>
+										<td><?php echo $row[('bocod')] ?></td>
+										<td><?php echo $row[('bonom')] ?></td>
 										<td><?php echo $row[('Cantidad')] ?></td>
 										<td>$<?php echo number_format($row['Precio'], 2, ",", ".")  ?></td>
 										<td>$<?php echo number_format($row['SubTotal'], 2, ",", ".")  ?></td>
@@ -316,6 +325,20 @@
 
 							</tbody>
 						</table>
+					</div>
+				</div>
+
+				<div class='row mt-5'>
+					<div class='col'>
+						<h3>Documentos</h3>
+					</div>
+				</div>
+				<div class='row'>
+					<div class="col-6">
+						<input type="file" id="DOCUMENTO">
+						<button class="btn btn-success">Subir</button>
+					</div>
+					<div class="col-6">
 					</div>
 				</div>
 
@@ -431,6 +454,12 @@
 					formulario.submit();
 				}
 			}
+		}
+		
+		function Subir_Doc(){
+			// let file = $()
+
+
 		}
 	</script>
 </body>
