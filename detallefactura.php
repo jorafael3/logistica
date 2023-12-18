@@ -286,6 +286,7 @@
 			echo  "<Form Action='detallefactura2.php' Method='post'>";
 			echo "<Input Type=hidden Name='numfac' value='$numfac'>";
 			echo "<Input Type=hidden Name='sec' value='$sec'>";
+			echo "<Input Type=hidden Name='bodegaFAC' value='$bodegaFAC'>";
 			echo "<th colspan =2>Forma de Despacho:</th>";
 			//<select name="pago" id = "ddlcredito" onchange = "ShowHideDiv()" required>
 			if ($pickup == 0) {
