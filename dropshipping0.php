@@ -444,7 +444,7 @@
 
 	$SO = PHP_OS;
 	if ($SO  == "Linux") {
-		$destination_folder = 'sgo_docs/SGL/dropshiping/puerta_puerta/';
+		$destination_folder = '../sgo_docs/SGL/dropshiping/puerta_puerta/';
 	} else {
 		$destination_folder = 'puerta/';
 	}
