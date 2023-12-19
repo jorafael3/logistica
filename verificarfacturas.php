@@ -123,10 +123,47 @@
 						}
 						//***************************xxxxxxxxxxxxxxxxxxxxxxx********************************
 
+						$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+
+
+						$result2 = $pdo->prepare("SELECT distinct
+						f.ID,
+						f.Secuencia as secuencia, 
+						--dt.ProductoID,
+						cantidad = sum(dt.Cantidad),
+						isnull(dv.devuelto,0) as devuelto, total = sum(dt.Cantidad) - isnull(dv.devuelto,0) 
+						from VEN_FACTURAS  f with(NOLOCK)
+						inner join VEN_FACTURAS_DT dt with(NOLOCK)
+						on f.id = dt.FacturaID 
+						left outer join(
+							select d.facturaid,devuelto = sum(pr.Cantidad) from CLI_CREDITOS d
+							inner join CLI_CREDITOS_PRODUCTOS pr
+							on pr.CréditoID = d.ID
+							where d.Anulado = 0 and d.Tipo = 'VEN-DE'
+							group by d.facturaid
+						) dv on dv.facturaid = f.ID 
+						where f.Anulado= 0 and f.Fecha >= '20230101' 
+						--and f.Secuencia = '022-002-000032572'
+						--and f.Sucursalid 
+						--and f.id in 
+						--(select factura from facturaslistas with (nolock) WHERE anulado= '0' and tipo = 'VEN-FA' AND ESTADO='VERIFICADA')  
+						group by f.ID,f.Secuencia,dv.devuelto
+						having sum(dt.Cantidad) = isnull(dv.devuelto,0)
+					");
+						$LISTA = [];
+						if ($result2->execute()) {
+							$res = $result2->fetchAll(PDO::FETCH_ASSOC);
+							foreach ($res as $row) {
+								array_push($LISTA, $row["secuencia"]);
+							}
+							//var_dump($res);
+						} else {
+							$err = $result2->errorInfo();
+							//echo json_encode($err);
+						}
 
 						$usuario = $_SESSION['usuario'];
 						$bodega = $_SESSION['bodega'];
-						$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 
 						if ($drop == 1) {
 							$result = $pdo->prepare("LOG_FACTURAS_PENDIENTES_VERIFICAR_DROPSHIPING
@@ -147,13 +184,16 @@
 						$arreglo = array();
 						$x = 0;
 						while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-							$arreglo[$x][1] = $row['Sucursal'];
-							$arreglo[$x][2] = $row['secuencia'];
-							$arreglo[$x][3] = $row['fecha'];
-							$arreglo[$x][4] = $row['nombodega'];
-							$arreglo[$x][5] = $row['cliente'];
-							$arreglo[$x][6] = $row['BodegaFAC'];
-							$x++;
+							if (in_array(trim($row['secuencia']), $LISTA)) {
+							} else {
+								$arreglo[$x][1] = $row['Sucursal'];
+								$arreglo[$x][2] = $row['secuencia'];
+								$arreglo[$x][3] = $row['fecha'];
+								$arreglo[$x][4] = $row['nombodega'];
+								$arreglo[$x][5] = $row['cliente'];
+								$arreglo[$x][6] = $row['BodegaFAC'];
+								$x++;
+							}
 						}
 						$count = count($arreglo);
 						$y = 0;
