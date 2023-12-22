@@ -190,7 +190,7 @@
 								obj[0]["sucursal"] != "") {
 								x.ACTIVAR_LINK = 1
 							}
-							if (((x.saldo) <= (x.rete)) && (obj[0]["estado"] == "Facturado" ||
+							if ((parseFloat(x.saldo) <= parseFloat(x.rete)) && (obj[0]["estado"] == "Facturado" ||
 									obj[0]["estado"] == "Entrega en " + obj[0]["bodegaret"])) {
 								x.ACTIVAR_LINK = 1
 							}
