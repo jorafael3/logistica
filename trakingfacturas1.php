@@ -126,7 +126,7 @@
 			$result5->bindParam(':factura_id', $Id, PDO::PARAM_STR);
 			$result5->execute();
 			$DOC = $result5->fetchAll(PDO::FETCH_ASSOC);
-			var_dump($DOC);
+			// var_dump($DOC);
 
 		?>
 
