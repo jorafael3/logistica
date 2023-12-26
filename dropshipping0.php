@@ -569,6 +569,7 @@
 				Tabla(x)
 			})
 		}
+
 		Cargar_Documentos();
 
 		function Tabla(data) {
@@ -655,5 +656,6 @@
 				}
 			})
 		}
+		
 	</script>
 </body>
