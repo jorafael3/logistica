@@ -149,7 +149,7 @@
 							$err = $result2->errorInfo();
 							//echo json_encode($err);
 						}
-
+						echo $bodega;
 						if ($drop == 1 || $PMDROP == 1) {
 							$result = $pdo->prepare("LOG_FACTURAS_PENDIENTES_SELECT_DROPSHIPING 
 							@gye=:bodega , 

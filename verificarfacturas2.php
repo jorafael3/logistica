@@ -217,6 +217,8 @@
 							$entraserie = $row2['RSeriesEnt'];
 							$idproducto = $row2['ID'];
 
+							echo $entraserie;
+
 							if ($registraserie == 1 and $entraserie == 1) {
 								//Echo "aQUI".$registraserie.$entraserie.$serial;
 								$muestraleyenda2 = "Debe registrar SERIE del Producto";

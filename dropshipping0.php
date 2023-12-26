@@ -352,7 +352,15 @@
 												<td>
 													<select name="medio" id="medio" class="form-select" onchange="CambiaMedio()">
 														<option value="">Ninguno</option>
-														<option value="1">Entrega en Tienda</option>
+														<?php
+														if ($puerta_p == 1) {
+														} else {
+														?>
+															<option value="1">Entrega en Tienda</option>
+														<?php
+														}
+														?>
+
 														<option value="2">Entrega en Otra Tienda</option>
 														<option value="3">Envio</option>
 													</select>
@@ -656,6 +664,5 @@
 				}
 			})
 		}
-		
 	</script>
 </body>

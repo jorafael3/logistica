@@ -204,7 +204,7 @@
 				$Fechaprepa = $row4['FECHAYHORA'];
 			}
 			echo $PreparadoPor;
-			if (($Preparando <> '' and $PreparadoPor == '.') || $drop == 1) {
+			if (($Preparando <> '' and $PreparadoPor == '.') || $drop == 1 ) {
 				$lprepa = $Preparando;
 				$lfecha = $Fechapre;
 				$ltitulo = "Preparando";
@@ -221,6 +221,7 @@
 			// 	$lprepa = $Preparando;
 			// 	$lfecha = $Fechapre;
 			// }
+			echo $Id;
 			$pdo2 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 			//new PDO($dsn, $sql_user, $sql_pwd);
 			//Select Query
@@ -315,9 +316,12 @@
 							<td id="box"> <input name="bodega" type="hidden" id="bodega" size="30" value="<?php echo $BodegaId ?>"> </td>
 							<input name="submit" id="submit" value="Finalizar Preparacion" type="<?php echo $activar ?>">
 							<?php
-							if ($activar == "hidden") { ?><a href="prepararfacturas.php" style="text-decoration:none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Regresar</a>
+							if ($activar == "hidden") {
+							?>
+								<a href="prepararfacturas.php" style="text-decoration:none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Regresar</a>
 							<?php
-							} else { ?>
+							} else {
+							?>
 								</td>
 						</tr>
 					</table>
