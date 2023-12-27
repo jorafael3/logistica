@@ -121,11 +121,29 @@
 				$x++;
 			}
 
-			$result5 = $pdo1->prepare('SELECT * FROM SGL_DROPSHIPING_DOCUMENTOS
+			$result5 = $pdo1->prepare('SELECT  * FROM SGL_DROPSHIPING_DOCUMENTOS dr
+			--left join SIS_SUCURSALES su 
+			--on su.ID = dr.tienda_retiro
 			where factura_id = :factura_id');
 			$result5->bindParam(':factura_id', $Id, PDO::PARAM_STR);
 			$result5->execute();
 			$DOC = $result5->fetchAll(PDO::FETCH_ASSOC);
+
+
+			$result5_d = $pdo1->prepare('SELECT 
+			su.Nombre as destino_nombre, * from Cli_Direccion_Dropshipping dr
+			left join SIS_SUCURSALES su 
+			on su.ID = dr.tienda_retiro
+			where Facturaid = :Facturaid');
+			$result5_d->bindParam(':Facturaid', $Id, PDO::PARAM_STR);
+			$result5_d->execute();
+			$DES = $result5_d->fetchAll(PDO::FETCH_ASSOC);
+			
+
+
+		
+
+
 			// var_dump($DOC);
 
 		?>
@@ -224,7 +242,9 @@
 						<td id="td1"> <strong> Despachado: </strong> </td>
 						<td id="label4"> <a> <?php echo $DESPACHADO ?> </a> </td>
 						<td id="td1"> <strong> Fecha Desp.: </strong> </td>
-						<td id="label4" colspan="3"> <a> <?php echo $FECHADESPACHADO ?> </a> </td>
+						<td id="label4"> <a> <?php echo $FECHADESPACHADO ?> </a> </td>
+						<td id="td1"> <strong> DESTINO: </strong> </td>
+						<td id="label4"> <a> <?php echo $DES[0]["destino_nombre"] ?> </a> </td>
 					</tr>
 					<tr>
 						<td id="td1"> <strong> Comentario Despacho: </strong> </td>
@@ -256,7 +276,6 @@
 				<?php
 						$y = $y + 1;
 					}
-
 					$_SESSION['usuario'] = $usuario;
 					$_SESSION['id'] = $Id;
 					$_SESSION['base'] = $base;
