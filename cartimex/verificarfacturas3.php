@@ -148,7 +148,7 @@
 				var_dump($err);
 			}
 
-			$result_f = $pdo6->prepare('INSERT INTO FACTURASLISTAS_FIRMAS (FACTURA,FIRMA,creado_por)
+			$result_f = $pdo6->prepare('INSERT INTO FACTURASLISTAS_FIRMAS (FACTURA,FRIMA,creado_por)
 			values(:FACTURA,:FIRMA,:creado_por)');
 			$result_f->bindParam(':FACTURA', $numerorecibido, PDO::PARAM_STR);
 			$result_f->bindParam(':FIRMA', $FIRMA, PDO::PARAM_STR);
