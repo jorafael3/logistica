@@ -148,6 +148,19 @@
 				var_dump($err);
 			}
 
+			$result_f = $pdo6->prepare('INSERT INTO FACTURASLISTAS_FIRMAS (FACTURA,FIRMA,creado_por)
+			values(:FACTURA,:FIRMA,:creado_por)');
+			$result_f->bindParam(':FACTURA', $numerorecibido, PDO::PARAM_STR);
+			$result_f->bindParam(':FIRMA', $FIRMA, PDO::PARAM_STR);
+			$result_f->bindParam(':creado_por', $usuario1, PDO::PARAM_STR);
+			if ($result_f->execute()) {
+				// echo "asdasd";
+			} else {
+				$err = $result_f->errorInfo();
+				var_dump($err);
+			}
+
+
 			$pdo5 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 			$result5 = $pdo5->prepare('LOG_VERIFICAR_FACTURA_UPDATE  @verificado =:usuario, @factura=:facturaid, @tipo=:tipo, @tipotrans=:tipotrans');
 			$result5->bindParam(':facturaid', $numerorecibido, PDO::PARAM_STR);
