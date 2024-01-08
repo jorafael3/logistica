@@ -214,7 +214,6 @@
 							if (x.Sucursal == "72") {
 								x.ACTIVAR_LINK = 1
 							}
-
 							if (x.hasOwnProperty("ESTADO_DROP")) {
 								if (x.TIENE_DROP == 0) {
 									x.ACTIVAR_LINK = 0
@@ -233,16 +232,13 @@
 							} else {
 								x.estado = "NO SISCO"
 							}
-
 							if (x.Sucursal == "45" || x.Sucursal == "75") {
-
 								if ((parseFloat(x.saldo) <= parseFloat(x.rete))) {
 									x.ACTIVAR_LINK = 1
 									x.estado = "Facturado"
 								} else {
 									x.estado = ""
 								}
-
 							}
 						}
 					})
