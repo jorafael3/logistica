@@ -166,12 +166,11 @@
 		</div>
 		<hr>
 		<div id="cuerpo2">
-			<form name="form2" action="ingseriestr.php" method="POST" style="text-align: center;">
-				<p style="font-weight: bold;">
-					Serie:
-					<input name="serie" type="text" <?php echo $bloq ?> id="serie" size="30" value="<?php echo trim($serieleida); ?>" style="padding: 5px; margin: 5px; border: 1px solid #ccc;">
-					<input name="productoid" type="hidden" id="productoid" value="<?php echo $idproducto; ?>">
-					<input type="submit" name="submit" id="submit" value="-->" style="padding: 5px 10px; margin: 5px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+			<form name="form2" action="ingseriestr.php" method="POST">
+				<p style="font-weight: bold" align="center">Serie :
+					<input name="serie" type="text" <?php echo $bloq ?> id="serie" size="30" value="<?php $serieleida ?>" style="padding: 5px; margin: 5px; border: 1px solid #ccc;">
+					<input name="productoid" type="hidden" id="productoid" value="<?php echo $idproducto ?>" style="padding: 5px 10px; margin: 5px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+					<input type="submit" name="submit" id="submit" value="-->">
 				</p>
 			</form>
 		</div>
