@@ -25,11 +25,6 @@ if (isset($_POST['Cargar_guias'])) {
             array_push($LISTA_NC, trim($row["secuencia"]));
         }
 
-
-
-
-
-
         if ($drop == 1) {
             $sql = "LOG_FACTURAS_PENDIENTES_GUIAS_SELECT_2_DROPSHIPPING
             @gye = :gye,
@@ -52,7 +47,6 @@ if (isset($_POST['Cargar_guias'])) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             foreach ($result as $row) {
                 if (in_array(trim($row["secuencia"]), $LISTA_NC)) {
-                    
                 } else {
                     array_push($ARRAY, $row);
                 }
