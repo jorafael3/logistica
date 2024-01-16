@@ -253,55 +253,55 @@ if (isset($_POST['Completar_Factura'])) {
         $pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 
         $pdo->beginTransaction();
-        if (count($DATOS) > 0) {
-            $query = $pdo->prepare("WEB_RMA_Ventas_Insert 
+        // if (count($DATOS) > 0) {
+        $query = $pdo->prepare("WEB_RMA_Ventas_Insert 
                 @facturaid=:facturaid, 
                 @fecha= :fecha,    
                 @detalle= :detalle,   
                 @creadopor=:creadopor
             ");
-            $query->bindParam(':facturaid', $FACTURA, PDO::PARAM_STR);
-            $query->bindParam(':fecha', $fecha, PDO::PARAM_STR);
-            $query->bindParam(':detalle', $detalle, PDO::PARAM_STR);
-            $query->bindParam(':creadopor', $CREADO_POR, PDO::PARAM_STR);
+        $query->bindParam(':facturaid', $FACTURA, PDO::PARAM_STR);
+        $query->bindParam(':fecha', $fecha, PDO::PARAM_STR);
+        $query->bindParam(':detalle', $detalle, PDO::PARAM_STR);
+        $query->bindParam(':creadopor', $CREADO_POR, PDO::PARAM_STR);
 
-            if ($query->execute()) {
-                do {
-                    $result = $query->fetchAll(PDO::FETCH_ASSOC);
-                } while ($query->nextRowset());
-                if (count($result) > 0) {
-                    $DT = Guardar_Rma_Dt($DATOS, $result[0]["RMAID"], $CREADO_POR, $FACTURA);
-                    if ($DT[0] == 1) {
-                        $F = Actualizar_Facturas_listas($FACTURA, $CREADO_POR, $bodegaFAC);
-                        if ($F[0] == 1) {
-                            $pdo->commit();
-                            echo json_encode([1, [1, $result], $DT, $F,]);
-                        } else {
-                            $pdo->rollBack();
-                            echo json_encode([1, [0, $result], $DT, $F,]);
-                        }
+        if ($query->execute()) {
+            do {
+                $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            } while ($query->nextRowset());
+            if (count($result) > 0) {
+                $DT = Guardar_Rma_Dt($DATOS, $result[0]["RMAID"], $CREADO_POR, $FACTURA);
+                if ($DT[0] == 1) {
+                    $F = Actualizar_Facturas_listas($FACTURA, $CREADO_POR, $bodegaFAC);
+                    if ($F[0] == 1) {
+                        $pdo->commit();
+                        echo json_encode([1, [1, $result], $DT, $F,]);
                     } else {
                         $pdo->rollBack();
-                        echo json_encode([0, $result, $DT, []]);
+                        echo json_encode([1, [0, $result], $DT, $F,]);
                     }
                 } else {
-                    echo json_encode([0, $result, [], []]);
+                    $pdo->rollBack();
+                    echo json_encode([0, $result, $DT, []]);
                 }
             } else {
-                $err = $query->errorInfo();
-                $pdo->rollBack();
-                echo json_encode([0, $err]);
+                echo json_encode([0, $result, [], []]);
             }
         } else {
-            $F = Actualizar_Facturas_listas($FACTURA, $CREADO_POR, $bodegaFAC);
-            if ($F[0] == 1) {
-                $pdo->commit();
-                echo json_encode([1, [1, $result], $DT, $F, "PRODUCTOS SIN SERIE"]);
-            } else {
-                $pdo->rollBack();
-                echo json_encode([1, [0, $result], $DT, $F, "PRODUCTOS SIN SERIE"]);
-            }
+            $err = $query->errorInfo();
+            $pdo->rollBack();
+            echo json_encode([0, $err]);
         }
+        // } else {
+        //     $F = Actualizar_Facturas_listas($FACTURA, $CREADO_POR, $bodegaFAC);
+        //     if ($F[0] == 1) {
+        //         $pdo->commit();
+        //         echo json_encode([1, [1, $result], $DT, $F, "PRODUCTOS SIN SERIE"]);
+        //     } else {
+        //         $pdo->rollBack();
+        //         echo json_encode([1, [0, $result], $DT, $F, "PRODUCTOS SIN SERIE"]);
+        //     }
+        // }
     } catch (PDOException $e) {
         //return [];
         $e = $e->getMessage();
