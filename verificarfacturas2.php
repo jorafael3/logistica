@@ -315,7 +315,7 @@
 
 				let VAL = ARRAY_DATOS_FACTURA.filter(item => (item.code).trim() == codigo.trim())[0]
 				console.log('VAL: ', VAL);
-				let ENTRA_SERIE = VAL["serie"];
+				let ENTRA_SERIE = VAL["RSeriesEnt"];
 				PRODUCTO_ID = VAL["productoid"]
 
 				if (ENTRA_SERIE == 1) {
