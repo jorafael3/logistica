@@ -39,6 +39,10 @@ if (isset($_POST['Ingreso_serie'])) {
         $creado_por = trim($_POST["creado_por"]);
         $productoid = trim($_POST["productoid"]);
 
+        $SER = bUSCAR_si_RESGITRA_SERIE($productoid);
+        $SERIE_ENTRADA = $SER[1]["RSeriesEnt"];
+        $REGISTRA_SERIE = $SER[1]["registroSeries"];
+
         $pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
         $query = $pdo->prepare("{CALL LOG_VERIFICAR_FACTURA3 (?,?)}");
         $query->bindParam(1, $factura, PDO::PARAM_STR);
@@ -69,8 +73,13 @@ if (isset($_POST['Ingreso_serie'])) {
                         echo json_encode([0, "", "LA SERIE NO PERTENECE AL CODIGO INGRESADO"]);
                     }
                 } else {
-                    // Buscar_Por_Codigo($factura, $serie);
-                    echo json_encode([0, "", "SERIE NO ENCONTRADA, VERIFIQUE EL NUMERO INGRESADO"]);
+
+                    if ($REGISTRA_SERIE == 1) {
+                        Inserta_Serie_RMA($ProductoID, $Serie, $CreadoPor);
+                    } else {
+
+                        echo json_encode([0, "", "SERIE NO ENCONTRADA, VERIFIQUE EL NUMERO INGRESADO"]);
+                    }
                 }
             }
         } else {
@@ -493,6 +502,31 @@ function VALIDAR_SERIE_EN_RMA_DT($FACTURA)
             } else {
                 return $ARRAY;
             }
+        } else {
+            $err = $query->errorInfo();
+            return [0,  $err, "FACTURAS LISTAS"];
+        }
+    } catch (PDOException $e) {
+        //return [];
+        $e = $e->getMessage();
+        echo json_encode($e);
+        exit();
+    }
+}
+
+
+function bUSCAR_si_RESGITRA_SERIE($producto_id)
+{
+    include('conexion_2.php');
+    try {
+        $pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+        $query = $pdo->prepare("SELECT registroSeries, RSeriesEnt FROM INV_PRODUCTOS
+        WHERE id = :id");
+        $query->bindParam(':id', $producto_id, PDO::PARAM_STR);
+        if ($query->execute()) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            // echo json_encode($result);
+            return [1, $result[0]];
         } else {
             $err = $query->errorInfo();
             return [0,  $err, "FACTURAS LISTAS"];

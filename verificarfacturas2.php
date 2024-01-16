@@ -250,7 +250,7 @@
 
 	}
 
-	Cargar_Detalle_Factura()
+	Cargar_Detalle_Factura();
 
 	function tabla_detalle_factura(respuesta) {
 		let tabla = $('#DETALLE').DataTable({
@@ -315,10 +315,11 @@
 
 				let VAL = ARRAY_DATOS_FACTURA.filter(item => (item.code).trim() == codigo.trim())[0]
 				console.log('VAL: ', VAL);
-				let ENTRA_SERIE = VAL["RSeriesEnt"];
+				let SERIE_ENTRADA = VAL["RSeriesEnt"];
+				let REGISTRO_SERIE = VAL["serie"];
 				PRODUCTO_ID = VAL["productoid"]
 
-				if (ENTRA_SERIE == 1) {
+				if (SERIE_ENTRADA == 1 || REGISTRO_SERIE == 1) {
 					$("#SER_CODIGO").text(codigo);
 					$("#SECC_SERIES").show(100);
 					$("#codigo").val("");
