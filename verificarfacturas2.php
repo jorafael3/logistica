@@ -118,7 +118,7 @@
 			</div>
 		</div>
 		<div id="cuerpo2">
-			<p style="font-weight: bold" class="fs-5" align="center">Código :
+			<p style="font-weight: bold" class="fs-5" align="center">Solo Código :
 				<input onkeydown="handleKeyPress2(event)" name="codigo" type="text" id="codigo" size="50" value="<?php $codigoleido ?>">
 				<input name="factura" type="hidden" id="factura" value="<?php echo $numerorecibido ?>">
 				<button class="btn btn-success" onclick="Ingresar_codigo()">Ingresar</button>
