@@ -9,9 +9,6 @@
 <link href="estilos/estilos2.css" rel="stylesheet" type="text/css">
 <link href="estilos/estilos.css" rel="stylesheet" type="text/css">
 <link href="estilos/estiloverificartrasferenciacompu.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
 <body onload="setfocus()">
 	<div id="header" align="center">
@@ -30,7 +27,6 @@
 			$nomsuc = $_SESSION['nomsuc'];
 			$factura = $_SESSION['factura'];
 			$bodegaFAC = $_SESSION['bodegaFAC'];
-			echo $bodegaFAC;
 			// En este if entro si vengo llamado por la misma pagina
 			if (isset($_POST["factura"])) {
 				$y = $_SESSION['contador']; // Cargo el contador en la memoria (ya estaba cargado)
@@ -44,6 +40,7 @@
 				$_SESSION['arregloseries'] = $arregloseries;
 				$arregloseries = $_SESSION['arregloseries'];
 				//echo '<pre>', print_r($arregloseries),'</pre>';
+
 			}
 			if ($base == 'CARTIMEX') {
 				require 'headcarti.php';
@@ -84,58 +81,56 @@
 			<div id="derecha"> <a href="menu.php"><img src="assets\img\home.png"></a> </div>
 
 		</div>
-		<div class="container mt-4">
-			<div class="row justify-content-center">
-				<div class="col-md-8">
-					<div class="card">
-						<div class="card-body">
-							<h5 class="card-title">Detalles de la Factura</h5>
-							<table class="table">
-								<tr>
-									<td><strong>Id:</strong></td>
-									<td><?php echo $idfac ?></td>
-									<td><strong>Numero:</strong></td>
-									<td><?php echo $numfac ?></td>
-									<td><strong>Factura #:</strong></td>
-									<td><?php echo $secuencia ?></td>
-								</tr>
-								<tr>
-									<td><strong>Cliente:</strong></td>
-									<td colspan="2"><?php echo $cliente ?></td>
-									<td><strong>Ruc:</strong></td>
-									<td colspan="2"><?php echo $Ruc ?></td>
-								</tr>
-								<tr>
-									<td><strong>Vendedor:</strong></td>
-									<td colspan="5"><?php echo $Vendedor ?></td>
-								</tr>
-								<tr>
-									<td><strong>Fecha y Hora de Creación:</strong></td>
-									<td colspan="5"><?php echo $Fecha ?></td>
-								</tr>
-							</table>
-						</div>
-					</div>
-				</div>
+		<hr>
+		<div id="cuerpo2" align="center">
+			<div align="left">
+				<table>
+					<tr>
+						<td id="label2">
+							<strong> Id: </strong> <a> <?php echo $idfac ?> </a>
+							<strong> Numero: </strong> <a> <?php echo $numfac ?> </a>
+							<strong> Factura # : </strong> <a> <?php echo $secuencia ?> </a>
+							<br>
+						</td>
+					</tr>
+					<tr>
+						<td id="label2">
+							<strong> Cliente: </strong> <a> <?php echo $cliente ?> </a>
+							<strong> Ruc: </strong> <a> <?php echo $Ruc ?> </a>
+							<br>
+						</td>
+					</tr>
+					<tr>
+						<td id="label2">
+							<strong> Vendedor: </strong> <a> <?php echo $Vendedor ?> </a>
+							<br>
+						</td>
+					</tr>
+					<tr>
+						<td id="label2">
+							<strong> Fecha y Hora de Creacion: </strong> <a> <?php echo $Fecha ?> </a>
+							<br>
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
-
+		<hr>
 		<div id="cuerpo2">
-			<p style="font-weight: bold" class="fs-5" align="center">Código o serie :
-				<input name="codigo" type="text" id="codigo" size="50" value="<?php $codigoleido ?>">
-				<input name="factura" type="hidden" id="factura" value="<?php echo $numerorecibido ?>">
-				<button class="btn btn-success" onclick="Ingresar_serie()">Ingresar</button>
-				<!-- <h4 style="text-align:center">
-				<input type="button" onclick="window.location.href='verificarfacturas.php'" value="Regresar" style="text-decoration:none; background:none; border:none; color:blue; cursor:pointer; margin-right: 5cm;">
-			</h4> -->
-			</p>
-			<div id="leyenda"></div>
-
+			<form name="form2" action="verificarfacturas2.php" method="POST">
+				<p style="font-weight: bold" align="center">Código o serie :
+					<input name="codigo" type="text" id="codigo" size="30" value="<?php $codigoleido ?>">
+					<input name="factura" type="hidden" id="factura" value="<?php echo $numerorecibido ?>">
+					<input type="submit" name="submit" id="submit" value="Ingresar">
+				<h4 style="text-align:center">
+					<input type="button" onclick="window.location.href='verificarfacturas.php'" value="Regresar" style="text-decoration:none; background:none; border:none; color:blue; cursor:pointer; margin-right: 5cm;">
+				</h4>
+				</p>
+			</form>
 		</div>
 		<?php
 			$codigoleidoinicial = "";
 			$arreglo = $_SESSION['datosarreglos']; // Cargo el arreglo de la memoria
-			// var_dump($arreglo);
 			$xx = count($arreglo); //Cuento las filas del arreglo que viene de la consulta de la factura
 			//echo '<pre>', print_r($arreglo),'</pre>'; //trae los datos de la consulta de los productos en el arreglo original
 
@@ -470,6 +465,7 @@
 				}
 				if ($muestraleyenda2 <> "") {
 		?>
+				<div id="leyenda"> <?php echo $muestraleyenda2 ?></div>
 		<?php
 				}
 			}
@@ -490,13 +486,14 @@
 						<th> INGRESADAS </th>
 					</tr>
 					<?php
-
+					
 					while ($zz <= $xx - 1) {
 						$totalitems = $arreglo[$zz][3] + $totalitems;
 
 						// Obtener cantidad total e ingresadas
 						$cantidadTotal = $arreglo[$zz][3];
 						$ingresadas = $arreglo[$zz][11];
+
 						// Validación y estilo
 						if ($cantidadTotal == $ingresadas) {
 							$rowStyle = 'background-color: #E2FFEA;'; // Pinta de verde si son iguales
@@ -538,15 +535,6 @@
 			</div>
 		</div>
 
-		<div class="table-responsive">
-			<table id="DETALLE" class="table table-striped">
-
-			</table>
-		</div>
-
-
-
-
 		<div id="Cuerpo2">
 			<p style="font-weight: bold" align="center">
 				<?php
@@ -554,7 +542,7 @@
 					$_SESSION['datosarreglos'] = $arreglo; // Grabo otra vez el arreglo en memoria
 
 				?>
-					<!--  -->
+				<!--  -->
 			<form action="verificarfacturas3.php" method="post">
 				<p style="font-weight: bold" align="center">
 					<input name="factura" type="hidden" id="factura" value="<?php echo $numerorecibido ?>">
@@ -590,130 +578,5 @@
 	</div>
 	</div>
 </body>
-
-<link href="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/b-html5-2.4.2/rr-1.4.1/datatables.min.css" rel="stylesheet">
-
-<script src="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/b-html5-2.4.2/rr-1.4.1/datatables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-
-<link href="assets/freeze/freeze-ui.min.css" type="text/css" rel="stylesheet" />
-<script src="assets/freeze/freeze-ui.min.js" type="text/javascript"></script>
-
-<script>
-	function Cargar_Detalle_Factura() {
-
-		let param = {
-			Cargar_detalle_factura: 1,
-			secuencia: '<?php echo $secuencia ?>',
-			bodega: '<?php echo $bodegaFAC ?>'
-		}
-
-
-		AjaxSend(param, function(x) {
-
-			tabla_detalle_factura(x)
-		})
-	}
-	Cargar_Detalle_Factura()
-
-	function tabla_detalle_factura(respuesta) {
-
-		let tabla = $('#DETALLE').DataTable({
-
-			destroy: true,
-			data: respuesta,
-			dom: "rtip",
-			paging: false,
-			info: false,
-			columns: [{
-					data: "code",
-					title: "CODIGO",
-				},
-				{
-					data: "nombre",
-					title: "DESCRIPCION",
-				},
-				{
-					data: "cantidad",
-					title: "CANTIDAD",
-					// className: "text-center" // Centrar la columna "Tipo"
-				},
-				{
-					data: "INGRESADO",
-					title: "INGRESADO",
-					// className: "text-center" // Centrar la columna "Tipo"
-
-				}
-			],
-
-			"createdRow": function(row, data, index) {
-
-				$('td', row).eq(0).addClass("text-dark fs-5 fw-bolder text-left");
-				$('td', row).eq(1).addClass("text-dark fs-5 fw-bolder text-left");
-				$('td', row).eq(2).addClass("text-dark fw-bolder bg-light-warning");
-				$('td', row).eq(3).addClass("text-dark fw-bolder  text-left");
-				$('td', row).eq(4).addClass("text-dark fw-bolder  text-left");
-				$('td', row).eq(5).addClass("text-dark fs-5 fw-bolder");
-				$('td', row).eq(6).addClass("text-dark fw-bolder text-left");
-			},
-		});
-
-	}
-
-
-	function Ingresar_serie() {
-		let serie = $("#codigo").val();
-		let factura = $("#factura").val();
-		let leyenda = $("#leyenda");
-
-		let param = {
-			Ingreso_serie: 1,
-			factura: factura,
-			serie: serie,
-			creado_por :'<?php echo $usuario ?>'
-		}
-		console.log('param: ', param);
-		if (serie == "") {
-			leyenda.text("NO PUEDE INGRESAR VACIO");
-		} else {
-
-			AjaxSend(param, function(x) {
-				leyenda.text("");
-				console.log('x: ', x);
-				if (x[0] == 0) {
-					leyenda.text(x[2]);
-				} else {
-					if (x[2] == "VENDIDA") {
-						leyenda.text("SERIE VENDIDA EN FACT# " + x[1][0]["Secuencia"] + " SI LA FACTURA TIENE NOTA DE CREDITO, DEVOLVERLA PARA CONTINUAR");
-					} else {
-						leyenda.text(x[2]);
-					}
-				}
-			});
-		}
-	}
-
-
-	function AjaxSend(param, callback) {
-		FreezeUI({
-			text: 'Cargando'
-		});
-		$.ajax({
-			data: param,
-			datatype: 'json',
-			url: 'verificarfacturas2_f.php',
-			type: 'POST',
-			success: function(x) {
-				x = JSON.parse(x)
-				UnFreezeUI();
-				callback(x)
-			}
-		})
-	}
-</script>
-
 
 </html>
