@@ -240,7 +240,7 @@ function Validar_Serie_Entrada()
 
 if (isset($_POST['Completar_Factura'])) {
 
-    include('conexion_2_prueba.php');
+    include('conexion_2.php');
     try {
 
         $DATOS = $_POST["DATOS"];
@@ -334,7 +334,7 @@ if (isset($_POST['Completar_Factura'])) {
 function Guardar_Rma_Dt($DATOS, $RMAID, $CREADO_POR, $FACTURA)
 {
     try {
-        include('conexion_2_prueba.php');
+        include('conexion_2.php');
         $VAL = 0;
         $ARRAY = [];
         $ARRAY_DT = VALIDAR_SERIE_EN_RMA_DT($RMAID);
@@ -386,7 +386,7 @@ function Guardar_Rma_Dt($DATOS, $RMAID, $CREADO_POR, $FACTURA)
 function Actualizar_Rma_Productos($FACTURA, $SERIE, $PRODUCTO, $RMADTID)
 {
 
-    include('conexion_2_prueba.php');
+    include('conexion_2.php');
 
     try {
 
@@ -420,7 +420,7 @@ function Actualizar_Rma_Productos($FACTURA, $SERIE, $PRODUCTO, $RMADTID)
 
 function Actualizar_Facturas_listas($FACTURA, $CREADO_POR, $bodegaFAC)
 {
-    include('conexion_2_prueba.php');
+    include('conexion_2.php');
     try {
         $tipo = 'VEN-FA';
 
@@ -451,7 +451,7 @@ function Actualizar_Facturas_listas($FACTURA, $CREADO_POR, $bodegaFAC)
 
 function BUSCAR_RMA($FACTURA)
 {
-    include('conexion_2_prueba.php');
+    include('conexion_2.php');
     try {
         $tipo = 'VEN-FA';
 
@@ -476,7 +476,7 @@ function BUSCAR_RMA($FACTURA)
 function VALIDAR_SERIE_EN_RMA_DT($FACTURA)
 {
 
-    include('conexion_2_prueba.php');
+    include('conexion_2.php');
     try {
         $tipo = 'VEN-FA';
         $ARRAY = [];
