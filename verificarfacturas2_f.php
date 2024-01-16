@@ -240,7 +240,7 @@ function Validar_Serie_Entrada()
 
 if (isset($_POST['Completar_Factura'])) {
 
-    include('conexion_2.php');
+    include('conexion_2_prueba.php');
     try {
 
         $DATOS = $_POST["DATOS"];
@@ -285,7 +285,27 @@ if (isset($_POST['Completar_Factura'])) {
                     echo json_encode([0, $result, $DT, []]);
                 }
             } else {
-                echo json_encode([0, $result, [], []]);
+                $RM = BUSCAR_RMA($FACTURA);
+                if (count($RM[1]) > 0) {
+                    $RMAID = $RM[1][0]["ID"];
+                    $DT = Guardar_Rma_Dt($DATOS, $RMAID, $CREADO_POR, $FACTURA);
+                    if ($DT[0] == 1) {
+                        $F = Actualizar_Facturas_listas($FACTURA, $CREADO_POR, $bodegaFAC);
+                        if ($F[0] == 1) {
+                            $pdo->commit();
+                            echo json_encode([1, [1, $result], $DT, $F,]);
+                        } else {
+                            $pdo->rollBack();
+                            echo json_encode([1, [0, $result], $DT, $F,]);
+                        }
+                    } else {
+                        $pdo->rollBack();
+                        echo json_encode([0, $result, $DT, []]);
+                    }
+                    // echo json_encode([0, $RM, [], [], "WEB_RMA_Ventas_Insert"]);
+                } else {
+                    echo json_encode([0, $RM, [], [], "WEB_RMA_Ventas_Insert"]);
+                }
             }
         } else {
             $err = $query->errorInfo();
@@ -314,34 +334,40 @@ if (isset($_POST['Completar_Factura'])) {
 function Guardar_Rma_Dt($DATOS, $RMAID, $CREADO_POR, $FACTURA)
 {
     try {
-        include('conexion_2.php');
+        include('conexion_2_prueba.php');
         $VAL = 0;
         $ARRAY = [];
+        $ARRAY_DT = VALIDAR_SERIE_EN_RMA_DT($RMAID);
         foreach ($DATOS as $row) {
-            $pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-            $query = $pdo->prepare("WEB_RMA_Ventas_Insert_DT 
-                @serie=:serie,
-                @ProductoID=:productoid, 
-                @RmaFacturaID= :rmafacturaid, 
-                @creadopor=:creadopor
-            ");
-            $query->bindParam(':serie', $row["serie"], PDO::PARAM_STR);
-            $query->bindParam(':productoid', $row["productoid"], PDO::PARAM_STR);
-            $query->bindParam(':rmafacturaid', $RMAID, PDO::PARAM_STR);
-            $query->bindParam(':creadopor', $CREADO_POR, PDO::PARAM_STR);
-
-            if ($query->execute()) {
-                do {
-                    $result = $query->fetchAll(PDO::FETCH_ASSOC);
-                } while ($query->nextRowset());
-
-                $RMA = Actualizar_Rma_Productos($FACTURA, $row["serie"], $row["productoid"], $result[0]["RMAIDDT"]);
-                array_push($ARRAY, array("PRODUCTO" => $row["serie"], "RMA" => $RMA));
+            if (in_array(trim($row["serie"]), $ARRAY_DT)) {
+                array_push($ARRAY, array("PRODUCTO" => $row["serie"], "RMA" => "SERIES YA GUARDADA EN RMA_DT"));
                 $VAL++;
             } else {
-                $err = $query->errorInfo();
-                array_push($ARRAY, array("PRODUCTO" => $row["serie"], "RMA" => 0), $err);
-                // echo json_encode($err);
+                $pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+                $query = $pdo->prepare("WEB_RMA_Ventas_Insert_DT 
+                    @serie=:serie,
+                    @ProductoID=:productoid, 
+                    @RmaFacturaID= :rmafacturaid, 
+                    @creadopor=:creadopor
+                ");
+                $query->bindParam(':serie', $row["serie"], PDO::PARAM_STR);
+                $query->bindParam(':productoid', $row["productoid"], PDO::PARAM_STR);
+                $query->bindParam(':rmafacturaid', $RMAID, PDO::PARAM_STR);
+                $query->bindParam(':creadopor', $CREADO_POR, PDO::PARAM_STR);
+
+                if ($query->execute()) {
+                    do {
+                        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+                    } while ($query->nextRowset());
+
+                    $RMA = Actualizar_Rma_Productos($FACTURA, $row["serie"], $row["productoid"], $result[0]["RMAIDDT"]);
+                    array_push($ARRAY, array("PRODUCTO" => $row["serie"], "RMA" => $RMA));
+                    $VAL++;
+                } else {
+                    $err = $query->errorInfo();
+                    array_push($ARRAY, array("PRODUCTO" => $row["serie"], "RMA" => 0), $err);
+                    // echo json_encode($err);
+                }
             }
         }
         if (count($DATOS) == $VAL) {
@@ -360,7 +386,7 @@ function Guardar_Rma_Dt($DATOS, $RMAID, $CREADO_POR, $FACTURA)
 function Actualizar_Rma_Productos($FACTURA, $SERIE, $PRODUCTO, $RMADTID)
 {
 
-    include('conexion_2.php');
+    include('conexion_2_prueba.php');
 
     try {
 
@@ -394,7 +420,7 @@ function Actualizar_Rma_Productos($FACTURA, $SERIE, $PRODUCTO, $RMADTID)
 
 function Actualizar_Facturas_listas($FACTURA, $CREADO_POR, $bodegaFAC)
 {
-    include('conexion_2.php');
+    include('conexion_2_prueba.php');
     try {
         $tipo = 'VEN-FA';
 
@@ -414,6 +440,62 @@ function Actualizar_Facturas_listas($FACTURA, $CREADO_POR, $bodegaFAC)
         } else {
             $err = $query->errorInfo();
             return [0, "FACTURAS LISTAS", $err];
+        }
+    } catch (PDOException $e) {
+        //return [];
+        $e = $e->getMessage();
+        echo json_encode($e);
+        exit();
+    }
+}
+
+function BUSCAR_RMA($FACTURA)
+{
+    include('conexion_2_prueba.php');
+    try {
+        $tipo = 'VEN-FA';
+
+        $pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+        $query = $pdo->prepare("SELECT * FROM RMA_FACTURAS WHERE FacturaID = :FacturaID");
+        $query->bindParam(':FacturaID', $FACTURA, PDO::PARAM_STR);
+        if ($query->execute()) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return [1, $result, "FACTURAS LISTAS"];
+        } else {
+            $err = $query->errorInfo();
+            return [0,  $err, "FACTURAS LISTAS"];
+        }
+    } catch (PDOException $e) {
+        //return [];
+        $e = $e->getMessage();
+        echo json_encode($e);
+        exit();
+    }
+}
+
+function VALIDAR_SERIE_EN_RMA_DT($FACTURA)
+{
+
+    include('conexion_2_prueba.php');
+    try {
+        $tipo = 'VEN-FA';
+        $ARRAY = [];
+        $pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+        $query = $pdo->prepare("SELECT * FROM RMA_FACTURAS_DT WHERE FacturaID = :FacturaID");
+        $query->bindParam(':FacturaID', $FACTURA, PDO::PARAM_STR);
+        if ($query->execute()) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            if (count($result) > 0) {
+                foreach ($result as $row) {
+                    array_push($ARRAY, $row["Serie"]);
+                }
+                return $ARRAY;
+            } else {
+                return $ARRAY;
+            }
+        } else {
+            $err = $query->errorInfo();
+            return [0,  $err, "FACTURAS LISTAS"];
         }
     } catch (PDOException $e) {
         //return [];
