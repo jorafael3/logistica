@@ -131,6 +131,7 @@
 			</div>
 			<div id="SECC_SERIES" style="display: none;">
 				<h4 id="SER_CODIGO"></h4>
+				<h6>serie:</h6>
 				<input type="text" class="fs-6" id="SERIE_P" onkeydown="handleKeyPress(event)">
 				<button class="btn btn-primary btn-sm" onclick="Ingresar_serie()">
 					<i class="bi bi-cloud-upload"></i> >>
