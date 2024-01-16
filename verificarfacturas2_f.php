@@ -248,7 +248,7 @@ if (isset($_POST['Completar_Factura'])) {
         $FACTURA = trim($_POST["FACTURA"]);
         $CREADO_POR = trim($_POST["CREADO_POR"]);
         $bodegaFAC = trim($_POST["BODEGA_FAC"]);
-        $fecha = date('Y-m-d');
+        $fecha = date('Ymd');
         $detalle = "Factura de Venta Nro: " . $FACTURA . " Cliente: " . $CLIENTE;
         $pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 
