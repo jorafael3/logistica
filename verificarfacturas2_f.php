@@ -75,7 +75,7 @@ if (isset($_POST['Ingreso_serie'])) {
                 } else {
 
                     if ($REGISTRA_SERIE == 1) {
-                        Inserta_Serie_RMA($ProductoID, $Serie, $CreadoPor);
+                        Inserta_Serie_RMA($productoid, $serie, $creado_por);
                     } else {
 
                         echo json_encode([0, "", "SERIE NO ENCONTRADA, VERIFIQUE EL NUMERO INGRESADO"]);
