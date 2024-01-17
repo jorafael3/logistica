@@ -523,7 +523,7 @@
 		} else {
 			let param = {
 				Completar_Factura: 1,
-				DATOS: ARRAY_SERIES_INSERTADAS.filter(item => item.serie_ent == 1),
+				DATOS: ARRAY_SERIES_INSERTADAS,
 				CLIENTE: '<?php echo $cliente ?>',
 				CREADO_POR: '<?php echo $usuario ?>',
 				FACTURA: factura,
