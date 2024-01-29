@@ -9,6 +9,9 @@
 <link href="estilos/estilos2.css" rel="stylesheet" type="text/css">
 <link href="estilos/estilos.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="css/tablas.css">
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
 <body onload="setfocus()">
 	<div id="header" align="center">
@@ -21,6 +24,7 @@
 			$acceso	= $_SESSION['acceso'];
 			$bodega = $_SESSION['bodega'];
 			$nomsuc = $_SESSION['nomsuc'];
+			echo $nomsuc;
 			if ($base == 'CARTIMEX') {
 				require 'headcarti.php';
 			} else {
@@ -63,198 +67,23 @@
 
 
 			<div class=\"table-responsive-xs\">
-				<form name="formfactura2" action="despacharfacturas0.php" method="POST" width="75%">
-					<table align="center">
-						<tr>
-							<th colspan="10">Facturas Por Despachar </th>
-						</tr>
-						<tr>
-							<th id="fila4"> SId </th>
-							<th id="fila4"> Ruc </th>
-							<th id="fila4"> Cliente </th>
-							<th id="fila4"> Factura </th>
-							<th id="fila4"> Fecha </th>
-							<th id="fila4"> </th>
-							<th id="fila4"> Saldo </th>
-							<th id="fila4"> Estado </th>
-							<th id="fila4"> Transporte </th>
-							<th id="fila4"> </th>
-						</tr>
-						<?php
 
-						$_SESSION['usuario'] = $usuario;
-						$_SESSION['bodega'] = $bodega;
-						//echo "bodega".$bodega.$base.$usuario.$acceso;
-						include('conexion_mssql.php');
-						//******Proceso aqui primero todas las facturas pendientes de GUIA para ver cual ha sido Anulada o 
-						//Devuelta en su TOTALIDAD Y marcarla como ANULADA tanto en el SISCO como en SGL(facturaslistas) 
+			</div>
+		</div>
 
-						$paso = 'INGRESADAGUIA';
-						$pdo0 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-						$usuario = $_SESSION['usuario'];
-						$bodega = $_SESSION['bodega'];
-						$result0 = $pdo0->prepare("LOG_FACTURAS_PENDIENTES_DEVUELTAS @BODEGA=:bodega , @acceso=:acceso, @Estado=:estado");
-						$result0->bindParam(':bodega', $bodega, PDO::PARAM_STR);
-						$result0->bindParam(':acceso', $acceso, PDO::PARAM_STR);
-						$result0->bindParam(':estado', $paso, PDO::PARAM_STR);
-						$result0->execute();
-						$arreglod = array();
-						$xd = 0;
-						while ($row0 = $result0->fetch(PDO::FETCH_ASSOC)) {
-							$arreglod[$xd][2] = $row0['secuencia'];
-							//echo "Secuencia". $arreglod[$xd][2]; 
-							$xd++;
-						}
-						$countd = count($arreglod);
-						$yd = 0;
-						while ($yd <= $countd - 1) {
-							$devo = $arreglod[$yd][2];
-							$pdod = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-							$resultd = $pdod->prepare("LOG_FACTURAS_DEVUELTA_UPDATE @Secuencia=:secuencia");
-							$resultd->bindParam(':secuencia', $devo, PDO::PARAM_STR);
-							$resultd->execute();
+		<div class="col-12">
+			<div class="col-4">
+				<h4>MEDIO</h4>
+				<select onchange="filtrar()" name="" id="filtro" class="form-select">
+					<option value="1">TODO</option>
+					<option value="2">PICK UP</option>
+					<option value="3">ENVIO</option>
+				</select>
+			</div>
+			<div class="table-responsive mt-3">
+				<table id="Tabla_Guias" class="table table-striped">
 
-							$countarr = $resultd->rowcount();
-							//echo "Trae registro".$countarr; 
-							if ($countarr == 1) {
-								$rowdd = $resultd->fetch(PDO::FETCH_ASSOC);
-								//echo "datos a actualizar en sisco". $usuario.$fh.$devo ;
-								include("conexion.php");
-								$sqlde = "update covidsales set Anulada= '1' , anuladapor= '$usuario', fechaanulada= '$fh' where factura = '$devo' ";
-								//echo $sqlde; 
-								$resultde = mysqli_query($con, $sqlde);
-							}
-							$yd = $yd + 1;
-						}
-						//***************************xxxxxxxxxxxxxxxxxxxxxxx********************************
-						$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-						//new PDO($dsn, $sql_user, $sql_pwd);
-						//Select Query
-						$usuario = $_SESSION['usuario'];
-						$bodega = $_SESSION['bodega'];
-
-						$result = $pdo->prepare("LOG_FACTURAS_PENDIENTES_DESPACHO_SELECT @BODEGA=:bodega , @acceso=:acceso");
-						$result->bindParam(':bodega', $bodega, PDO::PARAM_STR);
-						$result->bindParam(':acceso', $acceso, PDO::PARAM_STR);
-						//Executes the query
-						$result->execute();
-						$arreglo = array();
-						$x = 0;
-
-						while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-							$arreglo[$x][1] = $row['Sucursal'];
-							$arreglo[$x][2] = $row['secuencia'];
-							$arreglo[$x][3] = $row['fecha'];
-							$arreglo[$x][4] = $row['nombodega'];
-							$arreglo[$x][5] = $row['Detalle'];
-							$arreglo[$x][6] = $row['Ruc'];
-							$arreglo[$x][7] = number_format($row['saldo'], 2);
-							$arreglo[$x][8] = number_format($row['rete'], 2);
-							$arreglo[$x][9] = $row['id'];
-							$arreglo[$x][10] = $row['tipo'];
-							$idfactura = $row['id'];
-							$numfac = $row['secuencia'];
-							$arreglo[$x][11] = $row['BodegaFAC'];
-							$arreglo[$x][12] = $row['estado2'];
-							$arreglo[$x][13] = $row['TRANSPORTE'];
-							$x++;
-						}
-
-						$count = count($arreglo);
-						$y = 0;
-						while ($y <= $count - 1) {
-							$numfac = $arreglo[$y][2];
-							include("conexion.php");
-							//$sql1 = "SELECT * FROM covidsales where factura = '$numfac'";
-							$sql1 = "SELECT a.*, p.bodega as bodegaret, c.sucursalid as sucursalret , d.sucursalid as sucursalfact  FROM covidsales a
-										inner join sisco.covidciudades d on a.bodega= d.almacen
-										left outer join covidpickup p on p.orden= a.secuencia
-										left outer join sisco.covidciudades c on p.bodega= c.almacen
-										where a.factura = '$numfac' ";
-							$result1 = mysqli_query($con, $sql1);
-							$conrow = $result1->num_rows;
-							//echo "Contad". $conrow; 
-							if ($conrow > 0) {
-								$row1 = mysqli_fetch_array($result1);
-								$estado = $row1['estado'];
-								$formapago = $row1['formapago'];
-								$transporte = $row1['despachofinal'];
-								$sucuret =  $row1['sucursalret'];
-								$sucurfact =  $row1['sucursalfact'];
-								$bodegaretiro = $row1['bodegaret'];
-								//ACTUALIZA EL ESTADO EN SISCO PERMITE HACER despacho  
-								if (($formapago == 'Tienda') and ($arreglo[$y][7] == 0)) {
-									$bodegaretiro = "Entrega en " . $bodegaretiro;
-									$sql2 = "update covidsales set estado= '$bodegaretiro' where factura = '$numfac'";
-									//$sql2 = "update covidsales set estado= 'Facturado' where factura = '$numfac'";
-									$result2 = mysqli_query($con, $sql2);
-								}
-								if (($estado == 'Despachado') and ($transporte == 'Casillero')) {
-									//$fec= getdate();
-									$entregado = "Casillero";
-									//	echo $entregado , $numfac; 
-									$pdo7 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-									$result7 = $pdo7->prepare("Log_facturaslistas_despachar_update @numfac=:numfac ,@usuario=:entregado");
-									$result7->bindParam(':numfac', $numfac, PDO::PARAM_STR);
-									$result7->bindParam(':entregado', $entregado, PDO::PARAM_STR);
-									//Executes the query
-									$result7->execute();
-								}
-							}
-						?>
-							<tr>
-								<td id="fila4"> <a href="trakingdesp.php?secu=<?php echo $arreglo[$y][2] ?>&bodegaFAC=<?php echo $arreglo[$y][11] ?>"><?php echo $arreglo[$y][1] ?> </a></td>
-								<td id="fila4"> <?php echo $arreglo[$y][6] ?> </td>
-								<td id="fila4"> <?php echo $arreglo[$y][5] ?> </td>
-								<?php
-								$posicion = "";
-								if ($transporte == 'Entrega en tienda' or $transporte == 'Casillero') {
-									include("conexioncas.php");
-									$sqlcas = "SELECT a.posicion, a.ocupado FROM `lockers` as a where a.factura='$numfac' and a.ocupado=1  ";
-									$resultcas = mysqli_query($concom, $sqlcas);
-									$rowcas = mysqli_fetch_array($resultcas);
-									$posicion = $rowcas['posicion'];
-									if (($transporte == 'Entrega en tienda') and ($sucuret <> $sucurfact)) {
-								?>
-										<td id="fila4"><a href="mod1.php?sec=<?php echo $arreglo[$y][2] ?>"><?php echo $arreglo[$y][2] ?></td>
-									<?php								} else {
-									?>
-										<td id="fila4"> <?php echo $arreglo[$y][2] ?></td>
-									<?php								}
-								} else {
-									?>
-									<td id="fila4"><a href="mod1.php?sec=<?php echo $arreglo[$y][2] ?>"><?php echo $arreglo[$y][2] ?></td>
-								<?php								}
-
-								?>
-								<td id="fila4"> <?php echo $arreglo[$y][3] ?> </td>
-								<td id="fila4"> <?php echo $arreglo[$y][4] ?> </td>
-								<td id="filax"> <?php echo $arreglo[$y][7] ?> </td>
-								<td id="fila4"> <?php echo $arreglo[$y][12] . $estado . " " . $posicion ?> </td>
-								<td id="fila4"> <?php echo $transporte . " " . $posicion ?> </td>
-								<?php
-								if (($transporte <> 'Casillero') and ($arreglo[$y][7] <= $arreglo[$y][8])) {
-								?>
-									<td id="box"> <input name="checkbox[]" type="checkbox" value="<?php echo $arreglo[$y][2] . $arreglo[$y][11] ?>"> </td>
-								<?php
-								} else if ($arreglo[$y][1] == 72) {
-								?>
-									<td id="box"> <input name="checkbox[]" type="checkbox" value="<?php echo $arreglo[$y][2] . $arreglo[$y][11] ?>"> </td>
-								<?php
-								} else {	?>
-									<td id="box"> <input name="checkbox[]" type="checkbox" disabled> </td>
-								<?php
-								}
-								?>
-							</tr>
-
-						<?php
-							$y = $y + 1;
-						}
-						?>
-					</table>
-					<input id="submit" value=" Despachar Facturas Marcadas " type="submit">
-				</form>
+				</table>
 			</div>
 		</div>
 
@@ -270,4 +99,282 @@
 
 	?>
 	</div>
+
+
+
 </body>
+<link href="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/b-html5-2.4.2/rr-1.4.1/datatables.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet">
+
+<script src="https://cdn.datatables.net/v/dt/dt-1.13.8/b-2.4.2/b-html5-2.4.2/rr-1.4.1/datatables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>
+
+<link href="assets/freeze/freeze-ui.min.css" type="text/css" rel="stylesheet" />
+<script src="assets/freeze/freeze-ui.min.js" type="text/javascript"></script>
+
+<script>
+	var TABLA_DES;
+	var ARREGLO_DATOS = []
+
+	function Cargar_Despachos() {
+		let acceso = '<?php echo $acceso ?>';
+		let sucursal = '<?php echo $nomsuc ?>';
+		sucursal = sucursal.toUpperCase();
+		let para = {
+			"Cargar_guias": 1,
+			acceso: '<?php echo $acceso ?>',
+		}
+		console.log('para: ', para);
+
+
+		AjaxSend(para, function(x) {
+			x.map(function(x) {
+				let SISCO = x.SISCO;
+				if (SISCO.length > 0) {
+					x.BODEGA_RETIRO = SISCO[0]["bodegaret"]
+					x.MEDIO = SISCO[0]["pickup"]
+				}
+			})
+			console.log('x: ', x);
+
+			let data_filtrada;
+			if (acceso == 1) {
+				data_filtrada = x;
+			} else {
+				data_filtrada = x.filter(function(x) {
+					let b = (x.BODEGA_RETIRO)
+					if (b != null) {
+						if (b.trim() != "") {
+							if (sucursal.includes(b)) {
+								console.log('b: ', b);
+								return x;
+							}
+						}
+
+					}
+				});
+			}
+
+			console.log('data_filtrada: ', data_filtrada);
+			Tabla_Despachos(data_filtrada);
+			ARREGLO_DATOS = data_filtrada;
+		});
+	}
+
+	Cargar_Despachos();
+
+	function Tabla_Despachos(data) {
+		console.log('data: ', data);
+		$('#Tabla_Guias').empty()
+		TABLA_DES = $('#Tabla_Guias').DataTable({
+			destroy: true,
+			data: data,
+			dom: 'Bfrtip',
+			// responsive: true,
+			deferRender: true,
+			buttons: [{
+				extend: 'excelHtml5',
+				title: "Excel",
+			}, ],
+			columnDefs: [{
+				orderable: false,
+				className: 'select-checkbox',
+				targets: 11
+			}],
+			select: {
+				"style": "multi",
+				// selector: 'td:first-child'
+			},
+			buttons: [{
+				text: `<span class"fw-bold">Despachar Marcados</span>`,
+				className: 'btn bg-primary fw-bold text-light fs-5',
+				action: function(e, dt, node, config) {
+					Despachar();
+				}
+			}, {
+				text: 'Seleccionar todos',
+				className: 'btn fw-bold',
+				action: function() {
+					TABLA_DES.rows({
+						page: 'current'
+					}).select();
+				}
+			}, {
+				text: 'cancelar seleccionados',
+				className: 'btn fw-bold',
+				action: function() {
+					TABLA_DES.rows({
+						page: 'current'
+					}).deselect();
+				}
+			}, {
+				text: 'Refrescar',
+				className: 'btn fw-bold',
+				action: function() {
+					Cargar_Despachos();
+				}
+			}],
+			// scrollY: '30vh',
+			// scrollCollapse: true,
+			// paging: false,
+			// info: false,
+			"order": [
+				[3, "asc"]
+			],
+			columns: [{
+					data: "Sucursal",
+					title: "SID",
+					render: function(x, y, r) {
+						x = `
+								<a target="_blank"  href="trakingdesp.php?secu=` + r.secuencia + `&bodegaFAC=` + r.BodegaFAC + `">` + r.Sucursal + `</a>
+							`
+						return x;
+					}
+				},
+
+
+				{
+					data: "Ruc",
+					title: "CLIENTE",
+					visible: false
+					// render: $.fn.dataTable.render.number(',', '.', 2, "$"),
+				},
+				{
+					data: "Detalle",
+					title: "CLIENTE",
+					// render: $.fn.dataTable.render.number(',', '.', 2, "$"),
+				},
+				{
+					data: "secuencia",
+					title: "FACTURA",
+					render: function(x, y, r) {
+						x = `
+								<a target="_blank" href="mod1.php?sec=` + r.secuencia + `">` + r.secuencia + `</a> 
+								`
+						return x
+					}
+				},
+				{
+					data: "fecha",
+					title: "FECHA",
+				},
+				{
+					data: "saldo",
+					title: "SALDO",
+					render: $.fn.dataTable.render.number(',', '.', 2, "$"),
+				},
+				{
+					data: "nombodega",
+					title: "BODEGA DESPACHO",
+				},
+				{
+					data: "estado",
+					title: "ESTADO",
+					visible: false
+				},
+
+				{
+					data: "nombodega",
+					title: "BODEGA RETIRO",
+				},
+				{
+					data: "MEDIO",
+					title: "MEDIO",
+					render: function(x) {
+						if (x == 1) {
+							x = "PICK UP"
+						} else {
+							x = "ENVIO"
+						}
+						return x;
+					}
+				},
+				{
+					data: "TRANSPORTE",
+					title: "TRANSPORTE",
+				},
+				{
+					data: null,
+					title: "",
+					render: function(x) {
+						return x = ""
+					}
+				}
+
+			],
+			"createdRow": function(row, data, index) {
+				for (let i = 0; i < 10; i++) {
+					$('td', row).eq(i).addClass("fs-6 fw-bolder");
+				}
+				$('td', row).eq(6).addClass("bg-warning bg-opacity-10");
+				let col1 = `
+						<span class="text-muted">cedula: ` + data["Ruc"] + `</span><br>
+						<span>` + data["Detalle"] + `</span>
+					`;
+				$('td', row).eq(1).html(col1);
+				$('td', row).eq(6).html(data["SISCO"][0]["bodegaret"]);
+
+
+			},
+
+		});
+		setTimeout(function() {
+			$($.fn.dataTable.tables(true)).DataTable().columns.adjust().draw();
+		}, 500);
+	}
+
+	function Despachar() {
+		var rows_selected = TABLA_DES.rows('.selected').data().toArray();
+		console.log('rows_selected: ', rows_selected);
+		if (rows_selected.length > 0) {
+
+			let param = {
+				Despachar: 1,
+				DATOS: rows_selected,
+				acceso: '<?php echo $acceso ?>',
+				usuario: '<?php echo $usuario ?>',
+			}
+			console.log('param: ', param);
+			AjaxSend(param, function(x) {
+				console.log('x: ', x);
+			});
+		}
+	}
+
+	function filtrar() {
+		let filtro = $("#filtro").val();
+		let datafiltrada = []
+		if (filtro == 1) {
+			datafiltrada = ARREGLO_DATOS
+		} else if (filtro == 2) {
+			datafiltrada = ARREGLO_DATOS.filter(i => i.MEDIO == 1)
+		} else if (filtro == 3) {
+			datafiltrada = ARREGLO_DATOS.filter(i => i.MEDIO == 0)
+		}
+		Tabla_Despachos(datafiltrada)
+	}
+
+	function AjaxSend(param, callback) {
+		FreezeUI({
+			text: 'Cargando'
+		});
+		$.ajax({
+			data: param,
+			datatype: 'json',
+			url: 'despacharfacturas_f.php',
+			type: 'POST',
+			success: function(x) {
+				x = JSON.parse(x)
+				UnFreezeUI();
+				callback(x)
+			}
+		})
+	}
+</script>
+
+</html>

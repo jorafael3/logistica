@@ -39,9 +39,8 @@
 			$sql1 = "UPDATE `covidsales` SET   `estado`='Despachado', `cierreusuario`='$usuario', `cierrefecha`='$fh' where factura = '$numfac' ";
 			mysqli_query($con, $sql1);
 
+
 			/*****************		Aca actualizo en el tabla de SQL Facturaslistas***************/
-
-
 			$usuario1 = $usuario;
 			require('conexion_mssql.php');
 			echo "Esto actualizo en facturas listas" . $numfac . $usuario1;
@@ -207,11 +206,8 @@
 							$msg = $msg .  "<td align=right width=45>" . $cant . "</td>";
 							$msg = $msg .  "<td align=left  width=500> </td></tr> ";
 						}
-
 						$msg = $msg .  "</td>";
 					}
-
-
 					$msg = $msg .  "</table>";
 					$msg = $msg .  "<br>Este correo fue generado de forma automática y no requiere respuesta..<br><br>";
 					$msg = $msg .  "
@@ -246,7 +242,6 @@
 					$m->Password = 'Bruno2001';
 					$m->SMTPSecure = 'ssl';
 					$m->Port = 465;
-
 					$m->From = $mailsender;
 					$m->addBCC('pchavez@cartimex.com');
 					$m->FromName = 'Computron';

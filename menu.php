@@ -17,6 +17,7 @@
 			$base = $_SESSION['base'];
 			$empresa = $_SESSION['empresa'];
 			$bodega = $_SESSION['bodega'];
+			echo $bodega;
 			$drop = $_SESSION['drop'];
 			$puerta_p = $_SESSION['puerta_p'];
 
