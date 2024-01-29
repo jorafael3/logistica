@@ -119,19 +119,26 @@
 
 <script>
 	var TABLA_DES;
-	var ARREGLO_DATOS = []
+	var ARREGLO_DATOS = [];
+	
+
 
 	function Cargar_Despachos() {
 		let acceso = '<?php echo $acceso ?>';
 		let sucursal = '<?php echo $nomsuc ?>';
+		sucursal = "COMPUTRON QUICENTRO 2"
+		if(sucursal == "COMPUTRON EL DORADO"){
+			sucursal = "RIOCENTRO EL DORADO"
+		}
 		sucursal = sucursal.toUpperCase();
+		sucursal = sucursal.replace("COMPUTRON","")
+		console.log('sucursal: ', sucursal);
+		sucursal = sucursal.trim()
 		let para = {
 			"Cargar_guias": 1,
 			acceso: '<?php echo $acceso ?>',
 		}
 		console.log('para: ', para);
-
-
 		AjaxSend(para, function(x) {
 			x.map(function(x) {
 				let SISCO = x.SISCO;
@@ -141,7 +148,6 @@
 				}
 			})
 			console.log('x: ', x);
-
 			let data_filtrada;
 			if (acceso == 1) {
 				data_filtrada = x;
@@ -150,16 +156,15 @@
 					let b = (x.BODEGA_RETIRO)
 					if (b != null) {
 						if (b.trim() != "") {
-							if (sucursal.includes(b)) {
+							b = b.toUpperCase()
+							if (sucursal == b) {
 								console.log('b: ', b);
 								return x;
 							}
 						}
-
 					}
 				});
 			}
-
 			console.log('data_filtrada: ', data_filtrada);
 			Tabla_Despachos(data_filtrada);
 			ARREGLO_DATOS = data_filtrada;
