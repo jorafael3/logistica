@@ -126,7 +126,7 @@
 	function Cargar_Despachos() {
 		let acceso = '<?php echo $acceso ?>';
 		let sucursal = '<?php echo $nomsuc ?>';
-		sucursal = "COMPUTRON QUICENTRO 2"
+		// sucursal = "COMPUTRON QUICENTRO 2"
 		if(sucursal == "COMPUTRON EL DORADO"){
 			sucursal = "RIOCENTRO EL DORADO"
 		}
