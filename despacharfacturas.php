@@ -120,18 +120,18 @@
 <script>
 	var TABLA_DES;
 	var ARREGLO_DATOS = [];
-	
+
 
 
 	function Cargar_Despachos() {
 		let acceso = '<?php echo $acceso ?>';
 		let sucursal = '<?php echo $nomsuc ?>';
 		// sucursal = "COMPUTRON QUICENTRO 2"
-		if(sucursal == "COMPUTRON EL DORADO"){
+		if (sucursal == "COMPUTRON EL DORADO") {
 			sucursal = "RIOCENTRO EL DORADO"
 		}
 		sucursal = sucursal.toUpperCase();
-		sucursal = sucursal.replace("COMPUTRON","")
+		sucursal = sucursal.replace("COMPUTRON", "")
 		console.log('sucursal: ', sucursal);
 		sucursal = sucursal.trim()
 		let para = {
@@ -145,6 +145,13 @@
 				if (SISCO.length > 0) {
 					x.BODEGA_RETIRO = SISCO[0]["bodegaret"]
 					x.MEDIO = SISCO[0]["pickup"]
+				} else {
+					// if(x.TIPO_DATOS == 'DROP'){
+
+					// }else{
+
+					// }
+
 				}
 			})
 			console.log('x: ', x);
@@ -284,18 +291,27 @@
 				},
 
 				{
-					data: "nombodega",
+					data: "BODEGA_RETIRO",
 					title: "BODEGA RETIRO",
 				},
 				{
 					data: "MEDIO",
 					title: "MEDIO",
-					render: function(x) {
-						if (x == 1) {
-							x = "PICK UP"
+					render: function(x, y, r) {
+						if (r.TIPO_DATOS == "DROP") {
+							if (x == 1 || x == 2 || x == null) {
+								x = "PICK UP"
+							} else {
+								x = "ENVIO"
+							}
 						} else {
-							x = "ENVIO"
+							if (x == 1) {
+								x = "PICK UP"
+							} else {
+								x = "ENVIO"
+							}
 						}
+
 						return x;
 					}
 				},
@@ -322,7 +338,7 @@
 						<span>` + data["Detalle"] + `</span>
 					`;
 				$('td', row).eq(1).html(col1);
-				$('td', row).eq(6).html(data["SISCO"][0]["bodegaret"]);
+				//$('td', row).eq(6).html(data["SISCO"][0]["bodegaret"]);
 
 
 			},

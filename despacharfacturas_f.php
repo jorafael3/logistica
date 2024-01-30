@@ -29,8 +29,13 @@ if (isset($_POST['Cargar_guias'])) {
 			foreach ($result as $row) {
 				if (in_array(trim($row["secuencia"]), $LISTA_NC)) {
 				} else {
-					$row["SISCO"] =  Buscar_Sisco($row["secuencia"]);
-					array_push($ARRAY, $row);
+					if ($row["TIPO_DATOS"] == "DROP") {
+						$row["SISCO"] = [];
+						array_push($ARRAY, $row);
+					} else {
+						$row["SISCO"] =  Buscar_Sisco($row["secuencia"]);
+						array_push($ARRAY, $row);
+					}
 				}
 			}
 			echo json_encode($ARRAY);
@@ -109,7 +114,6 @@ if (isset($_POST['Despachar'])) {
 			array_push($ARRA, [$row, $act, $cor]);
 		}
 		echo json_encode($ARRA);
-		
 	} catch (PDOException $e) {
 		//return [];
 		$e = $e->getMessage();
