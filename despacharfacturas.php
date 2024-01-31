@@ -130,6 +130,7 @@
 		if (sucursal == "COMPUTRON EL DORADO") {
 			sucursal = "RIOCENTRO EL DORADO"
 		}
+		//if(sucursal == "COMPUTRON EL DORADO")
 		sucursal = sucursal.toUpperCase();
 		sucursal = sucursal.replace("COMPUTRON", "")
 		console.log('sucursal: ', sucursal);
@@ -164,6 +165,7 @@
 					if (b != null) {
 						if (b.trim() != "") {
 							b = b.toUpperCase()
+							b = b.trim()
 							if (sucursal == b) {
 								console.log('b: ', b);
 								return x;
