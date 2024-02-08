@@ -141,6 +141,7 @@
 		}
 		console.log('para: ', para);
 		AjaxSend(para, function(x) {
+			console.log('x: ', x);
 			x.map(function(x) {
 				let SISCO = x.SISCO;
 				if (SISCO.length > 0) {
@@ -155,7 +156,6 @@
 
 				}
 			})
-			console.log('x: ', x);
 			let data_filtrada;
 			if (acceso == 1) {
 				data_filtrada = x;
