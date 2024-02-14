@@ -198,7 +198,7 @@
 			columnDefs: [{
 				orderable: false,
 				className: 'select-checkbox',
-				targets: 11
+				targets: 12
 			}],
 			select: {
 				"style": "multi",
@@ -232,7 +232,11 @@
 				action: function() {
 					Cargar_Despachos();
 				}
-			}],
+			},{
+                "extend": 'excelHtml5',
+                "text": '<button class="btn btn-success fs-">EXCEL</button>',
+                "footer": true,
+            }],
 			// scrollY: '30vh',
 			// scrollCollapse: true,
 			// paging: false,
@@ -325,7 +329,6 @@
 								x = "ENVIO"
 							}
 						}
-
 						return x;
 					}
 				},
