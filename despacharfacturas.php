@@ -142,20 +142,20 @@
 		console.log('para: ', para);
 		AjaxSend(para, function(x) {
 			console.log('x: ', x);
-			x.map(function(x) {
-				let SISCO = x.SISCO;
-				if (SISCO.length > 0) {
-					x.BODEGA_RETIRO = SISCO[0]["bodegaret"]
-					x.MEDIO = SISCO[0]["pickup"]
-				} else {
-					// if(x.TIPO_DATOS == 'DROP'){
+			// x.map(function(x) {
+			// 	let SISCO = x.SISCO;
+			// 	if (SISCO.length > 0) {
+			// 		x.BODEGA_RETIRO = SISCO[0]["bodegaret"]
+			// 		x.MEDIO = SISCO[0]["pickup"]
+			// 	} else {
+			// 		// if(x.TIPO_DATOS == 'DROP'){
 
-					// }else{
+			// 		// }else{
 
-					// }
+			// 		// }
 
-				}
-			})
+			// 	}
+			// })
 			let data_filtrada;
 			if (acceso == 1) {
 				data_filtrada = x;
@@ -297,6 +297,18 @@
 					title: "BODEGA RETIRO",
 				},
 				{
+					data: "MULTI",
+					title: "MULTIBODEGA",
+					render: function(x) {
+						if (parseInt(x) > 0) {
+							x = "SI"
+						} else {
+							x = "NO"
+						}
+						return x;
+					}
+				},
+				{
 					data: "MEDIO",
 					title: "MEDIO",
 					render: function(x, y, r) {
@@ -335,6 +347,10 @@
 					$('td', row).eq(i).addClass("fs-6 fw-bolder");
 				}
 				$('td', row).eq(6).addClass("bg-warning bg-opacity-10");
+				if (parseInt(data["MULTI"]) > 0) {
+					$('td', row).eq(7).addClass("text-primary");
+				}
+				
 				let col1 = `
 						<span class="text-muted">cedula: ` + data["Ruc"] + `</span><br>
 						<span>` + data["Detalle"] + `</span>

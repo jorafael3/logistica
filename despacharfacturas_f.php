@@ -29,11 +29,15 @@ if (isset($_POST['Cargar_guias'])) {
 			foreach ($result as $row) {
 				if (in_array(trim($row["secuencia"]), $LISTA_NC)) {
 				} else {
+					$MULTI = Cargar_multibodega($row["BodegaFAC"], $row["secuencia"]);
+					$row["MULTI"] = $MULTI[0];
+					$row["MULTI_DATA"] = $MULTI[1];
 					if ($row["TIPO_DATOS"] == "DROP") {
 						$row["SISCO"] = [];
 						array_push($ARRAY, $row);
 					} else {
-						$row["SISCO"] =  Buscar_Sisco($row["secuencia"]);
+						// $row["SISCO"] =  Buscar_Sisco($row["secuencia"]);
+						$row["SISCO"] =  [];
 						array_push($ARRAY, $row);
 					}
 				}
@@ -42,6 +46,43 @@ if (isset($_POST['Cargar_guias'])) {
 		} else {
 			$err = $query->errorInfo();
 			echo json_encode($err);
+		}
+	} catch (PDOException $e) {
+		//return [];
+		$e = $e->getMessage();
+		echo json_encode($e);
+		exit();
+	}
+}
+
+function Cargar_multibodega($bodega, $secuencia)
+{
+	include('conexion_2.php');
+	try {
+
+		// $secuencia = $_POST["secuencia"];
+		// $bodega = $_POST["bodega"];
+		$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+		$query = $pdo->prepare("PER_Detalle_Facturas2 
+            @Secuencia=:secuencia,
+            @bodegaFAC=:bodega
+        ");
+		$query->bindParam(':secuencia', $secuencia, PDO::PARAM_STR);
+		$query->bindParam(':bodega', $bodega, PDO::PARAM_STR);
+		if ($query->execute()) {
+			$result = $query->fetchAll(PDO::FETCH_ASSOC);
+			$con = 0;
+			foreach ($result as $row) {
+				if ($row["Section"] != "HEADER") {
+					if ($row["MULTI"] == "MULTI") {
+						$con++;
+					}
+				}
+			}
+			return [$con, $result];
+		} else {
+			$err = $query->errorInfo();
+			return 0;
 		}
 	} catch (PDOException $e) {
 		//return [];
