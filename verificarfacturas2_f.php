@@ -369,7 +369,7 @@ function Guardar_Rma_Dt($DATOS, $RMAID, $CREADO_POR, $FACTURA)
                         $result = $query->fetchAll(PDO::FETCH_ASSOC);
                     } while ($query->nextRowset());
 
-                    $RMA = Actualizar_Rma_Productos($FACTURA, $row["serie"], $row["productoid"], $result[0]["RMAIDDT"]);
+                    $RMA = Actualizar_Rma_Productos($FACTURA, $row["serie"], $row["productoid"], $result[0]["RMAIDDT"],$CREADO_POR);
                     array_push($ARRAY, array("PRODUCTO" => $row["serie"], "RMA" => $RMA));
                     $VAL++;
                 } else {
@@ -392,7 +392,7 @@ function Guardar_Rma_Dt($DATOS, $RMAID, $CREADO_POR, $FACTURA)
     }
 }
 
-function Actualizar_Rma_Productos($FACTURA, $SERIE, $PRODUCTO, $RMADTID)
+function Actualizar_Rma_Productos($FACTURA, $SERIE, $PRODUCTO, $RMADTID,$CREADO_POR)
 {
 
     include('conexion_2.php');
@@ -406,7 +406,9 @@ function Actualizar_Rma_Productos($FACTURA, $SERIE, $PRODUCTO, $RMADTID)
             SET 
             FACTURAID=:facturaid, 
             ESTADO=:estado,
-            RmaDtId = :RmaDtId
+            RmaDtId = :RmaDtId,
+            CreadoDate = GETDATE(),
+            CreadoPor = :CreadoPor
             WHERE PRODUCTOID=:productoid 
             and SERIE=:serie");
         $query->bindParam(':facturaid', $FACTURA, PDO::PARAM_STR);
@@ -414,6 +416,7 @@ function Actualizar_Rma_Productos($FACTURA, $SERIE, $PRODUCTO, $RMADTID)
         $query->bindParam(':serie', $SERIE, PDO::PARAM_STR);
         $query->bindParam(':productoid', $PRODUCTO, PDO::PARAM_STR);
         $query->bindParam(':RmaDtId', $RMADTID, PDO::PARAM_STR);
+        $query->bindParam(':CreadoPor', $CREADO_POR, PDO::PARAM_STR);
         if ($query->execute()) {
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             return 1;
