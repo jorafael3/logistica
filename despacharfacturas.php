@@ -439,12 +439,15 @@
 			],
 			"createdRow": function(row, data, index) {
 
-				if (data["ESTADO_FACTURAS_LISTAS"] > 0) {
-					$(row).addClass("bg-danger")
-				}
+
 
 				for (let i = 0; i < 10; i++) {
-					$('td', row).eq(i).addClass("fs-6 fw-bolder");
+					if (data["ESTADO_FACTURAS_LISTAS"] > 0) {
+						$('td', row).eq(i).addClass("fs-6 fw-bolder bg-danger bg-opacity-10");
+					}else{
+						$('td', row).eq(i).addClass("fs-6 fw-bolder");
+
+					}
 				}
 				$('td', row).eq(6).addClass("bg-warning bg-opacity-10");
 				if (parseInt(data["MULTI"]) > 0) {
