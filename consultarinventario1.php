@@ -33,7 +33,7 @@
 			} else {
 				$bodega = $_POST["bodega"];
 			}
-			echo $bodega.$stock.$base; 
+			// echo $bodega.$stock.$base; 
 
 			$usuario1 = $usuario;
 			if ($base == 'CARTIMEX') {
@@ -156,9 +156,9 @@
 </body>
 
 <script>
-	// let datos = '<?php echo $res ?>';
+	let datos = '<?php echo $res ?>';
 	// datos = JSON.parse(datos);
-	// console.log('datos: ', datos);
+	console.log('datos: ', datos);
 </script>
 
 </html>
