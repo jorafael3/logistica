@@ -108,8 +108,6 @@
 				<tr>
 					<th> ID </th>
 					<th> CODIGO </th>
-					<th> CODIGO1 </th>
-
 					<th> NOMBRE </th>
 					<th> 00.01</th>
 					<th> 00.14</th>
@@ -124,7 +122,6 @@
 				?>
 					<tr>
 						<td id="fila" align=center> <a href="consultasku.php?id=<?php echo $row["aid"] ?>"><?php echo $row["aid"] ?></a></td>
-						<td id="fila" align=center> <?php echo $row["aid"] ?></td>
 						<td id="fila" align=center> <?php echo $row["co"] ?></td>
 
 						<td id="fila" align=center> <a href="showpicture.php?code=<?php echo $row["co"] ?>"> <?php echo $row["nom"] ?></a></td>
