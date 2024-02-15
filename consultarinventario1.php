@@ -9,7 +9,8 @@
 <link href="estilos/estilos2.css" rel="stylesheet" type="text/css">
 <link href="estilos/estilos.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="css/tablas.css">
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 <body onload="setfocus()">
 	<div id="header" align="center">
 		<?php
@@ -102,9 +103,9 @@
 			</font>
 		</div>
 	</div>
-	<div id="cuerpo2" align="center">
+	<div id="cuerpo2" align="center" class="mb-10">
 		<div class=\"table-responsive-xs\">
-			<table id="listado" align="center">
+			<table id="listado" align="center" class="table table-striped">
 				<tr>
 					<th> ID </th>
 					<th> CODIGO </th>
@@ -124,12 +125,12 @@
 						<td id="fila" align=center> <a href="consultasku.php?id=<?php echo $row["aid"] ?>"><?php echo $row["aid"] ?></a></td>
 						<td id="fila" align=center> <?php echo $row["co"] ?></td>
 
-						<td id="fila" align=center> <a href="showpicture.php?code=<?php echo $row["co"] ?>"> <?php echo $row["nom"] ?></a></td>
-						<td id="fila" align=center> <?php echo $row["StockMA"] ?></td>
-						<td id="fila" align=center> <?php echo $row["Stockx"] ?></td>
-						<td id="fila" align=center> <?php echo $row["Stockbo3"] ?></td>
+						<td class="fw-bold" id="fila" align=center> <a href="showpicture.php?code=<?php echo $row["co"] ?>"> <?php echo $row["nom"] ?></a></td>
+						<td class="fw-bold bg-success bg-opacity-10" d="fila" align=center> <?php echo $row["StockMA"] ?></td>
+						<td class="fw-bold bg-info bg-opacity-10" d="fila" align=center> <?php echo $row["Stockx"] ?></td>
+						<td class="fw-bold bg-warning bg-opacity-10" d="fila" align=center> <?php echo $row["Stockbo3"] ?></td>
 						<td id="fila" align=center> <?php echo $row["pe"] ?></td>
-						<td id="fila" align=center> <?php echo round($row["precio3"],2) ?></td>
+						<td class="fw-bold" id="fila" align=center> <?php echo round($row["precio3"],2) ?></td>
 					</tr>
 			<?php
 
