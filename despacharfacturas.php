@@ -133,15 +133,15 @@
 		//if(sucursal == "COMPUTRON EL DORADO")
 		sucursal = sucursal.toUpperCase();
 		sucursal = sucursal.replace("COMPUTRON", "")
-		console.log('sucursal: ', sucursal);
+
 		sucursal = sucursal.trim()
 		let para = {
 			"Cargar_guias": 1,
 			acceso: '<?php echo $acceso ?>',
 		}
-		console.log('para: ', para);
+
 		AjaxSend(para, function(x) {
-			console.log('x: ', x);
+
 			// x.map(function(x) {
 			// 	let SISCO = x.SISCO;
 			// 	if (SISCO.length > 0) {
@@ -167,23 +167,68 @@
 							b = b.toUpperCase()
 							b = b.trim()
 							if (sucursal == b) {
-								console.log('b: ', b);
+
 								return x;
 							}
 						}
 					}
 				});
 			}
-			console.log('data_filtrada: ', data_filtrada);
-			Tabla_Despachos(data_filtrada);
-			ARREGLO_DATOS = data_filtrada;
+
+			let ARRAY_ = []
+			let unique = [...new Set(data_filtrada.map(item => item.id))];
+			unique.map(function(ob) {
+				let fil = data_filtrada.filter(i => i.id == ob);
+				let nombodegas = [];
+				let TRANSPORTE = [];
+				fil.map(function(y) {
+					nombodegas.push(y.nombodega)
+					TRANSPORTE.push(y.TRANSPORTE)
+				})
+				let b = {
+					BODEGA_RETIRO: fil[0]["BODEGA_RETIRO"],
+					BodegaFAC: fil[0]["BodegaFAC"],
+					Detalle: fil[0]["Detalle"],
+					MEDIO: fil[0]["MEDIO"],
+					MULTI: fil[0]["MULTI"],
+					MULTI_DATA: fil[0]["MULTI_DATA"],
+					Ruc: fil[0]["Ruc"],
+					SRI_EM1: fil[0]["SRI_EM1"],
+					Sucursal: fil[0]["Sucursal"],
+					TIPO_DATOS: fil[0]["TIPO_DATOS"],
+					TOTAL: fil[0]["TOTAL"],
+					TRANSPORTE: TRANSPORTE,
+					TT1: fil[0]["TT1"],
+					bodegsuc: fil[0]["bodegsuc"],
+					estado: fil[0]["estado"],
+					estado2: fil[0]["estado2"],
+					fecha: fil[0]["fecha"],
+					id: fil[0]["id"],
+					localdireccion: fil[0]["localdireccion"],
+					nombodega: nombodegas,
+					rete: fil[0]["rete"],
+					saldo: fil[0]["saldo"],
+					secuencia: fil[0]["secuencia"],
+					tipo: fil[0]["tipo"],
+				}
+
+				ARRAY_.push(b);
+
+			})
+
+
+			console.log('ARRAY_: ', ARRAY_);
+
+			// 
+			Tabla_Despachos(ARRAY_);
+			ARREGLO_DATOS = ARRAY_;
 		});
 	}
 
 	Cargar_Despachos();
 
 	function Tabla_Despachos(data) {
-		console.log('data: ', data);
+
 		$('#Tabla_Guias').empty()
 		TABLA_DES = $('#Tabla_Guias').DataTable({
 			destroy: true,
@@ -232,11 +277,11 @@
 				action: function() {
 					Cargar_Despachos();
 				}
-			},{
-                "extend": 'excelHtml5',
-                "text": '<button class="btn btn-success fs-">EXCEL</button>',
-                "footer": true,
-            }],
+			}, {
+				"extend": 'excelHtml5',
+				"text": '<button class="btn btn-success fs-">EXCEL</button>',
+				"footer": true,
+			}],
 			// scrollY: '30vh',
 			// scrollCollapse: true,
 			// paging: false,
@@ -289,6 +334,19 @@
 				{
 					data: "nombodega",
 					title: "BODEGA DESPACHO",
+					render: function(x, t) {
+						console.log('t: ', t);
+						let a = "";
+						console.log('x: ', x);
+						x.map(function(y) {
+							if (t == "display") {
+								a = a + "<span>" + y + "</span><br>"
+							} else {
+								a = a + y + ","
+							}
+						})
+						return a
+					}
 				},
 				{
 					data: "estado",
@@ -335,6 +393,19 @@
 				{
 					data: "TRANSPORTE",
 					title: "TRANSPORTE",
+					render: function(x, t) {
+						console.log('t: ', t);
+						let a = "";
+						console.log('x: ', x);
+						x.map(function(y) {
+							if (t == "display") {
+								a = a + "<span>" + y + "</span><br>"
+							} else {
+								a = a + y + ","
+							}
+						})
+						return a
+					}
 				},
 				{
 					data: null,
@@ -353,13 +424,15 @@
 				if (parseInt(data["MULTI"]) > 0) {
 					$('td', row).eq(7).addClass("text-primary");
 				}
-				
+
 				let col1 = `
 						<span class="text-muted">cedula: ` + data["Ruc"] + `</span><br>
 						<span>` + data["Detalle"] + `</span>
 					`;
 				$('td', row).eq(1).html(col1);
 				//$('td', row).eq(6).html(data["SISCO"][0]["bodegaret"]);
+
+				
 
 
 			},
@@ -372,7 +445,7 @@
 
 	function Despachar() {
 		var rows_selected = TABLA_DES.rows('.selected').data().toArray();
-		console.log('rows_selected: ', rows_selected);
+
 		if (rows_selected.length > 0) {
 
 			let param = {
@@ -381,9 +454,9 @@
 				acceso: '<?php echo $acceso ?>',
 				usuario: '<?php echo $usuario ?>',
 			}
-			console.log('param: ', param);
+
 			AjaxSend(param, function(x) {
-				console.log('x: ', x);
+
 			});
 		}
 	}
