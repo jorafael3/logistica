@@ -81,7 +81,7 @@
 				</select>
 			</div>
 			<div class="table-responsive mt-3">
-				<table id="Tabla_Guias" class="table table-striped">
+				<table id="Tabla_Guias" class="table ">
 
 				</table>
 			</div>
@@ -181,9 +181,28 @@
 				let fil = data_filtrada.filter(i => i.id == ob);
 				let nombodegas = [];
 				let TRANSPORTE = [];
+				let ESTADO_FACTURAS_LISTAS = 0;
 				fil.map(function(y) {
-					nombodegas.push(y.nombodega)
 					TRANSPORTE.push(y.TRANSPORTE)
+					let multi = y.MULTI_DATA
+					let f = multi.filter(i => i.Section != 'HEADER')
+					console.log('f: ', f);
+					f.map(function(m) {
+						if (m.ESTADO_FACTURAS_LISTAS == "INGRESADAGUIA" ||
+							m.ESTADO_FACTURAS_LISTAS == "RECIBIDAOTRATIENDA" ||
+							m.ESTADO_FACTURAS_LISTAS == "DESPACHADA") {
+
+						} else {
+							ESTADO_FACTURAS_LISTAS = ESTADO_FACTURAS_LISTAS + 1;
+						}
+
+						nombodegas.push(m.bonom);
+					})
+					// multi.map(function(a) {
+					// 	let f = multi.filter(i => i.Section != 'HEADER')
+
+
+					// })
 				})
 				let b = {
 					BODEGA_RETIRO: fil[0]["BODEGA_RETIRO"],
@@ -210,6 +229,7 @@
 					saldo: fil[0]["saldo"],
 					secuencia: fil[0]["secuencia"],
 					tipo: fil[0]["tipo"],
+					ESTADO_FACTURAS_LISTAS: ESTADO_FACTURAS_LISTAS
 				}
 
 				ARRAY_.push(b);
@@ -217,10 +237,11 @@
 			})
 
 
-			console.log('ARRAY_: ', ARRAY_);
+
 
 			// 
 			Tabla_Despachos(ARRAY_);
+			console.log('ARRAY_: ', ARRAY_);
 			ARREGLO_DATOS = ARRAY_;
 		});
 	}
@@ -335,9 +356,9 @@
 					data: "nombodega",
 					title: "BODEGA DESPACHO",
 					render: function(x, t) {
-						console.log('t: ', t);
+
 						let a = "";
-						console.log('x: ', x);
+
 						x.map(function(y) {
 							if (t == "display") {
 								a = a + "<span>" + y + "</span><br>"
@@ -394,9 +415,9 @@
 					data: "TRANSPORTE",
 					title: "TRANSPORTE",
 					render: function(x, t) {
-						console.log('t: ', t);
+
 						let a = "";
-						console.log('x: ', x);
+
 						x.map(function(y) {
 							if (t == "display") {
 								a = a + "<span>" + y + "</span><br>"
@@ -417,6 +438,11 @@
 
 			],
 			"createdRow": function(row, data, index) {
+
+				if (data["ESTADO_FACTURAS_LISTAS"] > 0) {
+					$(row).addClass("bg-danger")
+				}
+
 				for (let i = 0; i < 10; i++) {
 					$('td', row).eq(i).addClass("fs-6 fw-bolder");
 				}
@@ -432,7 +458,7 @@
 				$('td', row).eq(1).html(col1);
 				//$('td', row).eq(6).html(data["SISCO"][0]["bodegaret"]);
 
-				
+
 
 
 			},
