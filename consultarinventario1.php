@@ -33,7 +33,7 @@
 			} else {
 				$bodega = $_POST["bodega"];
 			}
-			//echo $bodega.$stock.$base; 
+			echo $bodega.$stock.$base; 
 
 			$usuario1 = $usuario;
 			if ($base == 'CARTIMEX') {
@@ -110,9 +110,9 @@
 					<th> ID </th>
 					<th> CODIGO </th>
 					<th> NOMBRE </th>
-					<th> 00.01</th>
-					<th> 00.14</th>
-					<th> 13.01</th>
+					<th> <?php echo count($res) > 0 ? $res[0]["bodega1"] : "" ?></th>
+					<th> <?php echo count($res) > 0 ? $res[0]["alterbo"] : "" ?></th>
+					<th> <?php echo count($res) > 0 ? $res[0]["bodega3"] : "" ?></th>
 					<th> UBICACION </th>
 					<th> PRECIO3</th>
 				</tr>
@@ -124,7 +124,6 @@
 					<tr>
 						<td id="fila" align=center> <a href="consultasku.php?id=<?php echo $row["aid"] ?>"><?php echo $row["aid"] ?></a></td>
 						<td id="fila" align=center> <?php echo $row["co"] ?></td>
-
 						<td class="fw-bold" id="fila" align=center> <a href="showpicture.php?code=<?php echo $row["co"] ?>"> <?php echo $row["nom"] ?></a></td>
 						<td class="fw-bold bg-success bg-opacity-10" d="fila" align=center> <?php echo $row["StockMA"] ?></td>
 						<td class="fw-bold bg-info bg-opacity-10" d="fila" align=center> <?php echo $row["Stockx"] ?></td>
