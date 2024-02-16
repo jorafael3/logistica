@@ -186,7 +186,7 @@
 					TRANSPORTE.push(y.TRANSPORTE)
 					let multi = y.MULTI_DATA
 					let f = multi.filter(i => i.Section != 'HEADER')
-					console.log('f: ', f);
+					
 					f.map(function(m) {
 						if (m.ESTADO_FACTURAS_LISTAS == "INGRESADAGUIA" ||
 							m.ESTADO_FACTURAS_LISTAS == "RECIBIDAOTRATIENDA" ||
@@ -242,6 +242,7 @@
 			// 
 			Tabla_Despachos(ARRAY_);
 			console.log('ARRAY_: ', ARRAY_);
+			
 			ARREGLO_DATOS = ARRAY_;
 		});
 	}
@@ -356,6 +357,8 @@
 					data: "nombodega",
 					title: "BODEGA DESPACHO",
 					render: function(x, t) {
+						
+						x = [...new Set(x)];
 
 						let a = "";
 
