@@ -116,12 +116,20 @@
 
 <link href="assets/freeze/freeze-ui.min.css" type="text/css" rel="stylesheet" />
 <script src="assets/freeze/freeze-ui.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
 	var TABLA_DES;
 	var ARREGLO_DATOS = [];
 
+	function asd() {
+		console.log("aaaaaaaaaaaaaaaaaaaaaaaa");
+		FreezeUI({
+			text: 'Cargando'
+		});
+		Cargar_Despachos();
 
+	}
 
 	function Cargar_Despachos() {
 		let acceso = '<?php echo $acceso ?>';
@@ -139,8 +147,12 @@
 			"Cargar_guias": 1,
 			acceso: '<?php echo $acceso ?>',
 		}
+		FreezeUI({
+			text: 'Cargando'
+		});
 
 		AjaxSend(para, function(x) {
+			console.log('x: ', x);
 
 			// x.map(function(x) {
 			// 	let SISCO = x.SISCO;
@@ -186,7 +198,7 @@
 					TRANSPORTE.push(y.TRANSPORTE)
 					let multi = y.MULTI_DATA
 					let f = multi.filter(i => i.Section != 'HEADER')
-					
+
 					f.map(function(m) {
 						if (m.ESTADO_FACTURAS_LISTAS == "INGRESADAGUIA" ||
 							m.ESTADO_FACTURAS_LISTAS == "RECIBIDAOTRATIENDA" ||
@@ -241,8 +253,8 @@
 
 			// 
 			Tabla_Despachos(ARRAY_);
-			console.log('ARRAY_: ', ARRAY_);
-			
+
+
 			ARREGLO_DATOS = ARRAY_;
 		});
 	}
@@ -295,7 +307,7 @@
 				}
 			}, {
 				text: 'Refrescar',
-				className: 'btn fw-bold',
+				className: 'btn fw-bold btn_refresh',
 				action: function() {
 					Cargar_Despachos();
 				}
@@ -357,7 +369,7 @@
 					data: "nombodega",
 					title: "BODEGA DESPACHO",
 					render: function(x, t) {
-						
+
 						x = [...new Set(x)];
 
 						let a = "";
@@ -377,7 +389,7 @@
 					title: "ESTADO",
 					visible: false
 				},
-
+				//355204450563746
 				{
 					data: "BODEGA_RETIRO",
 					title: "BODEGA RETIRO",
@@ -447,7 +459,7 @@
 				for (let i = 0; i < 10; i++) {
 					if (data["ESTADO_FACTURAS_LISTAS"] > 0) {
 						$('td', row).eq(i).addClass("fs-6 fw-bolder bg-danger bg-opacity-10");
-					}else{
+					} else {
 						$('td', row).eq(i).addClass("fs-6 fw-bolder");
 
 					}
@@ -478,18 +490,63 @@
 	function Despachar() {
 		var rows_selected = TABLA_DES.rows('.selected').data().toArray();
 
+
 		if (rows_selected.length > 0) {
+
+			let filter = rows_selected.filter(i => i.ESTADO_FACTURAS_LISTAS == 0)
+
+
+			// if (rows_selected.length > filter.length) {
+			// 	Swal.fire({
+			// 		title: "Hay facturas que no estan completas",
+			// 		text: "Solo se guardaran las que esten completas",
+			// 		icon: "info"
+			// 	});
+			// }
 
 			let param = {
 				Despachar: 1,
-				DATOS: rows_selected,
+				DATOS: filter,
 				acceso: '<?php echo $acceso ?>',
 				usuario: '<?php echo $usuario ?>',
 			}
 
-			AjaxSend(param, function(x) {
+			console.log('param: ', param);
 
+			Swal.fire({
+				title: "Se guardaran lo cambios?",
+				showDenyButton: true,
+				showCancelButton: false,
+				confirmButtonText: "Continuar",
+				denyButtonText: `Cancelar`
+			}).then((result) => {
+				/* Read more about isConfirmed, isDenied below */
+				if (result.isConfirmed) {
+					AjaxSend2(param, function(x) {
+						console.log('x: ', x);
+						if (x[0] == 1) {
+							asd();
+							// $(".btn_refresh").click();
+							Swal.fire({
+								title: "Los datos se marcaron correctamente",
+								text: "",
+								icon: "success"
+							});
+						} else {
+							Swal.fire({
+								title: "Error, al guardar",
+								text: "Intentelo nuevamente",
+								icon: "danger"
+							});
+							UnFreezeUI();
+						}
+					});
+				} else if (result.isDenied) {
+					// Swal.fire("Changes are not saved", "", "info");
+				}
 			});
+
+
 		}
 	}
 
@@ -518,6 +575,23 @@
 			success: function(x) {
 				x = JSON.parse(x)
 				UnFreezeUI();
+				callback(x)
+			}
+		})
+	}
+
+	function AjaxSend2(param, callback) {
+		FreezeUI({
+			text: 'Cargando'
+		});
+		$.ajax({
+			data: param,
+			datatype: 'json',
+			url: 'despacharfacturas_f.php',
+			type: 'POST',
+			success: function(x) {
+				x = JSON.parse(x)
+				// UnFreezeUI();
 				callback(x)
 			}
 		})

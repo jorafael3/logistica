@@ -6,6 +6,8 @@
 <link href="estilos/estilos2.css" rel="stylesheet" type="text/css">
 <link href="estilos/estilos.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="css/tablas.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
 <body>
 	<div id="header" align="center">
@@ -141,7 +143,7 @@
 
 		<div id="cuerpo2" class=\"table-responsive-xs\">
 			<div align="center" width=100%>
-				<table border=2 width=100% id="traking">
+				<table border=2 width=100% id="traking" class="">
 					<tr>
 						<td id="td1" width="15%"> <strong> BODEGA :</strong> </td>
 						<td id="label4"> <a> <?php echo $Codbodega ?> </a></td>
@@ -182,7 +184,7 @@
 					</tr>
 				</table>
 			</div>
-			<table border=2 width=100% id="traking" align="center">
+			<table border=2 width=100% id="traking" align="center" class="table table-striped">
 				<th> Bodega</th>
 				<th> Bodega Nombre</th>
 				<th> Codigo</th>
