@@ -174,7 +174,7 @@ if (isset($_POST['Despachar'])) {
 		}
 
 		if (count($errores_fac) == 0 && count($errores_sisco) == 0) {
-			$pdo->rollBack();
+			$pdo->commit();
 			echo json_encode([1, $ARRA]);
 		} else {
 			$pdo->rollBack();
@@ -457,8 +457,8 @@ function Correo($row)
 			// $m->addBCC('pchavez@cartimex.com');
 			// $m->FromName = 'Computron';
 			//$destinatario = "fmortola@cartimex.com";
-			$m->addAddress('jalvarado@cartimex.com');
-			// $m->addAddress($EMAIL_ENVIO);
+			// $m->addAddress('jalvarado@cartimex.com');
+			$m->addAddress($EMAIL_ENVIO);
 			$m->isHTML(true);
 			// $m->addAttachment('directorio/nombrearchivo.jpg','nombrearchivo.jpg')
 			$m->Subject = "COMPUTRONSA Detalle de Compra ";
