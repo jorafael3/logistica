@@ -47,16 +47,27 @@
 				$detalle = $row['detalle'];
 			}
 
+
 			if (isset($_POST['serie'])) {
 				$x = $_SESSION['Contador'];
 				$series = $_SESSION['series']; // Cargo el arreglo en memoria 
 				$serieleida = isset($_POST['serie']) ? $_POST['serie'] : '';
 				$producto_id = isset($_POST['productoid']) ? $_POST['productoid'] : '';
 
-				
+				// Validación de la serie en la base de datos
+				$query = "";
+				$stmt = $pdo->prepare($query);
+				$stmt->bindParam(':serie', $serieleida, PDO::PARAM_STR);
+				$stmt->bindParam(':producto_id', $producto_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+				$serieCount = $result['serie_count'];
+
+				$serieExiste = ($serieCount > 0);
+
 				if (!$serieExiste) {
-					echo json_encode(['SERIE' => $serieExiste]);
-					$muestraleyenda2 = 'Serie no registrada en la base de datos para el producto actual.';
+					// echo json_encode(['SERIE' => $serieExiste]);
+					// $muestraleyenda2 = 'Serie no registrada en la base de datos para el producto actual.';
 				} else {
 					// Validación de serie en rma_productos
 					$pdo1 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
