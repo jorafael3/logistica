@@ -53,17 +53,7 @@
 				$serieleida = isset($_POST['serie']) ? $_POST['serie'] : '';
 				$producto_id = isset($_POST['productoid']) ? $_POST['productoid'] : '';
 
-				// Validación de la serie en la base de datos
-				$query = "SELECT COUNT(*) AS serie_count FROM INV_PRODUCTOS_SERIES_COMPRAS WHERE Serie = :serie AND ProductoID = :producto_id";
-				$stmt = $pdo->prepare($query);
-				$stmt->bindParam(':serie', $serieleida, PDO::PARAM_STR);
-				$stmt->bindParam(':producto_id', $producto_id, PDO::PARAM_INT);
-				$stmt->execute();
-				$result = $stmt->fetch(PDO::FETCH_ASSOC);
-				$serieCount = $result['serie_count'];
-
-				$serieExiste = ($serieCount > 0);
-
+				
 				if (!$serieExiste) {
 					echo json_encode(['SERIE' => $serieExiste]);
 					$muestraleyenda2 = 'Serie no registrada en la base de datos para el producto actual.';
