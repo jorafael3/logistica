@@ -64,13 +64,13 @@ $fh = $fecha . " " . $hora;
 
 
 
-// $sql = "UPDATE `covidsales` SET  `preppor`='$usuario' , `preparada`='$fh' where factura = '$numfac' ";
-// if (mysqli_query($con, $sql)) {
-// 	//echo "Record updated successfully";
-// } else {
-// 	echo "Error updating record: " . mysqli_error($conn);
-// }
-// mysqli_close($con);
+$sql = "UPDATE `covidsales` SET  `preppor`='$usuario' , `preparada`='$fh' where factura = '$numfac' ";
+if (mysqli_query($con, $sql)) {
+	//echo "Record updated successfully";
+} else {
+	echo "Error updating record: " . mysqli_error($conn);
+}
+mysqli_close($con);
 
 
 // // despacho = informacion del cuadro de guia
@@ -79,11 +79,11 @@ $fh = $fecha . " " . $hora;
 // 	echo "<h2>Error... Si selecciona CASILLEROS debe seleccionar un número de casillero!</h2>";
 // }
 
-// // primero grabo la reserva en los casilleros
-// include("conexioncas.php");
+// primero grabo la reserva en los casilleros
+include("conexioncas.php");
 
-// $hash = mt_rand(10000000, 99999999);
-// $hash5 = md5($hash);
+$hash = mt_rand(10000000, 99999999);
+$hash5 = md5($hash);
 
 
 
@@ -245,7 +245,7 @@ $result5->execute();
 
 
 
-Para enviar el correo dependiendo de lo q haya seleccionado como forma de Despacho en la Guia
+// Para enviar el correo dependiendo de lo q haya seleccionado como forma de Despacho en la Guia
 
 if ($medio == 'Casillero') {
 	echo "<h2>Use este código para abrir el casillero cuando vaya a cargar la orden:</h2>";

@@ -231,7 +231,7 @@
 								</tr>
 								<tr>
 									<th class="bg-light">Bodega de retiro</th>
-									<td class="fw-bold bg-info bg-opacity-50"><?php echo $bodegaret ?></td>
+									<td class="fw-bold bg-info bg-opacity-50"><?php echo isset($bodegaret) ?></td>
 								</tr>
 								<tr>
 									<th class="bg-dark text-light">SubTotal</th>
