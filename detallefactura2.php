@@ -42,8 +42,11 @@ $provincia = $_POST['provincia'];
 $newbodretiro = $_POST['nbodega'];
 $comentariodesp = $_POST['comentariodesp'];
 $bodegaFAC = $_POST['bodegaFAC'];
-// echo $bodegaFAC;
+
+
+// echo "aaaaaaaaaa";
 // echo $numfac;
+echo $comentariodesp;
 
 
 //echo "datos de guia q llegan de formulario anterior ". $radio.$bultos.$lockerid.$localid.$local.$despacho.$numfac.$sec.$medio.$provincia.$newbodretiro.$comentariodesp;
@@ -84,9 +87,9 @@ $hash5 = md5($hash);
 
 
 
-$sqlcasilleros = "UPDATE `lockers` SET `reserva`='$numfac',`hash` = '$hash5',`fechareserva` = '$fh'  where
-`lockerid` = '$lockerid' and `localid` = '$localid' and `posicion` ='$radio[0]' ";
-$resultocup = mysqli_query($concom, $sqlcasilleros);
+// $sqlcasilleros = "UPDATE `lockers` SET `reserva`='$numfac',`hash` = '$hash5',`fechareserva` = '$fh'  where
+// `lockerid` = '$lockerid' and `localid` = '$localid' and `posicion` ='$radio[0]' ";
+// $resultocup = mysqli_query($concom, $sqlcasilleros);
 
 
 

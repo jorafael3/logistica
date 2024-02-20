@@ -19,6 +19,7 @@
 			$bodega = $_SESSION['bodega'];
 			$nomsuc = $_SESSION['nomsuc'];
 
+			$medio = $_GET['tipoenvio'];
 
 			if ($secu == '') {
 				$secu = $_GET['secu'];
@@ -59,7 +60,7 @@
 				}
 				if ($Guiapor == ' ' or IS_NULL($Guiapor) or $estado = 'VERIFICADA') {
 					//header( "location: http://app.compu-tron.net/sisco2/detallefactura.php?numfac=".$secu); 
-					header("location: detallefactura.php?numfac=" . $secu);
+					header("location: detallefactura.php?numfac=" . $secu."&medio=".$medio);
 				} else {
 					$Prepa = "Ya fue Ingresada GUIA ";
 					header("Refresh: 2 ; ingguiasfacturas.php");

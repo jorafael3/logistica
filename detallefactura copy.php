@@ -10,6 +10,8 @@
 	<!-- <link rel="stylesheet" type="text/css" href="css/menus.css"> -->
 	<link href="estilos/estilos2.css" rel="stylesheet" type="text/css">
 	<link href="estilos/estilos.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
 </head>
 <html>
@@ -88,6 +90,8 @@
 		</div>
 		<hr>
 		<div id="cuerpo2" align="center" width="100%">
+
+
 			<?php
 
 			if (!isset($_SESSION["usuario"])) {
@@ -245,6 +249,49 @@
 						$TotFin =  $row['Financiamiento'];
 						$Impuestot2 =  $row['Impuesto'];
 						$Totalt2 = $row['Total'];
+
+
+			?>
+						<div class='row'>
+							<div class='col'>
+								<table class='table table-bordered'>
+									<thead class='thead-dark'>
+										<tr>
+											<th class="bg-light">Fecha :</th>
+											<td><?php echo substr($row['Fecha'], 0, -13) ?></td>
+											<th class="bg-light">Secuencia:</th>
+											<td style="width: 250px;"><?php echo $row['Secuencia'] ?></td>
+											<th class="bg-light">Fac_Id:</th>
+											<td style="width: 250px;" id="IDFACT"><?php echo $row['ID'] ?></td>
+											<th class="bg-light">Vendedor:</th>
+											<td style="width: 250px;"><?php echo $row['Vendedor'] ?></td>
+										</tr>
+										<tr>
+											<th class="bg-light">Ruc:</th>
+											<td><?php echo $row['Cedula'] ?></td>
+											<th class="bg-light">Nombre</th>
+											<td colspan='5'><?php echo $row['Nombre'] ?></td>
+											<th class="bg-light">Sucursal</th>
+											<td colspan='3'><?php echo $row['Sucursal'] ?></td>
+										</tr>
+										<tr>
+											<th class="bg-warning">SubTotal</th>
+											<td class="bg-warning bg-opacity-50 fw-bold">$<?php echo number_format($row['SubTotal'], 2, ",", ".") ?></td>
+											<th class="bg-warning">Descuento</th>
+											<td class="bg-warning bg-opacity-50 fw-bold">$<?php echo number_format($row['Descuento'], 2, ",", ".") ?></td>
+											<th class="bg-warning">Finan.</th>
+											<td class="bg-warning bg-opacity-50 fw-bold">$<?php echo number_format($row['Financiamiento'], 2, ",", ".") ?></td>
+											<th class="bg-warning">Impuesto</th>
+											<td class="bg-warning bg-opacity-50 fw-bold">$<?php echo number_format($row['Impuesto'], 2, ",", ".") ?></td>
+											<th class="bg-warning">Total</th>
+											<td class="bg-warning bg-opacity-50 fw-bold">$<?php echo number_format($row['Total'], 2, ",", ".") ?></td>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					<?php
+
 					} else  // del if ($row['Section']=='HEADER')
 					{
 						if ($row['MULTI'] != 'MULTI') {
@@ -305,7 +352,7 @@
 				$sql1 = "SELECT * FROM covidprovincia";
 				$results = mysqli_query($con, $sql1);
 				while ($rs = $results->fetch_assoc()) {
-			?>
+					?>
 					<option value='<?php echo $rs["idgrupo"]; ?>'><?php echo $rs["provincia"]; ?></option>
 			<?php
 				}
@@ -348,17 +395,23 @@
 			} else {
 				echo "<div id=\"casilleros\" style=\"display: none\">";
 			}
+
 			echo "<table border=1 cellspacing=0 width=80%>";
+
+
 
 			include("conexioncas.php");
 			$sqlocup = "SELECT a.secuencia, a.localid, a.lockerid, a.posicion, a.ocupado, a.medidas,a.reserva, b.localid, b.lockerid, b.bodega
-			FROM `lockers` as a 
-			left join `locales` as b
-			on a.localid=b.localid and a.lockerid=b.lockerid
-			where b.bodega='$bodega' ";
+				FROM `lockers` as a 
+				left join `locales` as b
+				on a.localid=b.localid and a.lockerid=b.lockerid
+				where b.bodega='$bodega' ";
 			//$datamail2 .=  "</table><br><br><table border=1  cellspacing=0 >";
+
 			echo "<th colspan =2>Bodega</th><th>Casillero</th><th>Ocupado</th><th colspan =2 >Medidas</th><th colspan =2> </th></tr>";
+
 			$resultocup = mysqli_query($concom, $sqlocup);
+
 
 			while ($rowocup = mysqli_fetch_array($resultocup)) {
 				$posicion = $rowocup['posicion'];
@@ -411,6 +464,7 @@
 			$_SESSION['bodegaFAC'] = $bodegaFAC;
 			//echo $datamail;
 			//echo $datamail2;
+
 			?>
 		</div>
 	</div>

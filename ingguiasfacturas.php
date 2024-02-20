@@ -293,7 +293,7 @@
 
 							if (r.ACTIVAR_LINK == 1) {
 								x = `
-								<a href="ingguiasfacturas0.php?secu=` + r.secuencia + `&bodegaFAC=` + r.BodegaFAC + `">` + r.secuencia + `</a> 
+								<a href="ingguiasfacturas0.php?secu=` + r.secuencia + `&bodegaFAC=` + r.BodegaFAC + `&tipoenvio=` + r.medio + `">` + r.secuencia + `</a> 
 								`
 							}
 							return x
