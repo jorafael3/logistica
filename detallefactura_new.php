@@ -121,6 +121,7 @@
 			while ($rowcas = mysqli_fetch_array($resultcas)) {
 				$casillero = $rowcas['casillero'];
 				$bodega = $rowcas['bodega'];
+				$bodegaret = $rowcas['bodegaret'];
 				$pickup = $rowcas['pickup'];
 				$direccion = $rowcas['direccion'];
 				$referencia = $rowcas['referencias'];
@@ -188,36 +189,72 @@
 				</div>
 
 				<div class='row'>
-					<div class='col'>
+					<div class='col-6'>
 						<table class='table table-bordered'>
 							<thead class='thead-dark'>
 								<tr>
 									<th class="bg-light">Fecha :</th>
-									<td><?php echo substr($CABECERA['Fecha'], 0, -13) ?></td>
+									<td colspan='5'><?php echo substr($CABECERA['Fecha'], 0, -13) ?></td>
+								</tr>
+								<tr>
 									<th class="bg-light">Secuencia:</th>
-									<td style="width: 250px;"><?php echo $CABECERA['Secuencia'] ?></td>
+									<td colspan='5'><?php echo $CABECERA['Secuencia'] ?></td>
+
+								</tr>
+								<tr>
 									<th class="bg-light">Vendedor:</th>
-									<td style="width: 250px;"><?php echo $CABECERA['Vendedor'] ?></td>
+									<td colspan='5'><?php echo $CABECERA['Vendedor'] ?></td>
+								</tr>
+								<tr>
+									<th class="bg-light">Nombre</th>
+									<td colspan='5'><?php echo $CABECERA['Nombre'] ?></td>
 								</tr>
 								<tr>
 									<th class="bg-light">Ruc:</th>
-									<td><?php echo $CABECERA['Cedula'] ?></td>
-									<th class="bg-light">Nombre</th>
-									<td colspan='5'><?php echo $CABECERA['Nombre'] ?></td>
-									<th class="bg-light">Sucursal</th>
-									<td colspan='3'><?php echo $CABECERA['Sucursal'] ?></td>
+									<td colspan='5'><?php echo $CABECERA['Cedula'] ?></td>
 								</tr>
 								<tr>
-									<th class="bg-warning">SubTotal</th>
-									<td class="bg-warning bg-opacity-50 fw-bold"><?php echo number_format($CABECERA['SubTotal'], 2, ",", ".") ?></td>
-									<th class="bg-warning">Descuento</th>
-									<td class="bg-warning bg-opacity-50 fw-bold"><?php echo number_format($CABECERA['Descuento'], 2, ",", ".") ?></td>
-									<th class="bg-warning">Finan.</th>
-									<td class="bg-warning bg-opacity-50 fw-bold"><?php echo number_format($CABECERA['Financiamiento'], 2, ",", ".") ?></td>
-									<th class="bg-warning">Impuesto</th>
-									<td class="bg-warning bg-opacity-50 fw-bold"><?php echo number_format($CABECERA['Impuesto'], 2, ",", ".") ?></td>
-									<th class="bg-warning">Total</th>
-									<td class="bg-warning bg-opacity-50 fw-bold"><?php echo number_format($CABECERA['Total'], 2, ",", ".") ?></td>
+									<th class="bg-light">Sucursal</th>
+									<td colspan='5'><?php echo $CABECERA['Sucursal'] ?></td>
+								</tr>
+
+							</thead>
+						</table>
+					</div>
+
+					<div class='col-6'>
+						<table class='table table-bordered'>
+							<thead class=''>
+								<tr>
+									<th class="bg-light">Entrega</th>
+									<td class="fw-bold bg-info bg-opacity-50"><?php echo $TIPO_ENVIO ?></td>
+								</tr>
+								<tr>
+									<th class="bg-light">Bodega de retiro</th>
+									<td class="fw-bold bg-info bg-opacity-50"><?php echo $bodegaret ?></td>
+								</tr>
+								<tr>
+									<th class="bg-dark text-light">SubTotal</th>
+									<td class="bg-warning bg-opacity-10 fw-bold text-end"><?php echo number_format($CABECERA['SubTotal'], 2, ",", ".") ?></td>
+								</tr>
+								<tr>
+									<th class="bg-dark text-light">Descuento</th>
+									<td class="bg-warning bg-opacity-10 fw-bold text-end"><?php echo number_format($CABECERA['Descuento'], 2, ",", ".") ?></td>
+
+								</tr>
+								<tr>
+									<th class="bg-dark text-light">Financieamiento</th>
+									<td class="bg-warning bg-opacity-10 fw-bold text-end"><?php echo number_format($CABECERA['Financiamiento'], 2, ",", ".") ?></td>
+
+								</tr>
+								<tr>
+									<th class="bg-dark text-light">Impuesto</th>
+									<td class="bg-warning bg-opacity-10 fw-bold text-end"><?php echo number_format($CABECERA['Impuesto'], 2, ",", ".") ?></td>
+
+								</tr>
+								<tr>
+									<th class="bg-dark text-light">Total</th>
+									<td class="bg-dark bg-opacity-10 fs-4 fw-bold text-success text-end"><?php echo number_format($CABECERA['Total'], 2, ",", ".") ?></td>
 								</tr>
 							</thead>
 						</table>
@@ -320,10 +357,10 @@
 					<div class="col-6">
 						<form action='detallefactura2.php' method='post' id="FORM_G">
 							<table class='table table-bordered'>
-								<input type="text" value="<?php echo $TIPO_ENVIO ?>" id="TIPO_ENVIO">
-								<Input Type="text" Name='numfac' value='<?php echo $numfac ?>'>
-								<Input Type="text" Name='sec' value='<?php echo $sec ?>'>
-								<Input Type="text" Name='bodegaFAC' value='<?php echo $bodegaFAC ?>'>
+								<input type="hidden" value="<?php echo $TIPO_ENVIO ?>" id="TIPO_ENVIO">
+								<Input Type="hidden" Name='numfac' value='<?php echo $numfac ?>'>
+								<Input Type="hidden" Name='sec' value='<?php echo $sec ?>'>
+								<Input Type="hidden" Name='bodegaFAC' value='<?php echo $bodegaFAC ?>'>
 								<thead class='thead-dark'>
 									<tr>
 										<th class="bg-light">FORMA DE DESPACHO :</th>
@@ -341,7 +378,7 @@
 										</td>
 
 									</tr>
-									<tr style="display:none" id="SECC_SUC">
+									<tr style="display:show" id="SECC_SUC">
 
 										<th class="bg-light">TIENDA DE RETIRO :</th>
 										<td>
@@ -402,18 +439,18 @@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	<script>
-		var TIENDA_RETIRO = 0;
+		var TIENDA_RETIRO = 1;
 
 		$("#ddlpickup").on("change", function(x) {
 			let val = $(this).val();
-			console.log('val: ', val);
-			if (val == "Entrega en tienda") {
-				$("#SECC_SUC").show(100);
-				TIENDA_RETIRO = 1;
-			} else {
-				$("#SECC_SUC").hide(0);
-				TIENDA_RETIRO = 0
-			}
+			// console.log('val: ', val);
+			// if (val == "Entrega en tienda") {
+			// 	$("#SECC_SUC").show(100);
+			// 	TIENDA_RETIRO = 1;
+			// } else {
+			// 	$("#SECC_SUC").hide(0);
+			// 	TIENDA_RETIRO = 0
+			// }
 		})
 
 

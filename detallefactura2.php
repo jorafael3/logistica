@@ -46,7 +46,7 @@ $bodegaFAC = $_POST['bodegaFAC'];
 
 // echo "aaaaaaaaaa";
 // echo $numfac;
-echo $comentariodesp;
+// echo $bodegaFAC;
 
 
 //echo "datos de guia q llegan de formulario anterior ". $radio.$bultos.$lockerid.$localid.$local.$despacho.$numfac.$sec.$medio.$provincia.$newbodretiro.$comentariodesp;
@@ -64,32 +64,32 @@ $fh = $fecha . " " . $hora;
 
 
 
-$sql = "UPDATE `covidsales` SET  `preppor`='$usuario' , `preparada`='$fh' where factura = '$numfac' ";
-if (mysqli_query($con, $sql)) {
-	//echo "Record updated successfully";
-} else {
-	echo "Error updating record: " . mysqli_error($conn);
-}
-mysqli_close($con);
+// $sql = "UPDATE `covidsales` SET  `preppor`='$usuario' , `preparada`='$fh' where factura = '$numfac' ";
+// if (mysqli_query($con, $sql)) {
+// 	//echo "Record updated successfully";
+// } else {
+// 	echo "Error updating record: " . mysqli_error($conn);
+// }
+// mysqli_close($con);
 
 
-// despacho = informacion del cuadro de guia
-// medio = metodo de despacho, urbano, en tienda, casillero, ...
-if ($radio == '' and $medio == 'Casillero') {
-	echo "<h2>Error... Si selecciona CASILLEROS debe seleccionar un número de casillero!</h2>";
-}
+// // despacho = informacion del cuadro de guia
+// // medio = metodo de despacho, urbano, en tienda, casillero, ...
+// if ($radio == '' and $medio == 'Casillero') {
+// 	echo "<h2>Error... Si selecciona CASILLEROS debe seleccionar un número de casillero!</h2>";
+// }
 
-// primero grabo la reserva en los casilleros
-include("conexioncas.php");
+// // primero grabo la reserva en los casilleros
+// include("conexioncas.php");
 
-$hash = mt_rand(10000000, 99999999);
-$hash5 = md5($hash);
+// $hash = mt_rand(10000000, 99999999);
+// $hash5 = md5($hash);
 
 
 
-// $sqlcasilleros = "UPDATE `lockers` SET `reserva`='$numfac',`hash` = '$hash5',`fechareserva` = '$fh'  where
-// `lockerid` = '$lockerid' and `localid` = '$localid' and `posicion` ='$radio[0]' ";
-// $resultocup = mysqli_query($concom, $sqlcasilleros);
+// // $sqlcasilleros = "UPDATE `lockers` SET `reserva`='$numfac',`hash` = '$hash5',`fechareserva` = '$fh'  where
+// // `lockerid` = '$lockerid' and `localid` = '$localid' and `posicion` ='$radio[0]' ";
+// // $resultocup = mysqli_query($concom, $sqlcasilleros);
 
 
 
@@ -112,8 +112,9 @@ $estado = $row1['estado'];
 $pickup = $row1['pickup']; // Traigo para ver si antes era envio y ahora es pick up
 $transaccion = $row1['secuencia']; //numero de orden el sisco
 $edespacho = 'Por despachar'; // estado default despacho
-$bodegaret = $row1['bodegaret'];
+$bodegaret = trim($row1['bodegaret']);
 
+echo $transaccion;
 
 
 $sqllogistica = "
@@ -130,107 +131,114 @@ if ($medio == 'Casillero') {
 	$edespacho = 'Casillero';
 }
 
-//Esto es para cambiar cuando era envio  y ahora es pickup
+// //Esto es para cambiar cuando era envio  y ahora es pickup
 
-if (($medio == 'Entrega en tienda') and ($pickup == 0)) {
+if ($bodegaret == "" || $bodegaret == null) {
 	//echo "Esto es lo que voy a insertar en covidpickup ". $transaccion. $provincia . $newbodretiro ;
 	$edespacho = 'Entrega en ' . $newbodretiro;
 	$pickup = 1;
-	$sqlpick = "insert into `covidpickup` (`orden`, `provincia`, `bodega`)  values ('$transaccion', '$provincia', '$newbodretiro' ) ";
+	$sqlpick = "insert into `covidpickup` (`orden`, `provincia`, `bodega`,`bodega_id`)  
+		values ('$transaccion', '$provincia', '','$newbodretiro' ) ";
+	mysqli_query($con, $sqlpick);
+} else {
+	$sqlpick = "UPDATE `covidpickup`
+		SET
+			`bodega_id` = '$newbodretiro'
+		WHERE `orden` = '$transaccion'";
 	mysqli_query($con, $sqlpick);
 }
 
 
 
-// si es casillero pongo en  desapcho los datos casillero
-if ($radio <> '' and $medio == 'Casillero') {
-	$despacho = $local . " Cas:. " . $radio[0];
-}
+// // si es casillero pongo en  desapcho los datos casillero
+// if ($radio <> '' and $medio == 'Casillero') {
+// 	$despacho = $local . " Cas:. " . $radio[0];
+// }
 
 
 
-/// ahora actualizo la table
-$sql = "
-UPDATE `covidsales` SET `bultos`='$bultos', `despacho`='$despacho' , `fechadesp`='$fh', `despachador`='$usuariof'  ,
-`fechafinal`='$fecha', `usuariofinal`='$usuariof' , `estado`='$edespacho'  , `despachofinal`='$medio' , `pickup`='$pickup'
-where factura = '$numfac' ";
-mysqli_query($con, $sql);
+// // /// ahora actualizo la table
+// $sql = "
+// UPDATE `covidsales` SET `bultos`='$bultos', `despacho`='$despacho' , `fechadesp`='$fh', `despachador`='$usuariof'  ,
+// `fechafinal`='$fecha', `usuariofinal`='$usuariof' , `estado`='$edespacho'  , `despachofinal`='$medio' , `pickup`='$pickup'
+// where factura = '$numfac' ";
+// mysqli_query($con, $sql);
 
 
-mysqli_close($con);
+// mysqli_close($con);
 
-require("conexion_mssql.php");
+// require("conexion_mssql.php");
 
-$pdo5 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-$result6 = $pdo5->prepare('{CALL [PER_Detalle_Facturas2] (?,?)}');
-$result6->bindParam(1, $numfac, PDO::PARAM_STR);
-$result6->bindParam(2, $bodegaFAC, PDO::PARAM_STR);
-$MULTI = [];
-$BODEGAS = [];
-if ($result6->execute()) {
-	$result = $result6->fetchAll(PDO::FETCH_ASSOC);
-	foreach ($result as $row) {
-		if ($row["Section"] != "HEADER") {
-			if ($row["MULTI"] != "") {
-				array_push($MULTI, $row["MULTI"]);
-			}
-			if (in_array($row["BodegaID"], $BODEGAS)) {
-			} else {
-				array_push($BODEGAS, $row["BodegaID"]);
-			}
-		}
-	}
-	// var_dump($BODEGAS);
-	if (count($MULTI) > 0) {
+// $pdo5 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+// $result6 = $pdo5->prepare('{CALL [PER_Detalle_Facturas2] (?,?)}');
+// $result6->bindParam(1, $numfac, PDO::PARAM_STR);
+// $result6->bindParam(2, $bodegaFAC, PDO::PARAM_STR);
+// $MULTI = [];
+// $BODEGAS = [];
+// if ($result6->execute()) {
+// 	$result = $result6->fetchAll(PDO::FETCH_ASSOC);
+// 	foreach ($result as $row) {
+// 		if ($row["Section"] != "HEADER") {
+// 			if ($row["MULTI"] != "") {
+// 				array_push($MULTI, $row["MULTI"]);
+// 			}
+// 			if (in_array($row["BodegaID"], $BODEGAS)) {
+// 			} else {
+// 				array_push($BODEGAS, $row["BodegaID"]);
+// 			}
+// 		}
+// 	}
+// 	// var_dump($BODEGAS);
+// 	if (count($MULTI) > 0) {
 
-		$result7 = $pdo5->prepare("declare 
-		@facturaid varchar(10)
-		select @facturaid = ID from VEN_FACTURAS where Secuencia = '022-002-000035444'
-		select estado, * from FACTURASLISTAS
-		where Factura = @facturaid
-		and estado = 'INGRESADAGUIA'
-		");
-		if ($result7->execute()) {
-			$res = $result7->fetchAll(PDO::FETCH_ASSOC);
-			// var_dump($res);
-			if (count($res) == count($BODEGAS)) {
-			} else {
-				$sql = "UPDATE `covidsales` SET  `estado`='Facturado'  where factura = '$numfac' ";
-				if (mysqli_query($con, $sql)) {
-					//echo "Record updated successfully";
-				} else {
-					// echo "Error updating record: " . mysqli_error($conn);
-				}
-			}
-		}
-	}
-}
-
-
-
-
+// 		$result7 = $pdo5->prepare("declare 
+// 		@facturaid varchar(10)
+// 		select @facturaid = ID from VEN_FACTURAS where Secuencia = '".$numfac."'
+// 		select estado, * from FACTURASLISTAS
+// 		where Factura = @facturaid
+// 		and estado = 'INGRESADAGUIA'
+// 		");
+// 		if ($result7->execute()) {
+// 			$res = $result7->fetchAll(PDO::FETCH_ASSOC);
+// 			// var_dump($res);
+// 			if (count($res) == count($BODEGAS)) {
+// 			} else {
+// 				$sql = "UPDATE `covidsales` SET  `estado`='Facturado'  where factura = '$numfac' ";
+// 				if (mysqli_query($con, $sql)) {
+// 					//echo "Record updated successfully";
+// 				} else {
+// 					// echo "Error updating record: " . mysqli_error($conn);
+// 				}
+// 			}
+// 		}
+// 	}
+// }
 
 
 
 
-// /***************************************Actualiza tabla de Facturaslistas en COMPUTRONSA*************/
-//hasta aqui la variable usuario no lleva nada
-//echo "UsuarioF ". $usuariof."Usuario".$usuario. $base.$acceso.$bodega.$nomsuc, $comentariodesp;
-//echo $bodegaFAC;
 
-$tipo = 'VEN-FA';
-$pdo5 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-$result5 = $pdo5->prepare('Log_facturaslistas_despacho_update  @guia =:despacho ,@bultos=:bultos,  @transporte=:medio,
-							   @entregado= :usuario ,@numfac=:numfac, @tipo=:tipo, @comentariod=:comentariod , @bodegaFAC=:bodegaFAC');
-$result5->bindParam(':despacho', $despacho, PDO::PARAM_STR);
-$result5->bindParam(':bultos', $bultos, PDO::PARAM_STR);
-$result5->bindParam(':medio', $medio, PDO::PARAM_STR);
-$result5->bindParam(':usuario', $usuariof, PDO::PARAM_STR);
-$result5->bindParam(':numfac', $numfac, PDO::PARAM_STR); // ENVIO SECUENCIA DE FACTURA
-$result5->bindParam(':tipo', $tipo, PDO::PARAM_STR);
-$result5->bindParam(':comentariod', $comentariodesp, PDO::PARAM_STR);
-$result5->bindParam(':bodegaFAC', $bodegaFAC, PDO::PARAM_STR);
-$result5->execute();
+
+
+
+// // /***************************************Actualiza tabla de Facturaslistas en COMPUTRONSA*************/
+// //hasta aqui la variable usuario no lleva nada
+// //echo "UsuarioF ". $usuariof."Usuario".$usuario. $base.$acceso.$bodega.$nomsuc, $comentariodesp;
+// //echo $bodegaFAC;
+
+// $tipo = 'VEN-FA';
+// $pdo5 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+// $result5 = $pdo5->prepare('Log_facturaslistas_despacho_update  @guia =:despacho ,@bultos=:bultos,  @transporte=:medio,
+// 							   @entregado= :usuario ,@numfac=:numfac, @tipo=:tipo, @comentariod=:comentariod , @bodegaFAC=:bodegaFAC');
+// $result5->bindParam(':despacho', $despacho, PDO::PARAM_STR);
+// $result5->bindParam(':bultos', $bultos, PDO::PARAM_STR);
+// $result5->bindParam(':medio', $medio, PDO::PARAM_STR);
+// $result5->bindParam(':usuario', $usuariof, PDO::PARAM_STR);
+// $result5->bindParam(':numfac', $numfac, PDO::PARAM_STR); // ENVIO SECUENCIA DE FACTURA
+// $result5->bindParam(':tipo', $tipo, PDO::PARAM_STR);
+// $result5->bindParam(':comentariod', $comentariodesp, PDO::PARAM_STR);
+// $result5->bindParam(':bodegaFAC', $bodegaFAC, PDO::PARAM_STR);
+// $result5->execute();
 
 
 
@@ -239,27 +247,27 @@ $result5->execute();
 
 //Para enviar el correo dependiendo de lo q haya seleccionado como forma de Despacho en la Guia
 
-if ($medio == 'Casillero') {
-	echo "<h2>Use este código para abrir el casillero cuando vaya a cargar la orden:</h2>";
-	echo "<img src=\"https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=" . $hash5 . "&choe=UTF-8\" title=\"Computron\" /><br>";
-	echo "Factura: " . $numfac . "<br>";
-	echo "Casillero: " . $radio[0] . " del COMPUTRON " . $local . "<br>";
-	echo "<b><u>Nota:</u></b> Este código es válido para 1 solo uso.<br>";
-	echo "<br>Imprima este documento y tengalo junto con la mercadería <br>";
-	echo "Necesitará este código para poder abrir el casillero <br>";
-}
-if ($bodegaFAC == '0500000003' or $bodegaFAC == '0500000005' or $bodegaFAC == '0500000006' or $bodegaFAC == '0500000007') //$bodegaFAC =='0500000002' oror $bodegaFAC =='0500000008') //Si la bodega de facturacion es MABE,ECOLINE, BOYACA,LYCAN o CONSIGNACION CARTIMEX debe enviar correo al Proveedor or $bodegaFAC =='0500000004'
-{
-	header("Refresh: 0 ; mailproveedor.php");
-} else {
-	if (($medio == 'Urbano') or ($medio == 'Tramaco') or ($medio == 'Servientrega') or ($medio == 'Vehiculo Computron')) {
-		//echo "Entra aqui ";
-		header("Refresh: 0 ; mailcourier.php");
-	}
-	if ($medio == 'Entrega en tienda') {
-		header("location: mailretiroenotratienda.php");
-	}
-}
+// if ($medio == 'Casillero') {
+// 	echo "<h2>Use este código para abrir el casillero cuando vaya a cargar la orden:</h2>";
+// 	echo "<img src=\"https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=" . $hash5 . "&choe=UTF-8\" title=\"Computron\" /><br>";
+// 	echo "Factura: " . $numfac . "<br>";
+// 	echo "Casillero: " . $radio[0] . " del COMPUTRON " . $local . "<br>";
+// 	echo "<b><u>Nota:</u></b> Este código es válido para 1 solo uso.<br>";
+// 	echo "<br>Imprima este documento y tengalo junto con la mercadería <br>";
+// 	echo "Necesitará este código para poder abrir el casillero <br>";
+// }
+// if ($bodegaFAC == '0500000003' or $bodegaFAC == '0500000005' or $bodegaFAC == '0500000006' or $bodegaFAC == '0500000007') //$bodegaFAC =='0500000002' oror $bodegaFAC =='0500000008') //Si la bodega de facturacion es MABE,ECOLINE, BOYACA,LYCAN o CONSIGNACION CARTIMEX debe enviar correo al Proveedor or $bodegaFAC =='0500000004'
+// {
+// 	header("Refresh: 0 ; mailproveedor.php");
+// } else {
+// 	if (($medio == 'Urbano') or ($medio == 'Tramaco') or ($medio == 'Servientrega') or ($medio == 'Vehiculo Computron')) {
+// 		//echo "Entra aqui ";
+// 		header("Refresh: 0 ; mailcourier.php");
+// 	}
+// 	if ($medio == 'Entrega en tienda') {
+// 		header("location: mailretiroenotratienda.php");
+// 	}
+// }
 
 //Variables de sesion de SGL
 $_SESSION['usuario'] = $usuariof;
