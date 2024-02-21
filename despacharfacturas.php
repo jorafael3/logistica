@@ -135,14 +135,15 @@
 		let acceso = '<?php echo $acceso ?>';
 		let sucursal = '<?php echo $nomsuc ?>';
 		// sucursal = "COMPUTRON QUICENTRO 2"
-		if (sucursal == "COMPUTRON EL DORADO") {
-			sucursal = "RIOCENTRO EL DORADO"
-		}
-		//if(sucursal == "COMPUTRON EL DORADO")
-		sucursal = sucursal.toUpperCase();
-		sucursal = sucursal.replace("COMPUTRON", "")
+		// if (sucursal == "COMPUTRON EL DORADO") {
+		// 	sucursal = "RIOCENTRO EL DORADO"
+		// }
+		// //if(sucursal == "COMPUTRON EL DORADO")
+		// sucursal = sucursal.toUpperCase();
+		// sucursal = sucursal.replace("COMPUTRON", "")
 
 		sucursal = sucursal.trim()
+		console.log('sucursal: ', sucursal);
 		let para = {
 			"Cargar_guias": 1,
 			acceso: '<?php echo $acceso ?>',
@@ -173,13 +174,12 @@
 				data_filtrada = x;
 			} else {
 				data_filtrada = x.filter(function(x) {
-					let b = (x.BODEGA_RETIRO)
+					let b = (x.BODEGA_RETIRO_SISCO)
 					if (b != null) {
 						if (b.trim() != "") {
 							b = b.toUpperCase()
 							b = b.trim()
 							if (sucursal == b) {
-
 								return x;
 							}
 						}

@@ -148,7 +148,7 @@
 				$res = $result->fetchAll(PDO::FETCH_ASSOC);
 				$CABECERA = $res[0];
 				echo "<pre>";
-				var_dump($res[0]);
+				// var_dump($res[0]);
 				echo "</pre>";
 			} else {
 				echo "<h3> ERROR AL CARGAR </h3>";
@@ -175,6 +175,29 @@
 			if (trim($TIPO_ENVIO) == "ENVIO") {
 				$DISPLAY = 'show';
 			}
+
+
+			$result3 = $pdo->prepare("
+			declare @factura varchar(20)
+			select @factura = ID from ven_facturas where secuencia = :secuencia
+			SELECT * from Cli_Direccion_Dropshipping
+			where Facturaid = @factura
+			");
+			$result3->bindParam(':secuencia', $numfac, PDO::PARAM_STR);
+			if ($result3->execute()) {
+				$res3 = $result->fetchAll(PDO::FETCH_ASSOC);
+				$CABECERA = $res[0];
+				echo "<pre>";
+				var_dump($res3);
+				echo "</pre>";
+			} else {
+				echo "<h3> ERROR AL CARGAR </h3>";
+				die();
+			}
+			// var_dump($res[0]);
+
+
+
 
 			?>
 
@@ -355,68 +378,69 @@
 					</div>
 
 					<div class="col-6">
-						<form action='detallefactura2.php' method='post' id="FORM_G">
-							<table class='table table-bordered'>
-								<input type="hidden" value="<?php echo $TIPO_ENVIO ?>" id="TIPO_ENVIO">
-								<Input Type="hidden" Name='numfac' value='<?php echo $numfac ?>'>
-								<Input Type="hidden" Name='sec' value='<?php echo $sec ?>'>
-								<Input Type="hidden" Name='bodegaFAC' value='<?php echo $bodegaFAC ?>'>
-								<thead class='thead-dark'>
-									<tr>
-										<th class="bg-light">FORMA DE DESPACHO :</th>
-										<td>
-											<select name="medio" id="ddlpickup" class="form-select">
-												<option value=''>Seleccione</option>
-												<option value='Urbano'>Urbano</option>
-												<option value='Tramaco'>Tramaco</option>
-												<option value='Servientrega'>Servientrega</option>
-												<option value='Vehiculo Computron'>Vehiculo Computron</option>
-												<option value='Entrega en tienda'>Entrega en tienda</option>
-												<option value='Casillero'>Casillero</option>
+						<!-- <form action='detallefactura2_new.php' method='post' id="FORM_G"> -->
+						<table class='table table-bordered'>
+							<input type="hidden" value="<?php echo $TIPO_ENVIO ?>" id="TIPO_ENVIO">
+							<Input Type="hidden" Name='numfac' id="numfac" value='<?php echo $numfac ?>'>
+							<Input Type="hidden" Name='sec' value='<?php echo $sec ?>'>
+							<Input Type="hidden" Name='bodegaFAC' id="bodegaFAC" value='<?php echo $bodegaFAC ?>'>
+							<Input Type="hidden" Name='usuario' id="usuario" value='<?php echo $usuariof ?>'>
+							<thead class='thead-dark'>
+								<tr>
+									<th class="bg-light">FORMA DE DESPACHO :</th>
+									<td>
+										<select name="medio" id="ddlpickup" class="form-select">
+											<option value=''>Seleccione</option>
+											<option value='Urbano'>Urbano</option>
+											<option value='Tramaco'>Tramaco</option>
+											<option value='Servientrega'>Servientrega</option>
+											<option value='Vehiculo Computron'>Vehiculo Computron</option>
+											<option value='Entrega en tienda'>Entrega en tienda</option>
+											<option value='Casillero'>Casillero</option>
 
-											</select>
-										</td>
+										</select>
+									</td>
 
-									</tr>
-									<tr style="display:show" id="SECC_SUC">
+								</tr>
+								<tr style="display:show" id="SECC_SUC">
 
-										<th class="bg-light">TIENDA DE RETIRO :</th>
-										<td>
-											<select name="nbodega" id="sucursales" class="form-select">
-												<option value="">Seleccione tienda de retiro</option>
-												<?php
-												foreach ($SUCURSALES as $row) {
-												?>
-													<option value="<?php echo $row["ID"] ?>"><?php echo $row["codigo"] . " - " . $row["Nombre"] ?></option>
+									<th class="bg-light">TIENDA DE RETIRO :</th>
+									<td>
+										<select name="nbodega" id="sucursales" class="form-select">
+											<option value="">Seleccione tienda de retiro</option>
+											<?php
+											foreach ($SUCURSALES as $row) {
+											?>
+												<option value="<?php echo $row["ID"] ?>"><?php echo $row["codigo"] . " - " . $row["Nombre"] ?></option>
 
-												<?php
+											<?php
 
-												}
-												?>
+											}
+											?>
 
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<th class="bg-light">GUIA #</th>
-										<td>
-											<Input Type=Text Size=10 Maxlenght=95 Name='despacho' id='despacho' class="form-control">
-										</td>
-									</tr>
-									<tr>
-										<th class="bg-light">BULTOS #</th>
-										<td>
-											<Input Type="number" Size=10 Maxlenght=5 Name='bultos' id='bultos' min='1' max='10' required class="form-control">
-										</td>
-									</tr>
-									<tr>
-										<th class="bg-light">COMENTARIO DESPACHO</th>
-										<td>
-											<textarea class="form-control" Size=20 rows=4 cols=120 Name='comentariodesp' id='comentariodesp'></textarea>
-									</tr>
-								</thead>
-							</table>
-						</form>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th class="bg-light">GUIA #</th>
+									<td>
+										<Input Type=Text Size=10 Maxlenght=95 Name='despacho' id='despacho' class="form-control">
+									</td>
+								</tr>
+								<tr>
+									<th class="bg-light">BULTOS #</th>
+									<td>
+										<Input Type="number" Size=10 Maxlenght=5 Name='bultos' id='bultos' min='1' max='10' required class="form-control">
+									</td>
+								</tr>
+								<tr>
+									<th class="bg-light">COMENTARIO DESPACHO</th>
+									<td>
+										<textarea class="form-control" Size=20 rows=4 cols=120 Name='comentariodesp' id='comentariodesp'></textarea>
+								</tr>
+							</thead>
+						</table>
+						<!-- </form> -->
 
 					</div>
 
@@ -437,6 +461,8 @@
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<link href="assets/freeze/freeze-ui.min.css" type="text/css" rel="stylesheet" />
+	<script src="assets/freeze/freeze-ui.min.js" type="text/javascript"></script>
 
 	<script>
 		var TIENDA_RETIRO = 1;
@@ -451,8 +477,7 @@
 			// 	$("#SECC_SUC").hide(0);
 			// 	TIENDA_RETIRO = 0
 			// }
-		})
-
+		});
 
 		function Guardar_Form() {
 			var formulario = document.getElementById("FORM_G");
@@ -460,6 +485,11 @@
 			let sucursal = $("#sucursales").val();
 			let tipo = $("#TIPO_ENVIO").val();
 			let forma_despa = $("#ddlpickup").val();
+			let bultos = $("#bultos").val();
+			let comentario = $("#comentariodesp").val();
+			let secuencia = $("#numfac").val();
+			let bodegaFAC = $("#bodegaFAC").val();
+			let usuario = $("#usuario").val();
 			// let guia = $("#despacho").val();
 
 
@@ -478,23 +508,63 @@
 
 			} else {
 
-				if (TIENDA_RETIRO == 1) {
-					if (sucursal == "") {
-						Swal.fire({
-							title: "Debe Ingresar una tienda de retiro",
-							text: "",
-							icon: "info"
-						});
-					} else {
-						formulario.submit();
-					}
-				} else {
-					formulario.submit();
+				let param = {
+					Guardar_Guia: 1,
+					FORMA_DESPACHO: forma_despa,
+					TIENDA_RETIRO: sucursal,
+					GUIA: guia,
+					BULTOS: bultos,
+					COMENTARIO: comentario,
+					SECUENCIA: secuencia,
+					BODEGAFAC: bodegaFAC,
+					USUARIO: usuario
 				}
+				console.log('param: ', param);
+
+				AjaxSend(param, function(x) {
+					console.log('x: ', x);
+					if (x[0] == 1) {
+						Swal.fire({
+							title: "Datos guardados",
+							text: "",
+							icon: "success"
+						});
+					}
+				})
+
+				// if (TIENDA_RETIRO == 1) {
+				// 	if (sucursal == "") {
+				// 		Swal.fire({
+				// 			title: "Debe Ingresar una tienda de retiro",
+				// 			text: "",
+				// 			icon: "info"
+				// 		});
+				// 	} else {
+				// 		formulario.submit();
+				// 	}
+				// } else {
+				// 	formulario.submit();
+				// }
 
 			}
-			console.log('guia: ', guia);
 
+		}
+
+		function AjaxSend(param, callback) {
+			FreezeUI({
+				text: 'Cargando'
+			});
+			$.ajax({
+				data: param,
+				datatype: 'json',
+				url: 'detallefactura_f.php',
+				type: 'POST',
+				success: function(x) {
+					x = JSON.parse(x)
+					UnFreezeUI();
+					callback(x)
+				}
+			})
 		}
 	</script>
 

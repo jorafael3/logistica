@@ -99,11 +99,13 @@ $sql1 = "SELECT a.*, p.bodega as bodegaret FROM `covidsales` a
 left outer join covidpickup p on p.orden = a.secuencia where a.factura = '$numfac' ";
 
 
+$ES_PUERTA = 0;
 
 $array = array();
 $result1 = mysqli_query($con, $sql1);
 
 $row1 = mysqli_fetch_array($result1);
+$ES_PUERTA = count([$row1]);
 $nombre = $row1['nombres'];
 $mail = $row1['mail'];
 $factura = $row1['factura'];
@@ -114,7 +116,7 @@ $transaccion = $row1['secuencia']; //numero de orden el sisco
 $edespacho = 'Por despachar'; // estado default despacho
 $bodegaret = trim($row1['bodegaret']);
 
-echo $transaccion;
+// echo $ES_PUERTA;
 
 
 $sqllogistica = "
@@ -170,6 +172,7 @@ mysqli_close($con);
 require("conexion_mssql.php");
 
 $pdo5 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+
 $result6 = $pdo5->prepare('{CALL [PER_Detalle_Facturas2] (?,?)}');
 $result6->bindParam(1, $numfac, PDO::PARAM_STR);
 $result6->bindParam(2, $bodegaFAC, PDO::PARAM_STR);
@@ -193,7 +196,7 @@ if ($result6->execute()) {
 
 		$result7 = $pdo5->prepare("declare 
 		@facturaid varchar(10)
-		select @facturaid = ID from VEN_FACTURAS where Secuencia = '".$numfac."'
+		select @facturaid = ID from VEN_FACTURAS where Secuencia = '" . $numfac . "'
 		select estado, * from FACTURASLISTAS
 		where Factura = @facturaid
 		and estado = 'INGRESADAGUIA'
@@ -215,8 +218,40 @@ if ($result6->execute()) {
 }
 
 
+$result_factura = $pdo5->prepare('SELECT * FROM ven_facturas
+	where secuencia = :secuencia');
+$result_factura->bindParam(":secuencia", $numfac, PDO::PARAM_STR);
+$result_f = $result_factura->fetchAll(PDO::FETCH_ASSOC);
+$FACTURA_ID = $result_f[0]["ID"];
 
+if (trim($transaccion) != "" || trim($transaccion) != null) {
 
+	$result_cli = $pdo5->prepare('SELECT * FROM Cli_Direccion_Dropshipping
+	where Facturaid = :Facturaid');
+	$result_cli->bindParam(":Facturaid", $FACTURA_ID, PDO::PARAM_STR);
+	$result_c = $result_cli->fetchAll(PDO::FETCH_ASSOC);
+	if (count($result_c) > 0) {
+		$sql = "UPDATE Cli_Direccion_Dropshipping
+			SET
+				tienda_retiro = :tienda_retiro
+			WHERE facturaid = :facturaid";
+	} else {
+		$sql = "INSERT INTO Cli_Direccion_Dropshipping
+		(
+			facturaid,
+			tienda_retiro
+	
+		)VALUES(
+			facturaid,
+			tienda_retiro
+		)";
+	}
+
+	$result7 = $pdo5->prepare($sql);
+	$result7->bindParam(":facturaid", $FACTURA_ID, PDO::PARAM_STR);
+	$result7->bindParam(":tienda_retiro", $newbodretiro, PDO::PARAM_STR);
+	$result7->execute();
+}
 
 
 
