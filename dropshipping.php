@@ -9,6 +9,8 @@
 <link href="estilos/estilos2.css" rel="stylesheet" type="text/css">
 <link href="estilos/estilos.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="css/tablas.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
 <body onload="setfocus()">
 	<div id="header" align="center">
@@ -62,10 +64,10 @@
 
 			<div class=\"table-responsive-xs\">
 				<form name="formfactura2" action="dropshipping0.php" method="POST" width="100%">
-					<table align="center">
-						<tr>
+					<table align="center" class="table table-striped">
+						<!-- <tr>
 							<th colspan="6">Facturas Pendientes </th>
-						</tr>
+						</tr> -->
 						<tr>
 							<th id="fila4"> SId </th>
 							<th id="fila4"> Cliente </th>
@@ -148,13 +150,13 @@
 						while ($y <= $count - 1) {
 						?>
 							<tr>
-								<td id="fila4" style="font-weight: bold;font-size: 16px;"> <?php echo $arreglo[$y][1] ?></td>
-								<td id="fila4"> <?php echo $arreglo[$y][5] ?></td>
-								<td id="label2" align="center">
-									<input style="font-weight: bold;font-size: 16px;" name="secu" type="submit" id="secu" size="20" value="<?php echo $arreglo[$y][2] . " " . $arreglo[$y][7] ?>">
+								<td id="fila4" class="fw-bold fs-6 bg-warning bg-opacity-10"> <?php echo $arreglo[$y][1] ?></td>
+								<td id="fila4" class="fw-bold fs-6"> <?php echo $arreglo[$y][5] ?></td>
+								<td id="label2" class="">
+									<input class="btn btn-sm btn-secondary fw-bold" name="secu" type="submit" id="secu" size="20" value="<?php echo $arreglo[$y][2] . " " . $arreglo[$y][7] ?>">
 								</td>
-								<td id="fila4"> <?php echo $arreglo[$y][3] ?> </td>
-								<td id="fila4"> <?php echo $arreglo[$y][4] ?> </td>
+								<td id="fila4" class="fw-bold fs-6"> <?php echo $arreglo[$y][3] ?> </td>
+								<td id="fila4" class="fw-bold fs-6"> <?php echo $arreglo[$y][4] ?> </td>
 								<td id="fila4"> <?php echo $arreglo[$y][6] ?> </td>
 							</tr>
 						<?php

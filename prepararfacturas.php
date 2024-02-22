@@ -71,10 +71,10 @@
 
 			<div class=\"table-responsive-xs\">
 				<form name="formfactura2" action="prepararfacturas0.php" method="POST" width="100%">
-					<table align="center">
-						<tr>
+					<table align="center" class="table table-striped">
+						<!-- <tr>
 							<th colspan="6">Facturas Pendientes </th>
-						</tr>
+						</tr> -->
 						<tr>
 							<th id="fila4"> SId </th>
 							<th id="fila4"> Cliente </th>
@@ -225,11 +225,12 @@
 							?>
 
 								<tr>
-									<td id="fila4"> <?php echo $arreglo[$y][1] ?></td>
-									<td id="fila4"> <?php echo $arreglo[$y][5] ?></td>
-									<td id="label2" align="center"> <input name="secu" type="submit" id="secu" size="20" value="<?php echo $arreglo[$y][2] . " " . $arreglo[$y][7] ?>"> </td>
-									<td id="fila4"> <?php echo $arreglo[$y][3] ?> </td>
-									<td id="fila4"> <?php echo $arreglo[$y][4] ?> </td>
+									<td id="fila4" class="fw-bold fs-6"> <?php echo $arreglo[$y][1] ?></td>
+									<td id="fila4" class="fw-bold fs-6"> <?php echo $arreglo[$y][5] ?></td>
+									<td id="label2" align="center">
+										 <input class="btn btn-sm btn-secondary fw-bold" name="secu" type="submit" id="secu" size="20" value="<?php echo $arreglo[$y][2] . " " . $arreglo[$y][7] ?>"> </td>
+									<td id="fila4" class="fw-bold fs-6"> <?php echo $arreglo[$y][3] ?> </td>
+									<td id="fila4" class="fw-bold fs-6 bg-warning bg-opacity-10"> <?php echo $arreglo[$y][4] ?> </td>
 									<td id="fila4"> <?php echo $arreglo[$y][6] ?> </td>
 									<td id="label2"> <input name="bodegaFAC" type="hidden" id="bodegaFAC" size="30" value="<?php echo $bodega ?>"> </td>
 								</tr>
