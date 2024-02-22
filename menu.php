@@ -17,7 +17,7 @@
 			$base = $_SESSION['base'];
 			$empresa = $_SESSION['empresa'];
 			$bodega = $_SESSION['bodega'];
-			echo $bodega;
+			// echo $bodega;
 			$drop = $_SESSION['drop'];
 			$puerta_p = $_SESSION['puerta_p'];
 
@@ -151,9 +151,9 @@
 		}
 
 ?>
-<div id="footer" align="center">
+<div id="footer" align="center" class="fw-bold">
 	<br>
-	&copy; Copyright 2020 All Rights Reserved. This website was built by
+	&copy; Copyright 2024 All Rights Reserved. This website was built by
 	Cartimex S.A
 </div>
 

@@ -59,7 +59,7 @@
 					$result->execute();
 					$count = $result->rowcount();
 
-					echo $count;
+					// echo $count;
 					if ($count  == 0) {
 					?>
  					<div id="centro"> <a class="titulo">
