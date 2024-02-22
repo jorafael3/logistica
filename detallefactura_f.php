@@ -1,5 +1,8 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 if (isset($_POST['Guardar_Guia'])) {
 	include('conexion_2.php');
@@ -38,7 +41,19 @@ if (isset($_POST['Guardar_Guia'])) {
 		if ($VAL == 1) {
 			$GUARDAR_DOBRA = Guardar_Dobra($GUIA, $BULTOS, $FORMA_DESPACHO, $USUARIO, $SECUENCIA, $COMENTARIO, $BODEGAFAC);
 			if ($GUARDAR_DOBRA[0] == 1) {
-				echo json_encode([1, $GUARDAR_DOBRA, $SISCO]);
+
+				if (($FORMA_DESPACHO == 'Urbano') or ($FORMA_DESPACHO == 'Tramaco')
+					or ($FORMA_DESPACHO == 'Servientrega') or ($FORMA_DESPACHO == 'Vehiculo Computron')
+				) {
+					//echo "Entra aqui ";
+					$MC = mailmailcourier($SECUENCIA, $BODEGAFAC);
+				}
+				if ($FORMA_DESPACHO == 'Entrega en tienda') {
+					$MC = mailretiroenotratienda($SECUENCIA, $BODEGAFAC);
+				}
+				$REST = Restablecer_Multibodega($SECUENCIA, $BODEGAFAC);
+
+				echo json_encode([1, $GUARDAR_DOBRA, $SISCO, $MC, $REST]);
 				exit();
 			} else {
 				echo json_encode([0, $GUARDAR_DOBRA, $SISCO]);
@@ -63,6 +78,34 @@ function validar_sisco($SECUENCIA)
 
 		$sql = "SELECT a.*, p.bodega as bodegaret FROM `covidsales` a
 		left outer join covidpickup p on p.orden = a.secuencia where a.factura = :factura ";
+		$query = $pdo->prepare($sql);
+		$query->bindParam(':factura', $SECUENCIA, PDO::PARAM_STR);
+		if ($query->execute()) {
+			$result = $query->fetchAll(PDO::FETCH_ASSOC);
+			return [1, $result];
+		} else {
+			$err = $query->errorInfo();
+			// echo json_encode($err);
+			return [0, $err];
+		}
+	} catch (PDOException $e) {
+		//return [];
+		$e = $e->getMessage();
+		return [0, $e];
+	}
+}
+
+function validar_sisco_2($SECUENCIA)
+{
+	try {
+		include("conexion_2sisco.php");
+
+		$sql = "SELECT a.*, p.bodega as bodegaret,c.sucursalid as sucursal,
+		p.bodega_id as SUCURSAL_ID  
+		FROM covidsales a
+		inner join covidpickup p on p.orden= a.secuencia
+		left outer join sisco.covidciudades c on p.bodega= c.almacen
+		where a.factura = :factura and a.anulada<> '1'  ";
 		$query = $pdo->prepare($sql);
 		$query->bindParam(':factura', $SECUENCIA, PDO::PARAM_STR);
 		if ($query->execute()) {
@@ -396,9 +439,9 @@ function Guardar_Dobra($GUIA, $BULTOS, $FORMA_DESPACHO, $USUARIO, $SECUENCIA, $C
 	}
 }
 
-function mailmailcourier($numfac,$bodegaFAC)
+function mailmailcourier($factura, $bodegaFAC)
 {
-	require('conexion_mssql.php'); //Reemplaza las 4 lineas de abajo 
+	require('conexion_2.php'); //Reemplaza las 4 lineas de abajo 
 
 	//echo "Factura".$factura;
 
@@ -430,30 +473,33 @@ function mailmailcourier($numfac,$bodegaFAC)
 		$numfac =  $row['id'];
 		$localdireccion =  $row['localdireccion'];
 		$saldo =  number_format($row['saldo'], 2);
-		include("conexion.php");
-		$sql0 = "SELECT a.* , p.bodega as bodegaret,c.sucursalid as sucursal FROM covidsales a
-			left outer join covidpickup p on  a.secuencia = p.orden
-			left outer join sisco.covidciudades c on p.bodega= c.almacen
-			where a.factura = trim('$secuencia') and a.anulada<> '1'  ";
-		$result0 = mysqli_query($con, $sql0);
-		$conrow = $result0->num_rows;
-
-		if ($conrow > 0) {
-			while ($row0 = mysqli_fetch_array($result0)) {
-				$rastreo = '';
-				$Transporte = '';
-				$Transporte = $row0['despachofinal'];
-				$guia = $row0['despacho'];
-				if ($Transporte == 'Urbano') {
-					$rastreo = 'https://www.urbano.com.ec/';
-				}
-				if ($Transporte == 'Tramaco') {
-					$rastreo = 'www.tramaco.com.ec/';
-				}
-				if ($Transporte == 'Servientrega') {
-					$rastreo = 'www.servientrega.com.ec/rastreo/multiple';
-				}
+		// include("conexion_2sisco.php");
+		// $sql0 = "SELECT a.* , p.bodega as bodegaret,c.sucursalid as sucursal FROM covidsales a
+		// 	left outer join covidpickup p on  a.secuencia = p.orden
+		// 	left outer join sisco.covidciudades c on p.bodega= c.almacen
+		// 	where a.factura = trim('$secuencia') and a.anulada<> '1'  ";
+		// $result0 = mysqli_query($con, $sql0);
+		// $conrow = $result0->num_rows;
+		$SISCO = validar_sisco_2($secuencia);
+		$DATOS = $SISCO[1];
+		// return $DATOS[0]["despachofinal"];
+		// echo json_encode($DATOS[]);
+		if (count($DATOS) > 0) {
+			// while ($row0 = mysqli_fetch_array($result0)) {
+			$rastreo = '';
+			$Transporte = '';
+			$Transporte = $DATOS[0]['despachofinal'];
+			$guia = $DATOS[0]['despacho'];
+			if ($Transporte == 'Urbano') {
+				$rastreo = 'https://www.urbano.com.ec/';
 			}
+			if ($Transporte == 'Tramaco') {
+				$rastreo = 'www.tramaco.com.ec/';
+			}
+			if ($Transporte == 'Servientrega') {
+				$rastreo = 'www.servientrega.com.ec/rastreo/multiple';
+			}
+			// }
 			if ($Transporte <> '') {
 				$pdo3 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 				$result3 = $pdo3->prepare("select * from sis_sucursales where código =:sucursal");
@@ -509,8 +555,13 @@ function mailmailcourier($numfac,$bodegaFAC)
 					<strong>Nota de Descargo: </strong>La información contenida en este mensaje y sus anexos tiene carácter confidencial, <br>y está dirigida únicamente al destinatario de la misma y sólo podrá ser usada por éste. <br>
 					Si usted ha recibido este mensaje por error, por favor borre el mensaje de su sistema. 
 					";
-					require_once '../vendor/autoload.php';
-					$m = new PHPMailer;
+					require_once 'PHPMailer/src/Exception.php';
+					require_once 'PHPMailer/src/PHPMailer.php';
+					require_once 'PHPMailer/src/SMTP.php';
+
+
+					$m = new PHPMailer(true);
+
 					$m->CharSet = 'UTF-8';
 					$m->isSMTP();
 					$m->SMTPAuth = true;
@@ -523,16 +574,245 @@ function mailmailcourier($numfac,$bodegaFAC)
 					$m->addBCC('pchavez@cartimex.com');
 					$m->FromName = 'Computron';
 					//$destinatario = "fmortola@cartimex.com";
-					$m->addAddress($direccionmail);
+					// $m->addAddress($direccionmail);
+					$m->addAddress('jalvarado@cartimex.com');
 					$m->isHTML(true);
 					// $m->addAttachment('directorio/nombrearchivo.jpg','nombrearchivo.jpg')
 					$m->Subject = "COMPUTRONSA Detalle de Compra ";
 					$m->Body = $msg;
-					var_dump($m->send());
+					// $m->send();
+					if (!$m->Send()) {
+						return 'Mail error: ' . $m->ErrorInfo;
+					} else {
+						return "ENVIADO";
+					}
 				}
 			}
+		} else {
+			return $secuencia;
 		}
 	}
 }
 
+function mailretiroenotratienda($factura, $bodegaFAC)
+{
 
+	require('conexion_2.php'); //Reemplaza las 4 lineas de abajo 
+
+	date_default_timezone_set('America/Guayaquil');
+	$fechahoy = date("Y-m-d", time());
+	// echo "Fecha: ".$fechahoy."<br>";
+	$tipo = 'VEN-FA';
+	$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+	$result = $pdo->prepare("select top (1) a.id as id,a.secuencia as secu , bo.Sucursal as Sucurfact ,a.Detalle as nomcli, s.nombre as nomsuc , s.dirección as localdireccion , d.saldo as saldo , b.SRI_EM1 as sri_em1
+						from ven_facturas a with(nolock) 
+						inner join VEN_FACTURAS_DT dt with(nolock) on dt.FacturaID = a.id
+						inner join cli_clientes b with(nolock) on a.clienteid = b.id  
+						inner join INV_BODEGAS bo with(nolock) on bo.id= dt.BodegaID 
+						inner join SIS_SUCURSALES s with (nolock)  on s.Código = bo.Sucursal
+						inner join CLI_CLIENTES_DEUDAS d with (nolock) on d.DocumentoID= a.id 
+						where a.secuencia =:numfac and d.tipo =:tipo ");
+	$result->bindParam(':numfac', $factura, PDO::PARAM_STR);
+	$result->bindParam(':tipo', $tipo, PDO::PARAM_STR);
+	$result->execute();
+
+	while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+		$direccionmail = $row['sri_em1'];
+		//$direccionmail = 'pchavez@cartimex.com';
+		$secuencia = $row['secu'];
+		$nombrecli = $row['nomcli'];
+		$sucurfact =  $row['Sucurfact'];
+		$nomsuc =  $row['nomsuc'];
+		$numfac =  $row['id'];
+		$localdireccion =  $row['localdireccion'];
+		$saldo =  number_format($row['saldo'], 2);
+		// include("conexion_2sisco.php");
+		// $sql0 = "SELECT a.*, p.bodega as bodegaret,c.sucursalid as sucursal  
+		// 	FROM covidsales a
+		// 	inner join covidpickup p on p.orden= a.secuencia
+		// 	left outer join sisco.covidciudades c on p.bodega= c.almacen
+		// 	where a.factura = trim('$secuencia') and a.anulada<> '1'  ";
+		// $result0 = mysqli_query($con, $sql0);
+		// $conrow = $result0->num_rows;
+
+		$SISCO = validar_sisco_2($secuencia);
+		$DATOS = $SISCO[1];
+		// return $DATOS;
+
+
+		if (count($DATOS) > 0) {
+			// while ($row0 = mysqli_fetch_array($result0)) {
+			$bodegaret = $DATOS[0]['bodegaret'];
+			$sucursal = $DATOS[0]['SUCURSAL_ID'];
+			// }
+			$pdo3 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+			$result3 = $pdo3->prepare("select * from sis_sucursales where ID =:sucursal");
+			$result3->bindParam(':sucursal', $sucursal, PDO::PARAM_STR);
+			$result3->execute();
+			$row3 = $result3->fetchAll(PDO::FETCH_ASSOC);
+			// return $row3;
+
+			// while (1==1) {
+			$bodegaret = 	$row3[0]['Nombre'];
+			$localdireccionr = 	$row3[0]['Dirección'];
+			// }
+			if ($sucursal <> $sucurfact) {
+
+				$msg = " <img src='http://app.compu-tron.net/logos/Computron2.png' width='300' height='100'> <br><br>";
+				$msg = $msg . "Estimado/a &nbsp; &nbsp; <strong> " . $nombrecli . "</strong> <br> La factura # <strong>" . $secuencia . "</strong> está en camino para que la recoja! <br><br>";
+				$msg = $msg . "Acérquese y retire su(s) producto(s) en: <br><br>";
+				$msg = $msg . "<strong>Local:  </strong>" . $bodegaret . "<br>";
+				$msg = $msg . "<strong>Dirección:  </strong>" . $localdireccionr . "<br><br>";
+				$msg = $msg . "<strong>Saldo a Cancelar:  </strong>" . $saldo . "<br><br>";
+				$msg = $msg . "<strong>Nota:  </strong> Si usted canceló la factura con Transferencia o Tarjeta de Crédito el pago debe estar en proceso. <br><br>";
+				$msg = $msg . "<table border=1 cellpadding=5 cellspacing=1 width=600>";
+				$msg = $msg . "<th align=left  width=450> ";
+				$msg = $msg . " 	<strong>Detalle de Productos   </strong><br>";
+				$msg = $msg . "   </table>";
+
+				//echo "BOdega de Facturacion". $bodegaFAC . "Id fe Factura".$numfac; 
+				//die (); 
+
+				// con SQL1 obtengo los items y cantidades de las facturas
+
+				$pdo1 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+				$result1 = $pdo1->prepare('LOG_PREPARAR_FACTURA_CORREO @FacturaID = :numfac , @bodegaFAC=:bodegaFAC');
+				$result1->bindParam(':numfac', $numfac, PDO::PARAM_STR); //ENVIO ID DE FACTURA 
+				$result1->bindParam(':bodegaFAC', $bodegaFAC, PDO::PARAM_STR);
+				$result1->execute();
+
+				$msg = $msg .   "<table border=1 cellpadding=5 cellspacing=1 width=600>";
+				$msg = $msg .  "<th align=left  width=100>Codigo</th> ";
+				$msg = $msg .  "<th align=left  width=500>Articulo</th> ";
+				$msg = $msg .  "<th align=right width=45>Cantidad</th>";
+
+				while ($row1 = $result1->fetch(PDO::FETCH_ASSOC)) {
+					$codigo = $row1['CopProducto'];
+					$nombre = $row1['Detalle'];
+					$cant = $row1['Cantidad'];
+
+					$msg = $msg .  "<tr bgcolor=\"dddddd\"><td align=left  width=100>" . $codigo . "</td> ";
+					$msg = $msg .  "<td align=left  width=500>" . $nombre . "</td> ";
+					$msg = $msg .  "<td align=right width=45>" . $cant . "</td></tr>";
+					$msg = $msg .  "</td>";
+				}
+
+
+				$msg = $msg .  "</table>";
+				$msg = $msg .  "<br>Este correo fue generado de forma automática y no requiere respuesta..<br><br>";
+				$msg = $msg .  "
+				<strong>Nota de Descargo: </strong>La información contenida en este mensaje y sus anexos tiene carácter confidencial, <br>y está dirigida únicamente al destinatario de la misma y sólo podrá ser usada por éste. <br>
+				Si usted ha recibido este mensaje por error, por favor borre el mensaje de su sistema. 
+				";
+
+				require_once 'PHPMailer/src/Exception.php';
+				require_once 'PHPMailer/src/PHPMailer.php';
+				require_once 'PHPMailer/src/SMTP.php';
+
+
+				$m = new PHPMailer(true);
+				$m->CharSet = 'UTF-8';
+				$m->isSMTP();
+				$m->SMTPAuth = true;
+				$m->Host = 'mail.cartimex.com';
+				$m->Username = 'sgo';
+				$m->Password = 'sistema2021*';
+				$m->SMTPSecure = 'ssl';
+				$m->Port = 465;
+				$m->From = 'facturacion@compu-tron.net';
+				$m->FromName = 'Computron';
+				// $m->addAddress($direccionmail);
+				$m->addAddress('jalvarado@cartimex.com');
+				$m->isHTML(true);
+				$m->Subject = "COMPUTRONSA Detalle de entrega/embarque ";
+				$m->Body = $msg;
+				if (!$m->Send()) {
+					return 'Mail error: ' . $m->ErrorInfo;
+				} else {
+					return "ENVIADO";
+				}
+			}
+		} else {
+			return "NO HAY DATOS SISCO PARA MAIL";
+		}
+	}
+}
+
+function Restablecer_Multibodega($numfac, $bodegaFAC)
+{
+	include("conexion_2.php");
+	$pdo5 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+	$result6 = $pdo5->prepare('{CALL [PER_Detalle_Facturas2] (?,?)}');
+	$result6->bindParam(1, $numfac, PDO::PARAM_STR);
+	$result6->bindParam(2, $bodegaFAC, PDO::PARAM_STR);
+	$MULTI = [];
+	$BODEGAS = [];
+	if ($result6->execute()) {
+		$result = $result6->fetchAll(PDO::FETCH_ASSOC);
+		foreach ($result as $row) {
+			if ($row["Section"] != "HEADER") {
+				if ($row["MULTI"] != "") {
+					array_push($MULTI, $row["MULTI"]);
+				}
+				if (in_array($row["BodegaID"], $BODEGAS)) {
+				} else {
+					array_push($BODEGAS, $row["BodegaID"]);
+				}
+			}
+		}
+		// var_dump($BODEGAS);
+		if (count($MULTI) > 0) {
+
+			$result7 = $pdo5->prepare("declare 
+				@facturaid varchar(10)
+				select @facturaid = ID from VEN_FACTURAS where Secuencia = :sec
+				select estado, * from FACTURASLISTAS
+				where Factura = @facturaid
+				and estado = 'INGRESADAGUIA'
+				");
+			$result7->bindParam(":sec", $numfac, PDO::PARAM_STR);
+
+			if ($result7->execute()) {
+				$res = $result7->fetchAll(PDO::FETCH_ASSOC);
+				// return $res;
+				// var_dump($res);
+				if (count($res) == count($BODEGAS)) {
+					return "YA ESTAN TODAS LAS BODEGAS INGRESADAGUIA";
+				} else {
+					// return "aaaaaaa";
+					$S = Restablecer_Multibodega_sisco($numfac);
+					return $S;
+				}
+			} else {
+				$err = $result7->errorInfo();
+				return $err;
+			}
+		} else {
+			return "NO HAY MULTI PARA RESTABLECER";
+		}
+	} else {
+		$err = $result6->errorInfo();
+		return $err;
+	}
+}
+
+function Restablecer_Multibodega_sisco($SECUENCIA)
+{
+	include("conexion_2sisco.php");
+	try {
+		$result6 = $pdo5->prepare("UPDATE covidsales
+			SET  estado='Facturado'  
+			where factura = :factura");
+		$result6->bindParam(":factura", $SECUENCIA, PDO::PARAM_STR);
+		if ($result6->execute()) {
+			return "RETABLECIDO MULTI SISCO";
+		} else {
+			$err = $result6->errorInfo();
+			return $err;
+		}
+	} catch (PDOException $e) {
+		//return [];
+		$e = $e->getMessage();
+		return [0, $e];
+	}
+}
