@@ -574,8 +574,8 @@ function mailmailcourier($factura, $bodegaFAC)
 					$m->addBCC('pchavez@cartimex.com');
 					$m->FromName = 'Computron';
 					//$destinatario = "fmortola@cartimex.com";
-					// $m->addAddress($direccionmail);
-					$m->addAddress('jalvarado@cartimex.com');
+					$m->addAddress($direccionmail);
+					// $m->addAddress('jalvarado@cartimex.com');
 					$m->isHTML(true);
 					// $m->addAttachment('directorio/nombrearchivo.jpg','nombrearchivo.jpg')
 					$m->Subject = "COMPUTRONSA Detalle de Compra ";
@@ -721,8 +721,8 @@ function mailretiroenotratienda($factura, $bodegaFAC)
 				$m->Port = 465;
 				$m->From = 'facturacion@compu-tron.net';
 				$m->FromName = 'Computron';
-				// $m->addAddress($direccionmail);
-				$m->addAddress('jalvarado@cartimex.com');
+				$m->addAddress($direccionmail);
+				// $m->addAddress('jalvarado@cartimex.com');
 				$m->isHTML(true);
 				$m->Subject = "COMPUTRONSA Detalle de entrega/embarque ";
 				$m->Body = $msg;
