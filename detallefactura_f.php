@@ -16,12 +16,13 @@ if (isset($_POST['Guardar_Guia'])) {
 		$BODEGAFAC = $_POST["BODEGAFAC"];
 		$USUARIO = $_POST["USUARIO"];
 		$COMENTARIO = $_POST["COMENTARIO"];
+		$ENVIO_CLI = $_POST["ENVIO_CLI"];
 
 		$ES_SISCO = validar_sisco($SECUENCIA);
 		$VAL = 0;
 		if ($ES_SISCO[0] == 1) {
 			if (count($ES_SISCO[1]) > 0) {
-				$SISCO = Guardar_sisco($ES_SISCO[1], $USUARIO, $COMENTARIO, $TIENDA_RETIRO, $BULTOS, $GUIA, $FORMA_DESPACHO);
+				$SISCO = Guardar_sisco($ES_SISCO[1], $USUARIO, $COMENTARIO, $TIENDA_RETIRO, $BULTOS, $GUIA, $FORMA_DESPACHO,$ENVIO_CLI);
 				$VAL = $SISCO[0];
 			} else {
 				$SISCO = VAlidar_Factura($SECUENCIA);
@@ -172,7 +173,7 @@ function Buscar_Sucursal($SUCURSAL)
 	}
 }
 
-function Guardar_sisco($DATOS, $USUARIO, $COMENTARIO, $TIENDA_RETIRO, $BULTOS, $GUIA, $FORMA_DESPACHO)
+function Guardar_sisco($DATOS, $USUARIO, $COMENTARIO, $TIENDA_RETIRO, $BULTOS, $GUIA, $FORMA_DESPACHO,$ENVIO_CLI)
 {
 	try {
 		include("conexion_2sisco.php");
@@ -224,14 +225,17 @@ function Guardar_sisco($DATOS, $USUARIO, $COMENTARIO, $TIENDA_RETIRO, $BULTOS, $
 				$query2 = $pdo->prepare("INSERT into `covidpickup` 
 				(
 					orden, 
-					bodega_id
+					bodega_id,
+					envio_cli
 				)  
 				values(
 					:orden, 
-					:bodega_id
+					:bodega_id,
+					:envio_cli
 				) ");
 				$query2->bindParam(':orden', $transaccion, PDO::PARAM_STR);
 				$query2->bindParam(':bodega_id', $TIENDA_RETIRO, PDO::PARAM_STR);
+				$query2->bindParam(':envio_cli', $ENVIO_CLI, PDO::PARAM_STR);
 				if ($query2->execute()) {
 					$VAL = 1;
 				} else {
@@ -241,11 +245,13 @@ function Guardar_sisco($DATOS, $USUARIO, $COMENTARIO, $TIENDA_RETIRO, $BULTOS, $
 			} else {
 				$query2 = $pdo->prepare("UPDATE covidpickup
 					SET
-						 bodega_id = :bodega_id
+						bodega_id = :bodega_id,
+						envio_cli = :envio_cli
 					WHERE orden = :orden
 				");
 				$query2->bindParam(':orden', $transaccion, PDO::PARAM_STR);
 				$query2->bindParam(':bodega_id', $TIENDA_RETIRO, PDO::PARAM_STR);
+				$query2->bindParam(':envio_cli', $ENVIO_CLI, PDO::PARAM_STR);
 				if ($query2->execute()) {
 					$VAL = 1;
 				} else {
@@ -300,7 +306,7 @@ function Guardar_sisco($DATOS, $USUARIO, $COMENTARIO, $TIENDA_RETIRO, $BULTOS, $
 	}
 }
 
-function Guardar_No_Sisco($FACTURA_ID, $TIENDA_RETIRO, $COMENTARIO, $USUARIO)
+function Guardar_No_Sisco($FACTURA_ID, $TIENDA_RETIRO, $COMENTARIO, $USUARIO,$ENVIO_CLI)
 {
 
 	try {
@@ -325,12 +331,14 @@ function Guardar_No_Sisco($FACTURA_ID, $TIENDA_RETIRO, $COMENTARIO, $USUARIO)
 						 tienda_retiro = :tienda_retiro,
 						 fecha_ingresada_guia = GETDATE(),
 						 usuario_ingresada_guia =  :usuario_ingresada_guia,
-						 comentariodesp = :comentariodesp
+						 comentariodesp = :comentariodesp,
+						 envio_cli = :envio_cli
 					WHERE Facturaid = :Facturaid
 				");
 				$query2->bindParam(':tienda_retiro', $TIENDA_RETIRO, PDO::PARAM_STR);
 				$query2->bindParam(':comentariodesp', $COMENTARIO, PDO::PARAM_STR);
 				$query2->bindParam(':usuario_ingresada_guia', $USUARIO, PDO::PARAM_STR);
+				$query2->bindParam(':envio_cli', $ENVIO_CLI, PDO::PARAM_STR);
 				$query2->bindParam(':Facturaid', $FACTURA_ID, PDO::PARAM_STR);
 				if ($query2->execute()) {
 					return [1, "ACTUALIZADO Cli_Direccion_Dropshipping"];
@@ -353,7 +361,8 @@ function Guardar_No_Sisco($FACTURA_ID, $TIENDA_RETIRO, $COMENTARIO, $USUARIO)
 					tienda_retiro,
 					fecha_ingresada_guia,
 					usuario_ingresada_guia,
-					comentariodesp
+					comentariodesp,
+					envio_cli
 				)  
 				values(
 					:Facturaid, 
@@ -366,7 +375,8 @@ function Guardar_No_Sisco($FACTURA_ID, $TIENDA_RETIRO, $COMENTARIO, $USUARIO)
 					:tienda_retiro,
 					GETDATE(),
 					:usuario_ingresada_guia,
-					:comentariodesp
+					:comentariodesp,
+					:envio_cli
 				) ");
 				$query2->bindParam(':tienda_retiro', $TIENDA_RETIRO, PDO::PARAM_STR);
 				$query2->bindParam(':Bodega_id', $bo, PDO::PARAM_STR);
@@ -377,6 +387,7 @@ function Guardar_No_Sisco($FACTURA_ID, $TIENDA_RETIRO, $COMENTARIO, $USUARIO)
 				$query2->bindParam(':Estado', $estado, PDO::PARAM_STR);
 				$query2->bindParam(':comentariodesp', $COMENTARIO, PDO::PARAM_STR);
 				$query2->bindParam(':usuario_ingresada_guia', $USUARIO, PDO::PARAM_STR);
+				$query2->bindParam(':envio_cli', $ENVIO_CLI, PDO::PARAM_STR);
 				$query2->bindParam(':Facturaid', $FACTURA_ID, PDO::PARAM_STR);
 				if ($query2->execute()) {
 					return [1, "INSERTADO Cli_Direccion_Dropshipping"];

@@ -116,11 +116,13 @@
 
 <link href="assets/freeze/freeze-ui.min.css" type="text/css" rel="stylesheet" />
 <script src="assets/freeze/freeze-ui.min.js" type="text/javascript"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
 	var TABLA_DES;
 	var ARREGLO_DATOS = [];
+
 
 	function asd() {
 		console.log("aaaaaaaaaaaaaaaaaaaaaaaa");

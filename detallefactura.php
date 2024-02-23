@@ -469,6 +469,13 @@
 									</td>
 								</tr>
 								<tr>
+									<th class="bg-light">ENVIO A CLIENTE</th>
+									<td>
+										<input Name='envio_cli' id='envio_cli' class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+										seleccionar
+									</td>
+								</tr>
+								<tr>
 									<th class="bg-light">GUIA #</th>
 									<td>
 										<Input Type=Text Size=10 Maxlenght=95 Name='despacho' id='despacho' class="form-control">
@@ -526,6 +533,18 @@
 			// }
 		});
 
+		$("#envio_cli").on("change", function(x) {
+			console.log('x: ', x);
+			let vals = $("#envio_cli").is(":checked");
+			if (vals == true) {
+				$("#sucursales").prop("disabled", true);
+			} else {
+				$("#sucursales").prop("disabled", false);
+
+			}
+		})
+
+
 		function Guardar_Form() {
 			var formulario = document.getElementById("FORM_G");
 			let guia = $("#despacho").val();
@@ -537,8 +556,9 @@
 			let secuencia = $("#numfac").val();
 			let bodegaFAC = $("#bodegaFAC").val();
 			let usuario = $("#usuario").val();
+			let envio_cli = $("#envio_cli").is(":checked") == true ? 1 : 0;
+
 			// let guia = $("#despacho").val();
-			console.log('forma_despa: ', forma_despa);
 
 
 			if (forma_despa == "") {
@@ -548,7 +568,7 @@
 					icon: "info"
 				});
 
-			} else if (sucursal != "") {
+			} else {
 
 				if (forma_despa != "Entrega en tienda") {
 
@@ -563,6 +583,30 @@
 
 				}
 
+				if (forma_despa == "Entrega en tienda") {
+
+					if (sucursal == "") {
+						Swal.fire({
+							title: "Elija una tienda de retiro",
+							text: "",
+							icon: "info"
+						});
+						return
+					}
+				}
+
+				if (envio_cli == 1) {
+					TIENDA_RETIRO = ""
+					if (guia.trim() == "") {
+						Swal.fire({
+							title: "Debe Ingresar numero de guia",
+							text: "",
+							icon: "info"
+						});
+						return
+					}
+				}
+
 				let param = {
 					Guardar_Guia: 1,
 					FORMA_DESPACHO: forma_despa,
@@ -572,31 +616,34 @@
 					COMENTARIO: comentario,
 					SECUENCIA: secuencia,
 					BODEGAFAC: bodegaFAC,
-					USUARIO: usuario
+					USUARIO: usuario,
+					ENVIO_CLI: envio_cli
 				}
 				console.log('param: ', param);
 
-				AjaxSend(param, function(x) {
-					console.log('x: ', x);
-					if (x[0] == 1) {
-						Swal.fire({
-							title: "Datos guardados",
-							text: "",
-							icon: "success"
-						});
-						setTimeout(function() {
-							window.location.href = "ingguiasfacturas.php";
-						}, 2000);vv                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-					}
-				})                
+				// AjaxSend(param, function(x) {
+				// 	console.log('x: ', x);
+				// 	if (x[0] == 1) {
+				// 		Swal.fire({
+				// 			title: "Datos guardados",
+				// 			text: "",
+				// 			icon: "success"
+				// 		});
+				// 		setTimeout(function() {
+				// 			window.location.href = "ingguiasfacturas.php";
+				// 		}, 2000);
+				// 		vv
+				// 	}
+				// })
 
-			} else {
-				Swal.fire({
-					title: "Elija una tienda de retiro",
-					text: "",
-					icon: "info"
-				});
 			}
+			// else {
+			// 	Swal.fire({
+			// 		title: "Elija una tienda de retiro",
+			// 		text: "",
+			// 		icon: "info"
+			// 	});
+			// }
 
 		}
 
