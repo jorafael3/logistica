@@ -27,6 +27,7 @@ if (isset($_POST['Cargar_guias'])) {
 			foreach ($result as $row) {
 				if (in_array(trim($row["secuencia"]), $LISTA_NC)) {
 				} else {
+					// $MULTI = Cargar_multibodega($row["BodegaFAC"], $row["secuencia"]);
 					$MULTI = Cargar_multibodega($row["BodegaFAC"], $row["secuencia"]);
 					$row["MULTI"] = $MULTI[0];
 					$row["MULTI_DATA"] = $MULTI[1];

@@ -396,7 +396,7 @@
 				},
 				{
 					data: "MULTI",
-					title: "MULTIBODEGA",
+					title: "MULTI B",
 					render: function(x) {
 						if (parseInt(x) > 0) {
 							x = "SI"

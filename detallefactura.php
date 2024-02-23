@@ -538,28 +538,36 @@
 			let bodegaFAC = $("#bodegaFAC").val();
 			let usuario = $("#usuario").val();
 			// let guia = $("#despacho").val();
+			console.log('forma_despa: ', forma_despa);
 
 
-			if (guia == "") {
-				Swal.fire({
-					title: "Debe Ingresar un numero de guia",
-					text: "",
-					icon: "info"
-				});
-			} else if (forma_despa == "") {
+			if (forma_despa == "") {
 				Swal.fire({
 					title: "Debe Ingresar una forma de despacho",
 					text: "",
 					icon: "info"
 				});
 
-			} else {
+			} else if (sucursal != "") {
+
+				if (forma_despa != "Entrega en tienda") {
+
+					if (guia.trim() == "") {
+						Swal.fire({
+							title: "Debe Ingresar numero de guia",
+							text: "",
+							icon: "info"
+						});
+						return
+					}
+
+				}
 
 				let param = {
 					Guardar_Guia: 1,
 					FORMA_DESPACHO: forma_despa,
 					TIENDA_RETIRO: sucursal,
-					GUIA: guia,
+					GUIA: guia.trim(),
 					BULTOS: bultos,
 					COMENTARIO: comentario,
 					SECUENCIA: secuencia,
@@ -580,22 +588,14 @@
 							window.location.href = "ingguiasfacturas.php";
 						}, 2000);vv                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 					}
-				})
+				})                
 
-				// if (TIENDA_RETIRO == 1) {
-				// 	if (sucursal == "") {
-				// 		Swal.fire({
-				// 			title: "Debe Ingresar una tienda de retiro",
-				// 			text: "",
-				// 			icon: "info"
-				// 		});
-				// 	} else {
-				// 		formulario.submit();
-				// 	}
-				// } else {                                                                  
-				// 	formulario.submit();
-				// }                        
-                                                                                                                                                                                    
+			} else {
+				Swal.fire({
+					title: "Elija una tienda de retiro",
+					text: "",
+					icon: "info"
+				});
 			}
 
 		}
@@ -616,8 +616,6 @@
 				}
 			})
 		}
-
-		
 	</script>
 
 </body>
