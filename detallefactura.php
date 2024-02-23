@@ -621,20 +621,20 @@
 				}
 				console.log('param: ', param);
 
-				// AjaxSend(param, function(x) {
-				// 	console.log('x: ', x);
-				// 	if (x[0] == 1) {
-				// 		Swal.fire({
-				// 			title: "Datos guardados",
-				// 			text: "",
-				// 			icon: "success"
-				// 		});
-				// 		setTimeout(function() {
-				// 			window.location.href = "ingguiasfacturas.php";
-				// 		}, 2000);
-				// 		vv
-				// 	}
-				// })
+				AjaxSend(param, function(x) {
+					console.log('x: ', x);
+					if (x[0] == 1) {
+						Swal.fire({
+							title: "Datos guardados",
+							text: "",
+							icon: "success"
+						});
+						setTimeout(function() {
+							window.location.href = "ingguiasfacturas.php";
+						}, 2000);
+						vv
+					}
+				})
 
 			}
 			// else {
