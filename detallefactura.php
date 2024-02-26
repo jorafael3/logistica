@@ -630,9 +630,9 @@
 							icon: "success"
 						});
 						setTimeout(function() {
-							window.location.href = "ingguiasfacturas.php";
+							window.location.reload()
 						}, 2000);
-						vv
+						
 					}
 				})
 

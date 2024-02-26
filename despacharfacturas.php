@@ -191,11 +191,13 @@
 
 			let ARRAY_ = []
 			let unique = [...new Set(data_filtrada.map(item => item.id))];
+
 			unique.map(function(ob) {
 				let fil = data_filtrada.filter(i => i.id == ob);
 				let nombodegas = [];
 				let TRANSPORTE = [];
 				let ESTADO_FACTURAS_LISTAS = 0;
+				
 				fil.map(function(y) {
 					TRANSPORTE.push(y.TRANSPORTE)
 					let multi = y.MULTI_DATA
@@ -217,7 +219,8 @@
 
 
 					// })
-				})
+				});
+
 				let b = {
 					BODEGA_RETIRO: fil[0]["BODEGA_RETIRO"],
 					BodegaFAC: fil[0]["BodegaFAC"],
