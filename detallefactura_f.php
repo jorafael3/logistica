@@ -28,7 +28,7 @@ if (isset($_POST['Guardar_Guia'])) {
 				$SISCO = VAlidar_Factura($SECUENCIA);
 				if ($SISCO[0] == 1) {
 					$FACTURA_ID = $SISCO[1][0]["ID"];
-					$SISCO = Guardar_No_Sisco($FACTURA_ID, $TIENDA_RETIRO, $COMENTARIO, $USUARIO);
+					$SISCO = Guardar_No_Sisco($FACTURA_ID, $TIENDA_RETIRO, $COMENTARIO, $USUARIO,$ENVIO_CLI);
 					if ($SISCO[0] == 1) {
 						$VAL = 1;
 					} else {

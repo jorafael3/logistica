@@ -197,7 +197,7 @@
 				let nombodegas = [];
 				let TRANSPORTE = [];
 				let ESTADO_FACTURAS_LISTAS = 0;
-				
+
 				fil.map(function(y) {
 					TRANSPORTE.push(y.TRANSPORTE)
 					let multi = y.MULTI_DATA
@@ -251,16 +251,11 @@
 
 				ARRAY_.push(b);
 
-			})
+			});
 
-
-
-
-			// 
 			Tabla_Despachos(ARRAY_);
-
-
 			ARREGLO_DATOS = ARRAY_;
+
 		});
 	}
 

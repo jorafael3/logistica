@@ -252,6 +252,7 @@
 
 			})
 		}
+		
 		Cargar_guias()
 
 		function Tabla(data) {
@@ -437,5 +438,6 @@
 				}
 			})
 		}
+
 	</script>
 </body>
