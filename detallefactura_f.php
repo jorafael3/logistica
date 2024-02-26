@@ -22,13 +22,13 @@ if (isset($_POST['Guardar_Guia'])) {
 		$VAL = 0;
 		if ($ES_SISCO[0] == 1) {
 			if (count($ES_SISCO[1]) > 0) {
-				$SISCO = Guardar_sisco($ES_SISCO[1], $USUARIO, $COMENTARIO, $TIENDA_RETIRO, $BULTOS, $GUIA, $FORMA_DESPACHO,$ENVIO_CLI);
+				$SISCO = Guardar_sisco($ES_SISCO[1], $USUARIO, $COMENTARIO, $TIENDA_RETIRO, $BULTOS, $GUIA, $FORMA_DESPACHO, $ENVIO_CLI);
 				$VAL = $SISCO[0];
 			} else {
 				$SISCO = VAlidar_Factura($SECUENCIA);
 				if ($SISCO[0] == 1) {
 					$FACTURA_ID = $SISCO[1][0]["ID"];
-					$SISCO = Guardar_No_Sisco($FACTURA_ID, $TIENDA_RETIRO, $COMENTARIO, $USUARIO,$ENVIO_CLI);
+					$SISCO = Guardar_No_Sisco($FACTURA_ID, $TIENDA_RETIRO, $COMENTARIO, $USUARIO, $ENVIO_CLI);
 					if ($SISCO[0] == 1) {
 						$VAL = 1;
 					} else {
@@ -173,7 +173,7 @@ function Buscar_Sucursal($SUCURSAL)
 	}
 }
 
-function Guardar_sisco($DATOS, $USUARIO, $COMENTARIO, $TIENDA_RETIRO, $BULTOS, $GUIA, $FORMA_DESPACHO,$ENVIO_CLI)
+function Guardar_sisco($DATOS, $USUARIO, $COMENTARIO, $TIENDA_RETIRO, $BULTOS, $GUIA, $FORMA_DESPACHO, $ENVIO_CLI)
 {
 	try {
 		include("conexion_2sisco.php");
@@ -306,7 +306,7 @@ function Guardar_sisco($DATOS, $USUARIO, $COMENTARIO, $TIENDA_RETIRO, $BULTOS, $
 	}
 }
 
-function Guardar_No_Sisco($FACTURA_ID, $TIENDA_RETIRO, $COMENTARIO, $USUARIO,$ENVIO_CLI)
+function Guardar_No_Sisco($FACTURA_ID, $TIENDA_RETIRO, $COMENTARIO, $USUARIO, $ENVIO_CLI)
 {
 
 	try {
@@ -811,6 +811,7 @@ function Restablecer_Multibodega_sisco($SECUENCIA)
 {
 	include("conexion_2sisco.php");
 	try {
+		$pdo5 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 		$result6 = $pdo5->prepare("UPDATE covidsales
 			SET  estado='Facturado'  
 			where factura = :factura");
