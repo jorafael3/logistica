@@ -219,14 +219,16 @@
 
 			// var_dump($res[0]);
 
+				// echo $bodegaFAC;
 
 
 			$result7 = $pdo->prepare("
 			declare @factura varchar(20)
 			select @factura = ID from ven_facturas where secuencia = :secuencia
 			SELECT estado FROM facturaslistas
-				WHERE Factura = @factura");
+				WHERE Factura = @factura and BODEGAID = :bodega");
 			$result7->bindParam(':secuencia', $numfac, PDO::PARAM_STR);
+			$result7->bindParam(':bodega', $bodegaFAC, PDO::PARAM_STR);
 			if ($result7->execute()) {
 				$res3 = $result7->fetchAll(PDO::FETCH_ASSOC);
 				$ESTA = $res3[0]["estado"];
