@@ -252,7 +252,7 @@
 
 			})
 		}
-		
+
 		Cargar_guias()
 
 		function Tabla(data) {
@@ -386,6 +386,14 @@
 						$(row).addClass('bg-success');
 					}
 
+					if (data["ESTADO_FACTURA_LISTA"] == "INGRESADAGUIA") {
+						// $('td', row).eq(0).addClass('bg-primary bg-opacity-10');
+						for (i = 0; i < 15; i++) {
+							$('td', row).eq(i).addClass('bg-warning bg-opacity-25');
+						}
+					}
+
+
 					$('td', row).eq(0).addClass("fs-6 fw-bolder");
 					$('td', row).eq(5).addClass("fs-6 fw-bolder bg-light-primary");
 					$('td', row).eq(1).addClass("fw-bolder bg-light-info");
@@ -438,6 +446,5 @@
 				}
 			})
 		}
-
 	</script>
 </body>
