@@ -38,6 +38,7 @@ if (isset($_POST['Guardar_Guia'])) {
 					$VAL = 0;
 				}
 			}
+
 		}
 		if ($VAL == 1) {
 			$GUARDAR_DOBRA = Guardar_Dobra($GUIA, $BULTOS, $FORMA_DESPACHO, $USUARIO, $SECUENCIA, $COMENTARIO, $BODEGAFAC);
@@ -52,6 +53,7 @@ if (isset($_POST['Guardar_Guia'])) {
 				if ($FORMA_DESPACHO == 'Entrega en tienda') {
 					$MC = mailretiroenotratienda($SECUENCIA, $BODEGAFAC);
 				}
+
 				$REST = Restablecer_Multibodega($SECUENCIA, $BODEGAFAC);
 
 				echo json_encode([1, $GUARDAR_DOBRA, $SISCO, $MC, $REST]);
@@ -450,6 +452,9 @@ function Guardar_Dobra($GUIA, $BULTOS, $FORMA_DESPACHO, $USUARIO, $SECUENCIA, $C
 	}
 }
 
+
+
+
 function mailmailcourier($factura, $bodegaFAC)
 {
 	require('conexion_2.php'); //Reemplaza las 4 lineas de abajo 
@@ -756,47 +761,28 @@ function Restablecer_Multibodega($numfac, $bodegaFAC)
 	$result6 = $pdo5->prepare('{CALL [PER_Detalle_Facturas2] (?,?)}');
 	$result6->bindParam(1, $numfac, PDO::PARAM_STR);
 	$result6->bindParam(2, $bodegaFAC, PDO::PARAM_STR);
-	$MULTI = [];
+	$MULTI = 0;
+	$NO_INGRESADAS = 0;
 	$BODEGAS = [];
 	if ($result6->execute()) {
 		$result = $result6->fetchAll(PDO::FETCH_ASSOC);
+
 		foreach ($result as $row) {
 			if ($row["Section"] != "HEADER") {
 				if ($row["MULTI"] != "") {
-					array_push($MULTI, $row["MULTI"]);
+					$MULTI = $MULTI + 1;
 				}
-				if (in_array($row["BodegaID"], $BODEGAS)) {
-				} else {
-					array_push($BODEGAS, $row["BodegaID"]);
+				if ((trim($row["ESTADO_FACTURAS_LISTAS"])) != "INGRESADAGUIA") {
+					$NO_INGRESADAS = $NO_INGRESADAS + 1;
 				}
+			
 			}
 		}
-		// var_dump($BODEGAS);
-		if (count($MULTI) > 0) {
-
-			$result7 = $pdo5->prepare("declare 
-				@facturaid varchar(10)
-				select @facturaid = ID from VEN_FACTURAS where Secuencia = :sec
-				select estado, * from FACTURASLISTAS
-				where Factura = @facturaid
-				and estado = 'INGRESADAGUIA'
-				");
-			$result7->bindParam(":sec", $numfac, PDO::PARAM_STR);
-
-			if ($result7->execute()) {
-				$res = $result7->fetchAll(PDO::FETCH_ASSOC);
-				// return $res;
-				// var_dump($res);
-				if (count($res) == count($BODEGAS)) {
-					return "YA ESTAN TODAS LAS BODEGAS INGRESADAGUIA";
-				} else {
-					// return "aaaaaaa";
-					$S = Restablecer_Multibodega_sisco($numfac);
-					return $S;
-				}
+		if ($MULTI > 0) {
+			if ($NO_INGRESADAS > 0) {
+				return Restablecer_Multibodega_sisco($numfac);
 			} else {
-				$err = $result7->errorInfo();
-				return $err;
+				return "NO HAY MULTI PARA RESTABLECER";
 			}
 		} else {
 			return "NO HAY MULTI PARA RESTABLECER";
@@ -811,8 +797,8 @@ function Restablecer_Multibodega_sisco($SECUENCIA)
 {
 	include("conexion_2sisco.php");
 	try {
-		$pdo5 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-		$result6 = $pdo5->prepare("UPDATE covidsales
+		// $pdo5 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+		$result6 = $pdo->prepare("UPDATE covidsales
 			SET  estado='Facturado'  
 			where factura = :factura");
 		$result6->bindParam(":factura", $SECUENCIA, PDO::PARAM_STR);
