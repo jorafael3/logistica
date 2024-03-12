@@ -130,7 +130,7 @@
 								where d.Anulado = 0 and d.Tipo = 'VEN-DE'
 								group by d.facturaid
 							) dv on dv.facturaid = f.ID 
-							where f.Anulado= 0 and f.Fecha >= '20230101' 
+							where f.Anulado= 0 and f.Fecha >= '20231201' 
 							--and f.Secuencia = '022-002-000032572'
 							--and f.Sucursalid 
 							--and f.id in 
