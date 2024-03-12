@@ -183,7 +183,6 @@ function BUSCAR_RMA_PRODUCTOS($serie, $ProductoId)
         echo $orden;
     }
 }
-
 // function VAlidar_Serie_bd_Computron($serie, $ProductoId)
 // {
 //     require('conexion.php');
