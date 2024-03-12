@@ -38,6 +38,9 @@
 			$pdo1 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 			//new PDO($dsn, $sql_user, $sql_pwd);
 			//Select Query
+			echo $transfer;
+			echo $bodega;
+			// 0000028063 0000000006
 			$result1 = $pdo1->prepare('LOG_INGGUIA_TRANSFERENCIA @transfer=:transfer, @bodega=:bodega, @acceso =:acceso');		 
 			$result1->bindParam(':transfer',$transfer,PDO::PARAM_STR);
 			$result1->bindParam(':bodega',$bodega,PDO::PARAM_STR);

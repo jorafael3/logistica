@@ -239,7 +239,6 @@
 								// 	ARRAY_.push(ne);
 								// }
 							} else {
-								console.log("2222");
 
 								cods.map(function(x) {
 									ARRAY_.push(x);

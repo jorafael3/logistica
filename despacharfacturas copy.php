@@ -143,8 +143,8 @@
 							inner join VEN_FACTURAS_DT dt with(NOLOCK)
 							on f.id = dt.FacturaID 
 							left outer join(
-								select d.facturaid,devuelto = sum(pr.Cantidad) from CLI_CREDITOS d
-								inner join CLI_CREDITOS_PRODUCTOS pr
+								select d.facturaid,devuelto = sum(pr.Cantidad) from CLI_CREDITOS d with(NOLOCK)
+								inner join CLI_CREDITOS_PRODUCTOS pr with(NOLOCK)
 								on pr.CréditoID = d.ID
 								where d.Anulado = 0 and d.Tipo = 'VEN-DE'
 								group by d.facturaid
