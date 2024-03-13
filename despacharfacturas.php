@@ -152,6 +152,12 @@
 			"Cargar_guias": 1,
 			acceso: '<?php echo $acceso ?>',
 		}
+		if (USUARIO.trim() == "VENTAS") {
+			para = {
+				"Cargar_guias": 1,
+				acceso: 1,
+			}
+		}
 		FreezeUI({
 			text: 'Cargando'
 		});

@@ -216,6 +216,7 @@
 				$ltitulo = "Preparado";
 				$activar = "hidden";
 			}
+			// echo $transfer;
 			$pdo2 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 			$result2 = $pdo2->prepare('LOG_PREPARAR_TRANSFERENCIA @TransferenciaID = :transfer ');
 			$result2->bindParam(':transfer', $transfer, PDO::PARAM_STR);
@@ -306,6 +307,7 @@
 					</tr>
 					<?php
 					$y = 0;
+					echo $bodegaid;
 					while ($y <= $count - 1) {
 						$pdo3 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 						$result3 = $pdo3->prepare('LOG_BUSCAR_MEJOR_UBICACION @ProductoId =:ProdId , @bodega=:bodega');

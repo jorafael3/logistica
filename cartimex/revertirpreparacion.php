@@ -211,7 +211,7 @@ function setfocus(){
 													INNER JOIN INV_BODEGAS B2 WITH (NOLOCK) ON B2.ID =  ta.BodegaO
 													INNER JOIN SIS_SUCURSALES S WITH (NOLOCK) ON B2.Sucursal= S.Código
 													inner join facturaslistas fl WITH (NOLOCK) ON fl.factura = ta.agruparid
-													WHERE T.BodegaID_Origen IN ('0000000006','0000000016','0000000005' ) 
+													WHERE T.BodegaID_Origen IN ('0000000006','0000000016','0000000005','0000000064','0000000082' ) 
 													and T.Anulado= 0 and 
 													Ta.AgruparID in (select Factura from FACTURASLISTAS  where tipo = 'INV-TR' 
 													AND  anulado= 0 and  ESTADO = 'PREPARANDO' and PREPARADOPOR= '.' and fechaPreparando > '20210612' )  
@@ -295,7 +295,7 @@ function setfocus(){
 													INNER JOIN INV_BODEGAS B2 WITH (NOLOCK) ON B2.ID =  ta.BodegaO
 													INNER JOIN SIS_SUCURSALES S WITH (NOLOCK) ON B2.Sucursal= S.Código
 													inner join facturaslistas_zonas fl WITH (NOLOCK) ON fl.factura = ta.agruparid
-													WHERE T.BodegaID_Origen IN ('0000000006','0000000016','0000000005' ) 
+													WHERE T.BodegaID_Origen IN ('0000000006','0000000016','0000000005','0000000064','0000000082' ) 
 													and T.Anulado= 0 and 
 													Ta.AgruparID in (select Factura from FACTURASLISTAS_ZONAS  where tipo = 'INV-TR' 
 													AND  anulado= 0 and  ESTADO = 'PREPARANDO' and PREPARADOPOR= '.' and fechaPreparando > '20210612' )  

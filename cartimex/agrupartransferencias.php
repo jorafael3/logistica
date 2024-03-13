@@ -84,7 +84,7 @@
 
 						</tr>
 						<?php
-
+						echo $bodega;
 						$_SESSION['usuario'] = $usuario;
 
 						require('../conexion_mssql.php');
