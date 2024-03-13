@@ -24,7 +24,7 @@
 			$acceso	= $_SESSION['acceso'];
 			$bodega = $_SESSION['bodega'];
 			$nomsuc = $_SESSION['nomsuc'];
-			echo $nomsuc;
+			echo $usuario;
 			if ($base == 'CARTIMEX') {
 				require 'headcarti.php';
 			} else {
@@ -122,6 +122,8 @@
 <script>
 	var TABLA_DES;
 	var ARREGLO_DATOS = [];
+	var USUARIO = '<?php echo $usuario ?>'
+	console.log('USUARIO: ', USUARIO);
 
 
 	function asd() {
@@ -263,11 +265,17 @@
 
 	function Tabla_Despachos(data) {
 
+		let DOM = 'Bfrtip'
+
+		if (USUARIO.trim() == "VENTAS") {
+			DOM = 'frtip'
+		}
+
 		$('#Tabla_Guias').empty()
 		TABLA_DES = $('#Tabla_Guias').DataTable({
 			destroy: true,
 			data: data,
-			dom: 'Bfrtip',
+			dom: DOM,
 			// responsive: true,
 			deferRender: true,
 			buttons: [{
