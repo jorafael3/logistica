@@ -148,20 +148,19 @@
 
 		sucursal = sucursal.trim()
 		console.log('sucursal: ', sucursal);
+
+		if (USUARIO.trim() == "VENTAS") {
+			acceso = 1
+		}
+
 		let para = {
 			"Cargar_guias": 1,
-			acceso: '<?php echo $acceso ?>',
+			acceso: acceso,
 		}
-		if (USUARIO.trim() == "VENTAS") {
-			para = {
-				"Cargar_guias": 1,
-				acceso: 1,
-			}
-		}
+		console.log('para: ', para);
 		FreezeUI({
 			text: 'Cargando'
 		});
-
 		AjaxSend(para, function(x) {
 			console.log('x: ', x);
 
@@ -266,7 +265,6 @@
 
 		});
 	}
-
 	Cargar_Despachos();
 
 	function Tabla_Despachos(data) {
