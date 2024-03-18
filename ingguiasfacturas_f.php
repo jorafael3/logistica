@@ -82,7 +82,7 @@ if (isset($_POST['Cargar_guias_sisco'])) {
         FROM covidsales a
         left outer join covidpickup p on p.orden= a.secuencia
         left outer join sisco.covidciudades c on p.bodega= c.almacen
-        where a.factura = :factura and a.anulada<> '1'  
+        where trim(a.factura) = :factura and a.anulada<> '1'  
         ");
         $query->bindParam(':factura', $secuencia, PDO::PARAM_STR);
         if ($query->execute()) {

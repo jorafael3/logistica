@@ -432,8 +432,6 @@
 			});
 		}
 
-
-
 		function Ajax_Send(parametros, callback) {
 			$.ajax({
 				data: parametros,

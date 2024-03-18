@@ -170,7 +170,6 @@ if (isset($_POST['Despachar'])) {
 			}else{
 				$cor = Correo($row);
 			}
-			// $cor = [];
 			array_push($ARRA, [$row, $act, $cor, $errores_fac]);
 		}
 
