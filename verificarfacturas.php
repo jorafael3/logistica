@@ -128,30 +128,7 @@
 						$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 
 
-						$result2 = $pdo->prepare("SELECT distinct
-						f.ID,
-						f.Secuencia as secuencia, 
-						--dt.ProductoID,
-						cantidad = sum(dt.Cantidad),
-						isnull(dv.devuelto,0) as devuelto, total = sum(dt.Cantidad) - isnull(dv.devuelto,0) 
-						from VEN_FACTURAS  f with(NOLOCK)
-						inner join VEN_FACTURAS_DT dt with(NOLOCK)
-						on f.id = dt.FacturaID 
-						left outer join(
-							select d.facturaid,devuelto = sum(pr.Cantidad) from CLI_CREDITOS d with(NOLOCK)
-							inner join CLI_CREDITOS_PRODUCTOS pr with(NOLOCK)
-							on pr.CréditoID = d.ID
-							where d.Anulado = 0 and d.Tipo = 'VEN-DE'
-							group by d.facturaid
-						) dv on dv.facturaid = f.ID 
-						where f.Anulado= 0 and f.Fecha >= '20231201' 
-						--and f.Secuencia = '022-002-000032572'
-						--and f.Sucursalid 
-						--and f.id in 
-						--(select factura from facturaslistas with (nolock) WHERE anulado= '0' and tipo = 'VEN-FA' AND ESTADO='VERIFICADA')  
-						group by f.ID,f.Secuencia,dv.devuelto
-						having sum(dt.Cantidad) = isnull(dv.devuelto,0)
-					");
+						$result2 = $pdo->prepare("{CALL LOG_FACTURAS_PENDIENTES_DEVUELTAS}");
 						$LISTA = [];
 						if ($result2->execute()) {
 							$res = $result2->fetchAll(PDO::FETCH_ASSOC);

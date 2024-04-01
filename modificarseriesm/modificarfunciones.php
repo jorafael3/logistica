@@ -436,3 +436,6 @@ function ACTUALIZAR_RMA_PRODUCTO_INVENTARIO($Factura_id, $RMADTID, $ProductoId, 
         return array("ACTUALIZAR_RMA_PRODUCTO_INVENTARIO" => $err);
     }
 }
+
+
+
