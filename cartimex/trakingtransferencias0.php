@@ -46,7 +46,7 @@
 			 
 			$_SESSION['usuario']= $usuario1;
 			$count = $result1->rowcount();
-			//echo "Trae registro". $count;
+			echo "Trae registro". $transfer;
 			
 			if ($count<0)
 				{
@@ -55,7 +55,7 @@
 			else
 				{	
 				 $Prepa= "Transferencia NO  Existe en esta SUCURSAL ";
-				 header("Refresh: 1 ; transferenciasdespachadas.php");
+				//  header("Refresh: 1 ; transferenciasdespachadas.php");
 				} 
 				$usuario= $_SESSION['usuario'];
 				$_SESSION['usuario']= $usuario;

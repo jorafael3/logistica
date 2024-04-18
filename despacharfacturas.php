@@ -211,9 +211,9 @@
 					let f = multi.filter(i => i.Section != 'HEADER')
 
 					f.map(function(m) {
-						if (m.ESTADO_FACTURAS_LISTAS == "INGRESADAGUIA" ||
-							m.ESTADO_FACTURAS_LISTAS == "RECIBIDAOTRATIENDA" ||
-							m.ESTADO_FACTURAS_LISTAS == "DESPACHADA") {
+						if ((m.ESTADO_FACTURAS_LISTAS == "INGRESADAGUIA" ||
+								m.ESTADO_FACTURAS_LISTAS == "RECIBIDAOTRATIENDA" ||
+								m.ESTADO_FACTURAS_LISTAS == "DESPACHADA")) {
 
 						} else {
 							ESTADO_FACTURAS_LISTAS = ESTADO_FACTURAS_LISTAS + 1;
@@ -387,6 +387,7 @@
 						let a = "";
 
 						x.map(function(y) {
+							// y = (y == null ? '' : y)
 							if (t == "display") {
 								a = a + "<span>" + y + "</span><br>"
 							} else {

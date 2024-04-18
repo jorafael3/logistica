@@ -62,7 +62,7 @@ function Cargar_multibodega($bodega, $secuencia)
 		// $secuencia = $_POST["secuencia"];
 		// $bodega = $_POST["bodega"];
 		$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-		$query = $pdo->prepare("PER_Detalle_Facturas2 
+		$query = $pdo->prepare("PER_Detalle_Facturas3
             @Secuencia=:secuencia,
             @bodegaFAC=:bodega
         ");

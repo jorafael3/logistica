@@ -136,7 +136,6 @@
 				<button class="btn btn-primary btn-sm" onclick="Ingresar_serie()">
 					<i class="bi bi-cloud-upload"></i> >>
 				</button>
-
 			</div>
 			<div id="leyenda_serie" class="text-danger fs-4 mt-4">
 
