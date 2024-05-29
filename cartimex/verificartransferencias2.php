@@ -99,7 +99,6 @@
 				$TransferId = $row['agruparid'];
 				$Transnum = $row['Transnum'];
 				$_SESSION['Transnum'] = $Transnum;
-
 			}
 
 			//cargo el arreglo de series temporales tiene la misma estructura que arregloseries 
@@ -595,12 +594,20 @@
 				$_SESSION['IDDESTINO'] = $iddestino;	//Asigno variable de bodega destino
 				$_SESSION['IDORIGEN'] = $idorigen; //Asigno variable de bodega Origen 
 				$_SESSION['DETALLE'] = $detalle;
-				
+
 				//$_SESSION['arregloseriest']= $arregloseriest;
 
 			?>
 
-		
+		<form action="verificartransferencias3.php" method="post">
+			<p style="font-weight: bold" align="center">
+				<input name="transferencia" type="hidden" id="transferencia" value="<?php echo $numerorecibido ?>">
+				<input class="form-control" name="bulto" type="number" id="bulto" size="30" placeholder="Ingrese los bultos" value="<?php echo $butorecibido ?>" style="width: 100%; max-width: 200px;">
+				<br>
+				<br>
+				<input type="submit" name="submit" id="submit" value="TRANSFERENCIA COMPLETA presione aquí para CONTINUAR">
+			</p>
+		</form>
 	<?php
 			}
 
@@ -627,15 +634,7 @@
 
 	</p>
 	</div>
-<form action="verificartransferencias3.php" method="post">
-			<p style="font-weight: bold" align="center">
-				<input name="transferencia" type="hidden" id="transferencia" value="<?php echo $numerorecibido ?>">
-				<input class="form-control" name="bulto" type="number" id="bulto" size="30" placeholder="Ingrese los bultos" value="<?php echo $butorecibido ?>" style="width: 100%; max-width: 200px;">
-				<br>
-				<br>
-				<input type="submit" name="submit" id="submit" value="TRANSFERENCIA COMPLETA presione aquí para CONTINUAR">
-			</p>
-		</form>
+
 
 <?php
 		} else {
