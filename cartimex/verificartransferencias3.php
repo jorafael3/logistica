@@ -43,7 +43,108 @@
 			//echo '<pre>', print_r($arreglo2),'</pre>';
 
 			require('../conexion_mssql.php');
+
+
+			$pdo2 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+
+			$LISTA_BODEGAS = [];
+			$SQL_B = "SELECT ID from COMPUTRONSA..INV_BODEGAS
+			where Anulado = 0
+			and venta = 1
+			and Sucursal not in ('00')
+			and Código not in ('00.01','00.08','03.51','13.02','05.04','45.01','46.01','05.07','75.01','13.01','05.13')";
+			$result_B = $pdo2->prepare($SQL_B);
+			if ($result_B->execute()) {
+				$result = $result_B->fetchAll(PDO::FETCH_ASSOC);
+
+				foreach ($result as $row) {
+					array_push($LISTA_BODEGAS, $row["ID"]);
+				}
+				// echo "<pre>";
+				// var_dump($LISTA_BODEGAS);
+				// echo "</pre>";
+			}
+
 			while ($x < count($arreglo2)) {
+
+
+				$TRANSFERENCIA_ID = $numerorecibido;
+				$PRODUCTOID = $arreglo2[$x][1];
+				$SERIE = $arreglo2[$x][2];
+				$EGRESO = 1;
+				$BODEGA_ORIGEN = $idorigen;
+				$BODEGA_DESTINO = $iddestino;
+				$USUARIO = $usuario1;
+				$BODEGA = $idorigen;
+				$EMPRESA = 'CARTIMEX';
+				// echo $iddestino;
+
+				if (in_array($iddestino, $LISTA_BODEGAS)) {
+					// echo $iddestino;
+
+					$SQL_SERIES = "INSERT INTO COMPUTRONSA..SGO_TRASFERENCIAS_SERIES_COMPUTRON(
+							ProductoID,
+							Serie_inventario,
+							creado_por,
+							TrasferenciaID,
+							:EMPRESA
+						)VALUES(
+							:ProductoID,
+							:Serie_inventario,
+							:creado_por,
+							:TrasferenciaID,
+							:EMPRESA
+					)";
+					$result_SERIES_ = $pdo2->prepare($SQL_SERIES);
+					$result_SERIES_->bindParam(':ProductoID', $PRODUCTOID, PDO::PARAM_STR);
+					$result_SERIES_->bindParam(':Serie_inventario', $SERIE, PDO::PARAM_STR);
+					$result_SERIES_->bindParam(':creado_por', $USUARIO, PDO::PARAM_STR);
+					$result_SERIES_->bindParam(':TrasferenciaID', $TRANSFERENCIA_ID, PDO::PARAM_STR);
+					$result_SERIES_->bindParam(':EMPRESA', $EMPRESA, PDO::PARAM_STR);
+
+					if ($result_SERIES_->execute()) {
+						echo "SERIES GUARDADAS";
+						$SQL = "INSERT INTO COMPUTRONSA..SGO_TRANSFERENCIAS_SERIES_CARDEX
+							(
+								Transferencia_id,
+								producto_id,
+								Serie,
+								Egreso,
+								bodega_origen,
+								bodega_destino,
+								usuario,
+								bodega,
+								EMPRESA
+							)VALUES(
+								:Transferencia_id,
+								:producto_id,
+								:Serie,
+								:Egreso,
+								:bodega_origen,
+								:bodega_destino,
+								:usuario,
+								:bodega,
+								:EMPRESA
+							)";
+
+						$result_SERIES_CARDEX = $pdo2->prepare($SQL);
+						$result_SERIES_CARDEX->bindParam(':Transferencia_id', $TRANSFERENCIA_ID, PDO::PARAM_STR);
+						$result_SERIES_CARDEX->bindParam(':producto_id', $PRODUCTOID, PDO::PARAM_STR);
+						$result_SERIES_CARDEX->bindParam(':Serie', $SERIE, PDO::PARAM_STR);
+						$result_SERIES_CARDEX->bindParam(':Egreso', $EGRESO, PDO::PARAM_STR);
+						$result_SERIES_CARDEX->bindParam(':bodega_origen', $BODEGA_ORIGEN, PDO::PARAM_STR);
+						$result_SERIES_CARDEX->bindParam(':bodega_destino', $BODEGA_DESTINO, PDO::PARAM_STR);
+						$result_SERIES_CARDEX->bindParam(':usuario', $USUARIO, PDO::PARAM_STR);
+						$result_SERIES_CARDEX->bindParam(':bodega', $BODEGA, PDO::PARAM_STR);
+						$result_SERIES_CARDEX->bindParam(':EMPRESA', $EMPRESA, PDO::PARAM_STR);
+						if ($result_SERIES_CARDEX->execute()) {
+							echo "CARDEX GUARDADAS";
+						}
+					} else {
+						$err = $result_SERIES_->errorInfo();
+						var_dump($err);
+					}
+				}
 
 				// echo "Transferencia # ".$numerorecibido.$usuario1.$base.$acceso.$nomsuc.$iddestino.$idorigen.$detalle;
 				//die(); 					
@@ -128,6 +229,8 @@
 			$result6->bindParam(':tipo', $tipo, PDO::PARAM_STR);
 			$result6->execute();
 
+
+
 		?>
 	</div>
 	<div id="Cuerpo">
@@ -151,9 +254,9 @@
 			$_SESSION['base'] = $base;
 			$_SESSION['acceso'] = $acceso;
 			$_SESSION['nomsuc'] = $nomsuc;
-			header("Refresh: 1 ; verificartransferencias.php");
+			// header("Refresh: 1 ; verificartransferencias.php");
 		} else {
-			header("location: index.html");
+			// header("location: index.html");
 		}
 	?>
 	</div>

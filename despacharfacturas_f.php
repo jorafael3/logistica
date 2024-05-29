@@ -128,13 +128,9 @@ function Buscar_Sisco($secuencia)
 if (isset($_POST['Despachar'])) {
 	include('conexion_2.php');
 	//include_once("conexion_2sisco.php");
-
 	try {
-
 		$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-
 		$pdo->beginTransaction();
-
 		$DATOS = $_POST["DATOS"];
 		$acceso = $_POST["acceso"];
 		$usuario = $_POST["usuario"];
@@ -172,7 +168,6 @@ if (isset($_POST['Despachar'])) {
 			}
 			array_push($ARRA, [$row, $act, $cor, $errores_fac]);
 		}
-
 		if (count($errores_fac) == 0 && count($errores_sisco) == 0) {
 			$pdo->commit();
 			echo json_encode([1, $ARRA]);
@@ -181,7 +176,6 @@ if (isset($_POST['Despachar'])) {
 			echo json_encode([0, $ARRA]);
 		}
 	} catch (PDOException $e) {
-		//return [];
 		$e = $e->getMessage();
 		echo json_encode($e);
 		exit();

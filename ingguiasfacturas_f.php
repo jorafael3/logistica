@@ -14,8 +14,6 @@ if (isset($_POST['Cargar_guias'])) {
         $drop_uio = $_POST["drop_uio"];
         $pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
 
-
-
         $sql_nc = "{CALL LOG_FACTURAS_PENDIENTES_DEVUELTAS}";
         $query_nc = $pdo->prepare($sql_nc);
         $query_nc->execute();
@@ -24,7 +22,6 @@ if (isset($_POST['Cargar_guias'])) {
         foreach ($RESNC as $row) {
             array_push($LISTA_NC, trim($row["secuencia"]));
         }
-
         if ($drop == 1) {
             $sql = "LOG_FACTURAS_PENDIENTES_GUIAS_SELECT_2_DROPSHIPPING
             @gye = :gye,
@@ -41,7 +38,6 @@ if (isset($_POST['Cargar_guias'])) {
             $query->bindParam(':bodega', $bodega, PDO::PARAM_STR);
             $query->bindParam(':acceso', $acceso, PDO::PARAM_STR);
         }
-
         if ($query->execute()) {
             $ARRAY = [];
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -51,15 +47,12 @@ if (isset($_POST['Cargar_guias'])) {
                     array_push($ARRAY, $row);
                 }
             }
-
-
             echo json_encode($ARRAY);
         } else {
             $err = $query->errorInfo();
             echo json_encode($err);
         }
     } catch (PDOException $e) {
-        //return [];
         $e = $e->getMessage();
         echo json_encode($e);
         exit();
