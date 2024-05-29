@@ -254,9 +254,9 @@
 			$_SESSION['base'] = $base;
 			$_SESSION['acceso'] = $acceso;
 			$_SESSION['nomsuc'] = $nomsuc;
-			// header("Refresh: 1 ; verificartransferencias.php");
+			header("Refresh: 1 ; verificartransferencias.php");
 		} else {
-			// header("location: index.html");
+			header("location: index.html");
 		}
 	?>
 	</div>
