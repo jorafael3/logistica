@@ -22,6 +22,7 @@
 			$tipo = 'INV-TR';
 			$numerorecibido = $_SESSION['transfer'];
 			$usuario1 = $usuario;
+			$Transnum = $_SESSION['Transnum'];
 			//echo "Transferencia # ".$numerorecibido.$usuario.$base.$acceso."Destino".$iddestino."Origen".$idorigen.$detalle;
 
 			date_default_timezone_set('America/Guayaquil');
@@ -68,7 +69,7 @@
 			while ($x < count($arreglo2)) {
 
 
-				$TRANSFERENCIA_ID = $numerorecibido;
+				$TRANSFERENCIA_ID = $Transnum;
 				$PRODUCTOID = $arreglo2[$x][1];
 				$SERIE = $arreglo2[$x][2];
 				$EGRESO = 1;
@@ -77,7 +78,7 @@
 				$USUARIO = $usuario1;
 				$BODEGA = $idorigen;
 				$EMPRESA = 'CARTIMEX';
-				// echo $iddestino;
+				// echo $Transnum;
 
 				if (in_array($iddestino, $LISTA_BODEGAS)) {
 					// echo $iddestino;
@@ -254,9 +255,9 @@
 			$_SESSION['base'] = $base;
 			$_SESSION['acceso'] = $acceso;
 			$_SESSION['nomsuc'] = $nomsuc;
-			header("Refresh: 1 ; verificartransferencias.php");
+			// header("Refresh: 1 ; verificartransferencias.php");
 		} else {
-			header("location: index.html");
+			// header("location: index.html");
 		}
 	?>
 	</div>
