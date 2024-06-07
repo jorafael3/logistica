@@ -40,47 +40,80 @@
 
 			require('../conexion_mssql.php');
 			$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-			$result = $pdo->prepare('select codigo= código, detalle= nombre from inv_productos where id=:id');
+			$result = $pdo->prepare('select codigo= código, detalle= nombre , registroSeries , RSeriesEnt from inv_productos where id=:id');
 			$result->bindParam('id', $idproducto, PDO::PARAM_STR);
 			$result->execute();
+
 			while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+
 				$codigo = $row['codigo'];
 				$detalle = $row['detalle'];
+				$registroSeries = $row['registroSeries'];
+				$RSeriesEnt = $row['RSeriesEnt'];
 			}
 
+			// Echo values of registroSeries and RSeriesEnt for debugging
+			// echo "Registro Serie: " . $registroSeries . "<br>";
+			// echo "Entrada Serie: " . $RSeriesEnt . "<br>";
+
 			if (isset($_POST['serie'])) {
+
 				$x = $_SESSION['Contador'];
-				if ($x < $cantseries) {
-					//echo "Serieleida". $serieleida; 
-					$series = $_SESSION['series']; //cargo el arrego en memoria 
+				$series = $_SESSION['series'];
+				$serieleida = isset($_POST['serie']) ? $_POST['serie'] : '';
+				$producto_id = isset($_POST['productoid']) ? $_POST['productoid'] : '';
+
+				// Lógica para validar la serie según registroSeries y RSeriesEnt
+				if ($registroSeries == 1) {
+
+					if ($RSeriesEnt == 1) {
+						// Validar en la tabla de compras
+						$query = "SELECT Serie , ProductoID FROM INV_PRODUCTOS_SERIES_COMPRAS WHERE Serie = :serie AND ProductoID = :producto_id";
+						$stmt = $pdo->prepare($query);
+						$stmt->bindParam(':serie', $serieleida, PDO::PARAM_STR);
+						$stmt->bindParam(':producto_id', $producto_id, PDO::PARAM_INT);
+						$stmt->execute();
+						$serieCount = $stmt->rowCount();
+					} else {
+
+						$serieCount = 1;
+					}
+				} else {
+					// Validación normal
+					$query = "SELECT Serie , ProductoID FROM INV_PRODUCTOS_SERIES_COMPRAS WHERE Serie = :serie AND ProductoID = :producto_id";
+					$stmt = $pdo->prepare($query);
+					$stmt->bindParam(':serie', $serieleida, PDO::PARAM_STR);
+					$stmt->bindParam(':producto_id', $producto_id, PDO::PARAM_INT);
+					$stmt->execute();
+					$serieCount = $stmt->rowCount();
+				}
+
+				if ($serieCount === 0) {
+
+					$muestraleyenda2 = 'Serie no registrada o no pertenece al producto , verifica y vuelve a intentar.';
+				} else {
 					$pdo1 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-					//busco si la serie ya fue vendida en otra factura 
-					$result1 = $pdo1->prepare('select estado , facturaid from rma_productos where serie=:serie and productoid=:productoid ');
+					$result1 = $pdo1->prepare('select estado, facturaid from rma_productos where serie=:serie and productoid=:productoid');
 					$result1->bindParam('serie', $serieleida, PDO::PARAM_STR);
 					$result1->bindParam('productoid', $idproducto, PDO::PARAM_STR);
 					$result1->execute();
-					$count1 = $result1->rowcount();
-					//						echo "Contador de rma ".$count1; 
-					if ($count1 == 0) {
+					$count1 = $result1->rowCount();
 
-						//recorrer el arreglo se series ingresadas para buscar duplicada
+					if ($count1 == 0) {
 						$yy = 0;
 						$existe = 0;
-						while ($yy < $_SESSION['Contador']) {	//Mientras haya elementos en el arreglo
-							//echo "Para ver si existe". $series[1][$yy] . "leida". $serieleida;  
-							if ($series[1][$yy] == $serieleida) //Pregunta Si la serie ingresada está duplicada
-							{
+						while ($yy < $_SESSION['Contador']) {
+							if ($series[1][$yy] == $serieleida) {
 								$existe = 1;
 							}
 							$yy++;
 						}
-						if ($existe == 1) // Si existe muestra leyenda
-						{
-							$muestraleyenda2 = "Ya leyó esa serie... ";
+						if ($existe == 1) {
+							$muestraleyenda2 = "Ya leyó esa serie...";
 							$xx = $x - 1;
 						} else {
-							$series[1][$x] = $_POST['serie']; // agrego la serie al arreglo 
-							$_SESSION['series'] = $series; //grabo el arreglo en memoria
+							$series[1][$x] = $_POST['serie'];
+							$_SESSION['series'] = $series;
 							$xx = $x;
 							if ($cantseries - 1 == $x) {
 								$bloq = 'readonly';
@@ -90,25 +123,22 @@
 					} else {
 						$row = $result1->fetch(PDO::FETCH_ASSOC);
 						if (trim($row['estado']) == 'VENDIDO') {
-							$muestraleyenda2 = " Serie ya está registrada en factura # " . $row['facturaid'] . " ";
+							$muestraleyenda2 = "Serie ya está registrada en factura # " . $row['facturaid'] . " ";
 						} else {
 							$yy = 0;
 							$existe = 0;
-							while ($yy < $_SESSION['Contador']) {	//Mientras haya elementos en el arreglo
-								//echo "Para ver si existe". $series[1][$yy] . "leida". $serieleida;  
-								if ($series[1][$yy] == $serieleida) //Pregunta Si la serie ingresada está duplicada
-								{
+							while ($yy < $_SESSION['Contador']) {
+								if ($series[1][$yy] == $serieleida) {
 									$existe = 1;
 								}
 								$yy++;
 							}
-							if ($existe == 1) // Si existe muestra leyenda
-							{
-								$muestraleyenda2 = "Ya leyó esa serie... ";
+							if ($existe == 1) {
+								$muestraleyenda2 = "Ya leyó esa serie...";
 								$xx = $x - 1;
 							} else {
-								$series[1][$x] = $_POST['serie']; // agrego la serie al arreglo 
-								$_SESSION['series'] = $series; //grabo el arreglo en memoria
+								$series[1][$x] = $_POST['serie'];
+								$_SESSION['series'] = $series;
 								$xx = $x;
 								if ($cantseries - 1 == $x) {
 									$bloq = 'readonly';
@@ -118,9 +148,7 @@
 						}
 					}
 				}
-			} else // encero el arreglo y contador de series porque es la primera vez 
-			{
-				//echo "Entro aqui la primera vez ";
+			} else {
 				$conta = 0;
 				$x = 0;
 				unset($series);
@@ -129,6 +157,100 @@
 				$series = $_SESSION['series'];
 				$_SESSION['Contador'] = $x;
 			}
+
+			$series = $_SESSION['series'];
+
+			// require('../conexion_mssql.php');
+			// $pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+			// $result = $pdo->prepare('select codigo= código, detalle= nombre from inv_productos where id=:id');
+			// $result->bindParam('id', $idproducto, PDO::PARAM_STR);
+			// $result->execute();
+			// while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+			// 	$codigo = $row['codigo'];
+			// 	$detalle = $row['detalle'];
+			// }
+
+			// if (isset($_POST['serie'])) {
+			// 	$x = $_SESSION['Contador'];
+			// 	if ($x < $cantseries) {
+			// 		//echo "Serieleida". $serieleida; 
+			// 		$series = $_SESSION['series']; //cargo el arrego en memoria 
+			// 		$pdo1 = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+			// 		//busco si la serie ya fue vendida en otra factura 
+			// 		$result1 = $pdo1->prepare('select estado , facturaid from rma_productos where serie=:serie and productoid=:productoid ');
+			// 		$result1->bindParam('serie', $serieleida, PDO::PARAM_STR);
+			// 		$result1->bindParam('productoid', $idproducto, PDO::PARAM_STR);
+			// 		$result1->execute();
+			// 		$count1 = $result1->rowcount();
+			// 		//						echo "Contador de rma ".$count1; 
+			// 		if ($count1 == 0) {
+
+			// 			//recorrer el arreglo se series ingresadas para buscar duplicada
+			// 			$yy = 0;
+			// 			$existe = 0;
+			// 			while ($yy < $_SESSION['Contador']) {	//Mientras haya elementos en el arreglo
+			// 				//echo "Para ver si existe". $series[1][$yy] . "leida". $serieleida;  
+			// 				if ($series[1][$yy] == $serieleida) //Pregunta Si la serie ingresada está duplicada
+			// 				{
+			// 					$existe = 1;
+			// 				}
+			// 				$yy++;
+			// 			}
+			// 			if ($existe == 1) // Si existe muestra leyenda
+			// 			{
+			// 				$muestraleyenda2 = "Ya leyó esa serie... ";
+			// 				$xx = $x - 1;
+			// 			} else {
+			// 				$series[1][$x] = $_POST['serie']; // agrego la serie al arreglo 
+			// 				$_SESSION['series'] = $series; //grabo el arreglo en memoria
+			// 				$xx = $x;
+			// 				if ($cantseries - 1 == $x) {
+			// 					$bloq = 'readonly';
+			// 				}
+			// 				$x++;
+			// 			}
+			// 		} else {
+			// 			$row = $result1->fetch(PDO::FETCH_ASSOC);
+			// 			if (trim($row['estado']) == 'VENDIDO') {
+			// 				$muestraleyenda2 = " Serie ya está registrada en factura # " . $row['facturaid'] . " ";
+			// 			} else {
+			// 				$yy = 0;
+			// 				$existe = 0;
+			// 				while ($yy < $_SESSION['Contador']) {	//Mientras haya elementos en el arreglo
+			// 					//echo "Para ver si existe". $series[1][$yy] . "leida". $serieleida;  
+			// 					if ($series[1][$yy] == $serieleida) //Pregunta Si la serie ingresada está duplicada
+			// 					{
+			// 						$existe = 1;
+			// 					}
+			// 					$yy++;
+			// 				}
+			// 				if ($existe == 1) // Si existe muestra leyenda
+			// 				{
+			// 					$muestraleyenda2 = "Ya leyó esa serie... ";
+			// 					$xx = $x - 1;
+			// 				} else {
+			// 					$series[1][$x] = $_POST['serie']; // agrego la serie al arreglo 
+			// 					$_SESSION['series'] = $series; //grabo el arreglo en memoria
+			// 					$xx = $x;
+			// 					if ($cantseries - 1 == $x) {
+			// 						$bloq = 'readonly';
+			// 					}
+			// 					$x++;
+			// 				}
+			// 			}
+			// 		}
+			// 	}
+			// } else // encero el arreglo y contador de series porque es la primera vez 
+			// {
+			// 	//echo "Entro aqui la primera vez ";
+			// 	$conta = 0;
+			// 	$x = 0;
+			// 	unset($series);
+			// 	$series = array();
+			// 	$_SESSION['series'] = $series;
+			// 	$series = $_SESSION['series'];
+			// 	$_SESSION['Contador'] = $x;
+			// }
 
 
 			// if (isset($_POST['serie'])) {

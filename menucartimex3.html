@@ -4,8 +4,9 @@
 <script type="text/javascript">
 </script>
 <link href="estilos/menustyle.css" rel="stylesheet" type="text/css">
+
 <body>
-<?php
+	<?php
 			session_start();
 		    $usuario = $_SESSION['usuario'];
 			$base = $_SESSION['base'];
@@ -54,39 +55,49 @@
 		*/	
 
 ?>
-<nav id="menu_gral">
-			  <ul>
-				<li><a href="#">Toma de Inventario</a>
-					<ul>
-							<li><a href="inventario/inventarios.php">Toma Fisica Inventario (Conteo1)</a></li>
-							<li><a href="inventario/segundoconteo.php">Toma Fisica Inventario (Conteo2) </a></li>
-							<li><a href="inventario/tercerconteo.php">Toma Fisica Inventario (Conteo3) </a></li>
-					</ul>
-				</li>
-				<li><a href="#">Almacen y Stock </a>
+	<nav id="menu_gral">
+		<ul>
+			<li><a href="#">Toma de Inventario</a>
 				<ul>
-						<li><a href="consultarinventario.php?bodega=0000000006">Cartimex- Gye  </a></li>
-						<li><a href="consultarinventario.php?bodega=0200000001">Cartimex- UIO </a></li>
-					</ul>
-				</li>
-				<li><a href="#">Picking y Acopio (<?php echo $countp + $countt ?>)</a>
+					<li><a href="inventario/inventarios.php">Toma Fisica Inventario (Conteo1)</a></li>
+					<li><a href="inventario/segundoconteo.php">Toma Fisica Inventario (Conteo2) </a></li>
+					<li><a href="inventario/tercerconteo.php">Toma Fisica Inventario (Conteo3) </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Almacen y Stock </a>
 				<ul>
-						<li><a href="cartimex/prepararfacturas.php">Facturas (<?php echo $countp?>) </a></li>
-						<li><a href="cartimex/preparartransferencias.php">Transferencias (<?php echo $countt?>)</a></li>
-					</ul>
-				</li>
-
-				<li><a href="#">Verificacion y Series  (<?php echo $countv + $counttv?>)</a>
-					<ul>
-						<li><a href="cartimex/verificarfacturas.php">Facturas (<?php echo $countv?>) </a></li>
-						<li><a href="cartimex/verificartransferencias.php">Transferencias (<?php echo $counttv?>) </a></li>
-						<li><a href="cartimex/devolucionseries.php">Devolver Series</a></li>
-					
-					</ul>
-				</li>
-			  </ul>
-</nav>
-		<?php
+					<li><a href="consultarinventario.php?bodega=0000000006">Cartimex- Gye </a></li>
+					<li><a href="consultarinventario.php?bodega=0200000001">Cartimex- UIO </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Picking y Acopio (
+					<?php echo $countp + $countt ?>)
+				</a>
+				<ul>
+					<li><a href="cartimex/prepararfacturas.php">Facturas (
+							<?php echo $countp?>)
+						</a></li>
+					<li><a href="cartimex/preparartransferencias.php">Transferencias (
+							<?php echo $countt?>)
+						</a></li>
+				</ul>
+			</li>
+			<li><a href="#">Verificacion y Series (
+					<?php echo $countv + $counttv?>)
+				</a>
+				<ul>
+					<li><a href="cartimex/verificarfacturas.php">Facturas (
+							<?php echo $countv?>)
+						</a></li>
+					<li><a href="cartimex/verificartransferencias.php">Transferencias (
+							<?php echo $counttv?>)
+						</a></li>
+					<li><a href="cartimex/devolucionseries.php">Devolver Series</a></li>
+				</ul>
+			</li>
+		</ul>
+	</nav>
+	<?php
 			$usuario= $usuario1;
 			$_SESSION['base']= $base;
 			$_SESSION['usuario']=$usuario;
