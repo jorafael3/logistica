@@ -343,25 +343,17 @@
 
 
 	$(document).ready(function() {
-
 		$('.editable').on('keydown', function(event) {
-
 			if (event.key === 'Enter') {
-
 				event.preventDefault();
 
 				var fechaRetiro = $(this).text();
 				var facturaId = $(this).data('factura-id');
 
-
-				// Obtener fecha y hora actual 
-				var fechaActual = moment().format('YYYY-MM-DD');
-				var horaActual = moment().format('HH:mm:ss');
-				var fechaHoraActual = moment(fechaActual + ' ' + horaActual);
-				var fechaFormateada = fechaHoraActual.format("YYYYMMDD HH:mm:ss");
+				// Formatear la fecha a AAMMDD usando moment.js
+				var fechaFormateada = moment(fechaRetiro, "DD/MM/YYYY").format("YYMMDD");
 
 				let param = {
-
 					fechaRetiro: fechaFormateada,
 					facturaId: facturaId
 				};
@@ -375,7 +367,7 @@
 					success: function(response) {
 						Swal.fire(
 							'Actualizado',
-							'Fecha de envio actualizada exitosamente.',
+							'Tipo de pedido actualizado exitosamente.',
 							'success'
 						);
 					},
@@ -389,8 +381,7 @@
 				});
 			}
 		});
-	})
-
+	});
 
 
 	$(document).ready(function() {
