@@ -111,9 +111,9 @@
 							<th id="fila4" width="8%"> Transporte </th>
 							<th id="fila4" width="7%"> Guia# </th>
 							<th id="fila4" width="8%"> Despachado </th>
-							<th id="fila4" width="8%"> ESTADO DESPACHO </th>
-							<th id="fila4" width="8%"> FECHA DESPACHO </th>
-							<th id="fila4" width="8%"> HORA DESPACHO </th>
+							<th id="fila4" width="8%"> ESTADO COURIER </th>
+							<th id="fila4" width="8%"> FECHA COURIER </th>
+							<th id="fila4" width="8%"> HORA COURIER </th>
 						</tr>
 						<?php
 						if ($desde <> '') {
