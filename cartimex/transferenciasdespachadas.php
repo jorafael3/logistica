@@ -111,6 +111,9 @@
 							<th id="fila4" width="8%"> Transporte </th>
 							<th id="fila4" width="7%"> Guia# </th>
 							<th id="fila4" width="8%"> Despachado </th>
+							<th id="fila4" width="8%"> ESTADO DESPACHO </th>
+							<th id="fila4" width="8%"> FECHA DESPACHO </th>
+							<th id="fila4" width="8%"> HORA DESPACHO </th>
 						</tr>
 						<?php
 						if ($desde <> '') {
@@ -140,6 +143,9 @@
 								$arreglodesp[$x][11] = $row['guia'];
 								$arreglodesp[$x][12] = $row['fdesp'];
 								$arreglodesp[$x][13] = $row['Fecha'];
+								$arreglodesp[$x][14] = $row['ESTADO_DESPACHO'];
+								$arreglodesp[$x][15] = $row['FECHA_DESPACHO'];
+								$arreglodesp[$x][16] = $row['HORA_DESPACHO'];
 								$x++;
 							}
 							//echo '<pre>', print_r($arreglodesp),'</pre>';	
@@ -163,6 +169,9 @@
 									<td id="fila4"> <?php echo $arreglodesp[$y][10] ?> </td>
 									<td id="fila4"> <?php echo $arreglodesp[$y][11] ?> </td>
 									<td id="fila4"> <?php echo $arreglodesp[$y][12] ?> </td>
+									<td id="fila4"> <?php echo $arreglodesp[$y][14] ?> </td>
+									<td id="fila4"> <?php echo $arreglodesp[$y][15] ?> </td>
+									<td id="fila4"> <?php echo $arreglodesp[$y][16] ?> </td>
 								</tr>
 						<?php
 								$y = $y + 1;
