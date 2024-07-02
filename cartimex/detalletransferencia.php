@@ -190,7 +190,7 @@
 				<option value="CAMION COMPUTRON">CAMION COMPUTRON</option>
 				<option value="URBANO">URBANO</option>
 				<option value="TRAMACO">TRAMACO</option>
-				<option value="TRAMADYR">TRAMADYR</option>
+				<option value="TRANSDYR">TRANSDYR</option>
 				</select>
 			</td>
 			<td colspan= 10> </td>
