@@ -174,7 +174,7 @@
 									<td id="fila4"> <?php echo $arreglodesp[$y][14] ?> </td>
 									<td id="fila4"> <?php echo $arreglodesp[$y][15] ?> </td>
 									<td id="fila4"> <?php echo $arreglodesp[$y][16] ?> </td>
-									<td id="fila4"> <?php echo doubleval($arreglodesp[$y][17] )?> </td>
+									<td id="fila4"> <?php echo number_format(doubleval($arreglodesp[$y][17]), 5, '.', ''); ?> </td>
 								</tr>
 						<?php
 								$y = $y + 1;
