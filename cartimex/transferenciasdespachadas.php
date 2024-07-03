@@ -114,6 +114,7 @@
 							<th id="fila4" width="8%"> ESTADO COURIER </th>
 							<th id="fila4" width="8%"> FECHA COURIER </th>
 							<th id="fila4" width="8%"> HORA COURIER </th>
+							<th id="fila4" width="8%"> PESO  </th>
 						</tr>
 						<?php
 						if ($desde <> '') {
@@ -146,6 +147,7 @@
 								$arreglodesp[$x][14] = $row['ESTADO_DESPACHO'];
 								$arreglodesp[$x][15] = $row['FECHA_DESPACHO'];
 								$arreglodesp[$x][16] = $row['HORA_DESPACHO'];
+								$arreglodesp[$x][17] = $row['PESO'];
 								$x++;
 							}
 							//echo '<pre>', print_r($arreglodesp),'</pre>';	
@@ -172,6 +174,7 @@
 									<td id="fila4"> <?php echo $arreglodesp[$y][14] ?> </td>
 									<td id="fila4"> <?php echo $arreglodesp[$y][15] ?> </td>
 									<td id="fila4"> <?php echo $arreglodesp[$y][16] ?> </td>
+									<td id="fila4"> <?php echo $arreglodesp[$y][17] ?> </td>
 								</tr>
 						<?php
 								$y = $y + 1;
