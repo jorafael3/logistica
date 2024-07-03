@@ -174,7 +174,7 @@
 									<td id="fila4"> <?php echo $arreglodesp[$y][14] ?> </td>
 									<td id="fila4"> <?php echo $arreglodesp[$y][15] ?> </td>
 									<td id="fila4"> <?php echo $arreglodesp[$y][16] ?> </td>
-									<td id="fila4"> <?php echo round(floatval($arreglodesp[$y][17],4) )?> </td>
+									<td id="fila4"> <?php echo round(floatval($arreglodesp[$y][17],2) )?> </td>
 								</tr>
 						<?php
 								$y = $y + 1;
