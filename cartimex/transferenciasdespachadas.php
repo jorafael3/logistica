@@ -114,7 +114,7 @@
 							<th id="fila4" width="8%"> ESTADO COURIER </th>
 							<th id="fila4" width="8%"> FECHA COURIER </th>
 							<th id="fila4" width="8%"> HORA COURIER </th>
-							<th id="fila4" width="8%"> PESO  </th>
+							<th id="fila4" width="8%"> PESO </th>
 						</tr>
 						<?php
 						if ($desde <> '') {
@@ -174,7 +174,7 @@
 									<td id="fila4"> <?php echo $arreglodesp[$y][14] ?> </td>
 									<td id="fila4"> <?php echo $arreglodesp[$y][15] ?> </td>
 									<td id="fila4"> <?php echo $arreglodesp[$y][16] ?> </td>
-									<td id="fila4"> <?php echo $arreglodesp[$y][17] ?> </td>
+									<td id="fila4"> <?php echo floatval($arreglodesp[$y][17]) ?> </td>
 								</tr>
 						<?php
 								$y = $y + 1;
@@ -204,9 +204,11 @@
 
 <script>
 	console.log("asdasdasd");
+
 	function setfocus() {
 		//document.getElementById("codigo").focus();
 	}
+
 	function htmlTableToExcel(type) {
 		var data = document.getElementById('despacho');
 		var excelFile = XLSX.utils.table_to_book(data, {
