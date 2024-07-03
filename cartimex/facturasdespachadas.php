@@ -212,7 +212,7 @@
 								<td id="filax"> <?php echo $arreglodesp[$y][23] ?> </td>
 								<td id="filax"> <?php echo $arreglodesp[$y][24] ?> </td>
 								<td id="filax"> <?php echo $arreglodesp[$y][25] ?> </td>
-								<td id="filax"> <?php echo floatval($arreglodesp[$y][26]) ?> </td>
+								<td id="fila4"> <?php echo number_format(doubleval($arreglodesp[$y][26]), 5, '.', ''); ?> </td>
 							</tr>
 					<?php
 							$y = $y + 1;
