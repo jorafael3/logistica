@@ -189,7 +189,7 @@
 				<option value="CAMION CARTIMEX">CAMION CARTIMEX</option>
 				<option value="CAMION COMPUTRON">CAMION COMPUTRON</option>
 				<option value="URBANO">URBANO</option>
-				<option value="TRAMACO">TRAMACO</option>
+				<!-- <option value="TRAMACO">TRAMACO</option> -->
 				<option value="TRANSDYR">TRANSDYR</option>
 				</select>
 			</td>
