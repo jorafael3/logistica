@@ -112,7 +112,7 @@
 							<th id="fila4" width="7%"> Guia# </th>
 							<th id="fila4" width="8%"> Despachado </th>
 							<th id="fila4" width="8%"> ESTADO COURIER </th>
-							<th id="fila4" width="8%"> FECHA COURIER </th>
+							<th id="fila4" width="12%"> FECHA COURIER </th>
 							<th id="fila4" width="8%"> HORA COURIER </th>
 							<th id="fila4" width="8%"> PESO </th>
 						</tr>
