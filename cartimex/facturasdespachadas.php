@@ -9,6 +9,8 @@
 <link href="../estilos/estilos2.css" rel="stylesheet" type="text/css">
 <link href="../estilos/estilos.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="../css/tablas.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
 <body onload="setfocus()">
 	<div id="header" align="center">
@@ -34,6 +36,7 @@
 			} else {
 				require '../headcompu.php';
 			}
+			$res = [];
 		?>
 	</div>
 	<div id="Cuerpo">
@@ -95,7 +98,7 @@
 
 
 			</div>
-			<div class=\"table-responsive-xl\">
+			<div class="d-none">
 
 				<form action="facturasdespachadasexcel.php" method="post">
 					<button type="submit" id="export_data" name="exportarCSV" value="Export to excel" class="btn btn-info">Exportar a Excel (CSV)</button>
@@ -150,35 +153,36 @@
 						$result->execute();
 						$arreglodesp = array();
 						$x = 0;
-						while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-							$arreglodesp[$x][1] = $row['Sucursal'];
-							$arreglodesp[$x][2] = $row['secuencia'];
-							$arreglodesp[$x][3] = $row['fecha'];
-							$arreglodesp[$x][4] = $row['nombodega'];
-							$arreglodesp[$x][5] = $row['Detalle'];
-							$arreglodesp[$x][6] = $row['fdesp'];
-							$arreglodesp[$x][7] = $row['guia'];
-							$arreglodesp[$x][8] = $row['fguia'];
-							$arreglodesp[$x][22] = $row['BULTOS'];
-							$arreglodesp[$x][9] = $row['trans'];
-							$arreglodesp[$x][10] = $row['fprepa'];
-							$arreglodesp[$x][11] = $row['fverif'];
-							$arreglodesp[$x][12] = $row['fvehi'];
-							$arreglodesp[$x][13] = $row['codbodega'];
-							$arreglodesp[$x][14] = $row['tpedido'];
-							$arreglodesp[$x][15] = $row['tporiginal'];
-							$arreglodesp[$x][16] = $row['cont'];
-							$arreglodesp[$x][17] = $row['prepapor'];
-							$arreglodesp[$x][18] = $row['verifpor'];
-							$arreglodesp[$x][19] = $row['guiapor'];
-							$arreglodesp[$x][20] = $row['entrepor'];
-							$arreglodesp[$x][21] = $row['ciudad'];
-							$arreglodesp[$x][23] = $row['ESTADO_DESPACHO'];
-							$arreglodesp[$x][24] = $row['FECHA_DESPACHO'];
-							$arreglodesp[$x][25] = $row['HORA_DESPACHO'];
-							$arreglodesp[$x][26] = $row['PESO'];
-							$x++;
-						}
+						$res =  $result->fetchAll(PDO::FETCH_ASSOC);
+						// while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+						// 	$arreglodesp[$x][1] = $row['Sucursal'];
+						// 	$arreglodesp[$x][2] = $row['secuencia'];
+						// 	$arreglodesp[$x][3] = $row['fecha'];
+						// 	$arreglodesp[$x][4] = $row['nombodega'];
+						// 	$arreglodesp[$x][5] = $row['Detalle'];
+						// 	$arreglodesp[$x][6] = $row['fdesp'];
+						// 	$arreglodesp[$x][7] = $row['guia'];
+						// 	$arreglodesp[$x][8] = $row['fguia'];
+						// 	$arreglodesp[$x][22] = $row['BULTOS'];
+						// 	$arreglodesp[$x][9] = $row['trans'];
+						// 	$arreglodesp[$x][10] = $row['fprepa'];
+						// 	$arreglodesp[$x][11] = $row['fverif'];
+						// 	$arreglodesp[$x][12] = $row['fvehi'];
+						// 	$arreglodesp[$x][13] = $row['codbodega'];
+						// 	$arreglodesp[$x][14] = $row['tpedido'];
+						// 	$arreglodesp[$x][15] = $row['tporiginal'];
+						// 	$arreglodesp[$x][16] = $row['cont'];
+						// 	$arreglodesp[$x][17] = $row['prepapor'];
+						// 	$arreglodesp[$x][18] = $row['verifpor'];
+						// 	$arreglodesp[$x][19] = $row['guiapor'];
+						// 	$arreglodesp[$x][20] = $row['entrepor'];
+						// 	$arreglodesp[$x][21] = $row['ciudad'];
+						// 	$arreglodesp[$x][23] = $row['ESTADO_DESPACHO'];
+						// 	$arreglodesp[$x][24] = $row['FECHA_DESPACHO'];
+						// 	$arreglodesp[$x][25] = $row['HORA_DESPACHO'];
+						// 	$arreglodesp[$x][26] = $row['PESO'];
+						// 	$x++;
+						// }
 
 						//echo '<pre>', print_r($arreglodesp),'</pre>';	
 						$count = count($arreglodesp);
@@ -222,6 +226,12 @@
 				</table>
 
 			</div>
+
+			<div class="table-responsive">
+				<table id="TABLA" class="table table-striped nowrap">
+
+				</table>
+			</div>
 		</div>
 	<?php
 
@@ -235,4 +245,187 @@
 
 	?>
 	</div>
+	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+	<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-html5-3.0.2/datatables.min.css" rel="stylesheet">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+	<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-html5-3.0.2/datatables.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+
+	<script>
+		let data = '<?php echo json_encode($res) ?>';
+		data = JSON.parse(data);
+		console.log('data: ', data);
+
+		if (data.length > 0) {
+			Tabla(data);
+		}
+
+		function Tabla(data) {
+			let table_Ingresos = $('#TABLA').DataTable({
+				destroy: true,
+				data: data,
+				dom: 'Bfrtip',
+				paging: true,
+				"pageLength": 100,
+				buttons: [
+					'excel'
+				],
+
+				columns: [{
+					data: "codbodega",
+					title: "BODEGA",
+				}, {
+					data: "Detalle",
+					title: "CLIENTE",
+				}, {
+					data: "secuencia",
+					title: "SECUENCIA",
+				}, {
+					data: "fecha",
+					title: "FECHA",
+					render: function(x) {
+						if (x == null) {
+							x = '';
+						} else {
+							x = `
+						<span>` + moment(x).format("YYYY-MM-DD") + `</span><br>
+						<span>` + moment(x).format("hh:mm") + `</span><br>
+						`
+						}
+
+						return x;
+					}
+				}, {
+					data: "tporiginal",
+					title: "TP ORIGINAL",
+				}, {
+					data: "tpedido",
+					title: "TIPO PEDIDO",
+				}, {
+					data: "nombodega",
+					title: "BODEGA. FACT",
+				}, {
+					data: "prepapor",
+					title: "PREPA. POR",
+				}, {
+					data: "verifpor",
+					title: "VERIF. POR",
+				}, {
+					data: "fverif",
+					title: "FECHA VERIF.",
+					render: function(x) {
+						if (x == null) {
+							x = '';
+						} else {
+							x = `
+						<span>` + moment(x).format("YYYY-MM-DD") + `</span><br>
+						<span>` + moment(x).format("hh:mm") + `</span><br>
+						`
+						}
+
+						return x;
+					}
+				}, {
+					data: "guiapor",
+					title: "GUIA POR.",
+				}, {
+					data: "fguia",
+					title: "FECHA GUIA.",
+					render: function(x) {
+						if (x == null) {
+							x = '';
+						} else {
+							x = `
+						<span>` + moment(x).format("YYYY-MM-DD") + `</span><br>
+						<span>` + moment(x).format("hh:mm") + `</span><br>
+						`
+						}
+
+						return x;
+					}
+				}, {
+					data: "guia",
+					title: "GUIA",
+				}, {
+					data: "BULTOS",
+					title: "BULTOS",
+				}, {
+					data: "trans",
+					title: "TRANSPORTE",
+				}, {
+					data: "entrepor",
+					title: "EMBAR. POR",
+				}, {
+					data: "fdesp",
+					title: "FECHA DESPACHO",
+					render: function(x) {
+						if (x == null) {
+							x = '';
+						} else {
+							x = `
+						<span>` + moment(x).format("YYYY-MM-DD") + `</span><br>
+						<span>` + moment(x).format("hh:mm") + `</span><br>
+						`
+						}
+
+						return x;
+					}
+				}, {
+					data: "fvehi",
+					title: "FECHA E.VEHICULO",
+					render: function(x) {
+						if (x == null) {
+							x = '';
+						} else {
+							x = `
+						<span>` + moment(x).format("YYYY-MM-DD") + `</span><br>
+						<span>` + moment(x).format("hh:mm") + `</span><br>
+						`
+						}
+
+						return x;
+					}
+				}, {
+					data: "ciudad",
+					title: "CIUDAD",
+				}, {
+					data: "ESTADO_DESPACHO",
+					title: "ESTADO COURIER",
+				}, {
+					data: "FECHA_DESPACHO",
+					title: "FECHA COURIER",
+				}, {
+					data: "HORA_DESPACHO",
+					title: "HORA COURIER",
+				}, {
+					data: "PESO",
+					title: "PESO",
+					render: function(x) {
+						x = parseFloat(x);
+						return x;
+					}
+				}],
+				"createdRow": function(row, data, index) {
+					// $('td', row).eq(4).addClass('text-center');
+					// $('td', row).eq(0).addClass('fw-bold fs-6');
+					// $('td', row).eq(2).addClass('fw-bold fs-6 ');
+					// $('td', row).eq(3).addClass('fw-bold fs-6');
+					// $('td', row).eq(4).addClass('fw-bold fs-6 ');
+					// $('td', row).eq(5).addClass('fw-bold fs-6 bg-light-info');
+					// $('td', row).eq(6).addClass('fw-bold fs-6 ');
+					// $('td', row).eq(7).addClass('fw-bold fs-6 ');
+
+					for (let index = 0; index < 30; index++) {
+						$('td', row).eq(index).addClass('fw-bold fs-7');
+					}
+
+					$('td', row).eq(1).addClass('fw-bold fs-6 bg-light-warning');
+
+				}
+			});
+		}
+	</script>
 </body>
