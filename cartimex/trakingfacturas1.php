@@ -98,6 +98,9 @@
 				$Total = number_format($row1['TTOTAL'], 2);
 				$vehiculoPor = $row1['vehiculoPor'];
 				$placa = $row1['placa'];
+				$FECHA_DESPACHO = $row1['FECHA_DESPACHO'];
+				$HORA_DESPACHO = $row1['HORA_DESPACHO'];
+				$ESTADO_DESPACHO = $row1['ESTADO_DESPACHO'];
 				$Chofer = $row1['chofer'];
 				$FechaVehiculo = $row1['FechaVehiculo'];
 				$ComentarioVeh = $row1['ComentarioVeh'];
