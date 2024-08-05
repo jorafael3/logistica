@@ -252,6 +252,14 @@
 						<td id="td1"> <strong> Comentario Vehiculo: </strong> </td>
 						<td id="label4" colspan=3> <a> <?php echo $ComentarioVeh ?> </a> </td>
 					</tr>
+					<tr>
+						<td id="td1"> <strong> ESTADO DESPACHO: </strong> </td>
+						<td id="label4"> <a> <?php echo $ESTADO_DESPACHO ?> </a> </td>
+						<td id="td1"> <strong> FECHA GUIA: : </strong> </td>
+						<td id="label4"> <a> <?php echo $FECHA_DESPACHO ?> </a> </td>
+						<td id="td1"> <strong> HORA GUIA: </strong> </td>
+						<td id="label4"> <a> <?php echo $HORA_DESPACHO ?> </a></td>
+					</tr>
 				</table>
 				<table border=2 width=100% id="traking" align="center">
 					<th> Codigo</th>

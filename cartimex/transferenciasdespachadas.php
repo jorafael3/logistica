@@ -30,6 +30,7 @@
 			} else {
 				require '../headcompu.php';
 			}
+			$res = [];
 		?>
 	</div>
 	<div id="Cuerpo">
@@ -130,6 +131,7 @@
 							$result->execute();
 							$arreglodesp = array();
 							$x = 0;
+							// $res = $result->fetchAll(PDO::FETCH_ASSOC);
 							while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
 								$arreglodesp[$x][1] = $row['GrupoID'];
 								$arreglodesp[$x][2] = $row['Transferencia'];
@@ -184,6 +186,11 @@
 					</table>
 				</form>
 			</div>
+			<div class="table-responsive">
+				<table id="TABLA" class="table table-striped nowrap">
+
+				</table>
+			</div>
 		</div>
 	<?php
 
@@ -220,6 +227,187 @@
 			type: 'base64'
 		});
 		XLSX.writeFile(excelFile, 'ExportedFile:HTMLTableToExcel.' + type);
+	}
+</script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-html5-3.0.2/datatables.min.css" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-html5-3.0.2/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+
+<script>
+	let data = '<?php echo json_encode($res) ?>';
+	data = JSON.parse(data);
+	console.log('data: ', data);
+
+	if (data.length > 0) {
+		// Tabla(data);
+	}
+
+	function Tabla(data) {
+		let table_Ingresos = $('#TABLA').DataTable({
+			destroy: true,
+			data: data,
+			dom: 'Bfrtip',
+			paging: true,
+			"pageLength": 100,
+			buttons: [
+				'excel'
+			],
+
+			columns: [{
+				data: "GrupoID",
+				title: "AgruparID",
+			}, {
+				data: "Transferencia",
+				title: "Transferencia",
+			}, {
+				data: "Fecha",
+				title: "FECHA",
+				render: function(x) {
+					if (x == null) {
+						x = '';
+					} else {
+						x = `
+						<span>` + moment(x).format("YYYY-MM-DD") + `</span><br>
+						<span>` + moment(x).format("hh:mm") + `</span><br>
+						`
+					}
+
+					return x;
+				}
+			}, {
+				data: "Origen",
+				title: "Bodega Origen",
+			}, {
+				data: "tpedido",
+				title: "TIPO PEDIDO",
+			}, {
+				data: "Destino",
+				title: "Bodega Destino",
+			}, {
+				data: "prepapor",
+				title: "PREPA. POR",
+			}, {
+				data: "verifpor",
+				title: "VERIF. POR",
+			}, {
+				data: "fverif",
+				title: "FECHA VERIF.",
+				render: function(x) {
+					if (x == null) {
+						x = '';
+					} else {
+						x = `
+						<span>` + moment(x).format("YYYY-MM-DD") + `</span><br>
+						<span>` + moment(x).format("hh:mm") + `</span><br>
+						`
+					}
+
+					return x;
+				}
+			}, {
+				data: "guiapor",
+				title: "GUIA POR.",
+			}, {
+				data: "fguia",
+				title: "FECHA GUIA.",
+				render: function(x) {
+					if (x == null) {
+						x = '';
+					} else {
+						x = `
+						<span>` + moment(x).format("YYYY-MM-DD") + `</span><br>
+						<span>` + moment(x).format("hh:mm") + `</span><br>
+						`
+					}
+
+					return x;
+				}
+			}, {
+				data: "guia",
+				title: "GUIA",
+			}, {
+				data: "BULTOS",
+				title: "BULTOS",
+			}, {
+				data: "trans",
+				title: "TRANSPORTE",
+			}, {
+				data: "entrepor",
+				title: "EMBAR. POR",
+			}, {
+				data: "fdesp",
+				title: "FECHA DESPACHO",
+				render: function(x) {
+					if (x == null) {
+						x = '';
+					} else {
+						x = `
+						<span>` + moment(x).format("YYYY-MM-DD") + `</span><br>
+						<span>` + moment(x).format("hh:mm") + `</span><br>
+						`
+					}
+
+					return x;
+				}
+			}, {
+				data: "fvehi",
+				title: "FECHA E.VEHICULO",
+				render: function(x) {
+					if (x == null) {
+						x = '';
+					} else {
+						x = `
+						<span>` + moment(x).format("YYYY-MM-DD") + `</span><br>
+						<span>` + moment(x).format("hh:mm") + `</span><br>
+						`
+					}
+
+					return x;
+				}
+			}, {
+				data: "ciudad",
+				title: "CIUDAD",
+			}, {
+				data: "ESTADO_DESPACHO",
+				title: "ESTADO COURIER",
+			}, {
+				data: "FECHA_DESPACHO",
+				title: "FECHA COURIER",
+			}, {
+				data: "HORA_DESPACHO",
+				title: "HORA COURIER",
+			}, {
+				data: "PESO",
+				title: "PESO",
+				render: function(x) {
+					x = parseFloat(x);
+					return x;
+				}
+			}],
+			"createdRow": function(row, data, index) {
+				// $('td', row).eq(4).addClass('text-center');
+				// $('td', row).eq(0).addClass('fw-bold fs-6');
+				// $('td', row).eq(2).addClass('fw-bold fs-6 ');
+				// $('td', row).eq(3).addClass('fw-bold fs-6');
+				// $('td', row).eq(4).addClass('fw-bold fs-6 ');
+				// $('td', row).eq(5).addClass('fw-bold fs-6 bg-light-info');
+				// $('td', row).eq(6).addClass('fw-bold fs-6 ');
+				// $('td', row).eq(7).addClass('fw-bold fs-6 ');
+
+				for (let index = 0; index < 30; index++) {
+					$('td', row).eq(index).addClass('fw-bold fs-7');
+				}
+
+				$('td', row).eq(1).addClass('fw-bold fs-6 bg-light-warning');
+
+			}
+		});
 	}
 </script>
 
