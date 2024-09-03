@@ -37,6 +37,25 @@
 				require '../headcompu.php';
 			}
 			$res = [];
+
+			require('../conexion_mssql.php');
+			$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
+			$result = $pdo->prepare("LOG_FACTURAS_DESPACHADAS_SGL @bodega=:bodega , @acceso=:acceso, @desde=:desde, @hasta=:hasta, @tipofecha=:tipofecha");
+			$result->bindParam(':bodega', $bodega, PDO::PARAM_STR);
+			$result->bindParam(':acceso', $acceso, PDO::PARAM_STR);
+			$result->bindParam(':desde', $desde, PDO::PARAM_STR);
+			$result->bindParam(':hasta', $hasta, PDO::PARAM_STR);
+			$result->bindParam(':tipofecha', $tipofecha, PDO::PARAM_STR);
+			$result->execute();
+			$arreglodesp = array();
+			$x = 0;
+			$res =  $result->fetchAll(PDO::FETCH_ASSOC);
+
+			for ($i = 0; $i < count($res); $i++) {
+				$res[$i]["Detalle"] = str_replace(["\n", "\r", "\t",'"'], '', $res["Detalle"]);
+			}
+
+			// print_r($res);
 		?>
 	</div>
 	<div id="Cuerpo">
@@ -108,122 +127,7 @@
 					<td id="box"> <input name="hasta" type="hidden" id="hasta" size="30" value="<?php echo $hasta ?>"> </td>
 					<td id="box"> <input name="tipofecha" type="hidden" id="tipofecha" size="30" value="<?php echo $tipofecha ?>"> </td>
 				</form>
-				<table id="despacho" align="center">
-					<tr>
-						<th colspan="21"> </th>
-					</tr>
-					<tr>
-						<th id="fila4" width="2%"> </th>
-						<th id="fila4" width="5%"> Bodega </th>
-						<th id="fila4" width="20%"> Cliente </th>
-						<th id="fila4" width="8%"> Factura </th>
-						<th id="fila4" width="8%"> Fecha Factura </th>
-						<th id="fila4" width="5%"> TP Original </th>
-						<th id="fila4" width="5%"> Tipo Pedido </th>
-						<th id="fila4" width="5%"> Bod.Fact </th>
-						<th id="fila4" width="5%"> Prepa. Por </th>
-						<th id="fila4" width="8%"> Fecha Prepa </th>
-						<th id="fila4" width="5%"> Verif Por </th>
-						<th id="fila4" width="8%"> Fecha Verif </th>
-						<th id="fila4" width="5%"> Guia Por</th>
-						<th id="fila4" width="8%"> Fecha Guia </th>
-						<th id="fila4" width="7%"> #Guia </th>
-						<th id="fila4" width="5%"> Bultos </th>
-						<th id="fila4" width="15%"> Transporte </th>
-						<th id="fila4" width="15%"> Embar.Por </th>
-						<th id="fila4" width="8%"> Fecha Despacho </th>
-						<th id="fila4" width="8%"> Fecha E.Vehiculo </th>
-						<th id="fila4" width="8%"> Ciudad </th>
-						<th id="fila4" width="8%"> ESTADO COURIER </th>
-						<th id="fila4" width="8%"> FECHA COURIER </th>
-						<th id="fila4" width="8%"> HORA COURIER </th>
-						<th id="fila4" width="8%"> PESO </th>
-					</tr>
-					<?php
-					if ($desde <> '') {
-						//echo "Bodega".$bodega;
-						require('../conexion_mssql.php');
-						$pdo = new PDO("sqlsrv:server=$sql_serverName ; Database = $sql_database", $sql_user, $sql_pwd);
-						$result = $pdo->prepare("LOG_FACTURAS_DESPACHADAS_SGL @bodega=:bodega , @acceso=:acceso, @desde=:desde, @hasta=:hasta, @tipofecha=:tipofecha");
-						$result->bindParam(':bodega', $bodega, PDO::PARAM_STR);
-						$result->bindParam(':acceso', $acceso, PDO::PARAM_STR);
-						$result->bindParam(':desde', $desde, PDO::PARAM_STR);
-						$result->bindParam(':hasta', $hasta, PDO::PARAM_STR);
-						$result->bindParam(':tipofecha', $tipofecha, PDO::PARAM_STR);
-						$result->execute();
-						$arreglodesp = array();
-						$x = 0;
-						$res =  $result->fetchAll(PDO::FETCH_ASSOC);
-						// while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-						// 	$arreglodesp[$x][1] = $row['Sucursal'];
-						// 	$arreglodesp[$x][2] = $row['secuencia'];
-						// 	$arreglodesp[$x][3] = $row['fecha'];
-						// 	$arreglodesp[$x][4] = $row['nombodega'];
-						// 	$arreglodesp[$x][5] = $row['Detalle'];
-						// 	$arreglodesp[$x][6] = $row['fdesp'];
-						// 	$arreglodesp[$x][7] = $row['guia'];
-						// 	$arreglodesp[$x][8] = $row['fguia'];
-						// 	$arreglodesp[$x][22] = $row['BULTOS'];
-						// 	$arreglodesp[$x][9] = $row['trans'];
-						// 	$arreglodesp[$x][10] = $row['fprepa'];
-						// 	$arreglodesp[$x][11] = $row['fverif'];
-						// 	$arreglodesp[$x][12] = $row['fvehi'];
-						// 	$arreglodesp[$x][13] = $row['codbodega'];
-						// 	$arreglodesp[$x][14] = $row['tpedido'];
-						// 	$arreglodesp[$x][15] = $row['tporiginal'];
-						// 	$arreglodesp[$x][16] = $row['cont'];
-						// 	$arreglodesp[$x][17] = $row['prepapor'];
-						// 	$arreglodesp[$x][18] = $row['verifpor'];
-						// 	$arreglodesp[$x][19] = $row['guiapor'];
-						// 	$arreglodesp[$x][20] = $row['entrepor'];
-						// 	$arreglodesp[$x][21] = $row['ciudad'];
-						// 	$arreglodesp[$x][23] = $row['ESTADO_DESPACHO'];
-						// 	$arreglodesp[$x][24] = $row['FECHA_DESPACHO'];
-						// 	$arreglodesp[$x][25] = $row['HORA_DESPACHO'];
-						// 	$arreglodesp[$x][26] = $row['PESO'];
-						// 	$x++;
-						// }
 
-						//echo '<pre>', print_r($arreglodesp),'</pre>';	
-						$count = count($arreglodesp);
-						$y = 0;
-						while ($y <= $count - 1) {
-							$numfac = $arreglodesp[$y][2];
-
-					?>
-							<tr>
-								<td id="fila4"> <?php echo $arreglodesp[$y][16] ?></td>
-								<td id="fila4"> <a href="trakingfacturas0.php?secu=<?php echo $arreglodesp[$y][2] ?>"> <?php echo $arreglodesp[$y][13] ?></a></td>
-								<td id="fila4"> <?php echo $arreglodesp[$y][5] ?></td>
-								<td id="fila4"> <?php echo $arreglodesp[$y][2] ?></td>
-								<td id="filax"> <?php echo $arreglodesp[$y][3] ?> </td>
-								<td id="filax"> <?php echo $arreglodesp[$y][15] ?> </td>
-								<td id="filax"> <?php echo $arreglodesp[$y][14] ?> </td>
-								<td id="fila4"> <?php echo $arreglodesp[$y][4] ?> </td>
-								<td id="filax"> <?php echo $arreglodesp[$y][17] ?> </td>
-								<td id="filax"> <?php echo $arreglodesp[$y][10] ?> </td>
-								<td id="filax"> <?php echo $arreglodesp[$y][18] ?> </td>
-								<td id="filax"> <?php echo $arreglodesp[$y][11] ?> </td>
-								<td id="filax"> <?php echo $arreglodesp[$y][19] ?> </td>
-								<td id="filax"> <?php echo $arreglodesp[$y][8] ?> </td>
-								<td id="filax"> <?php echo $arreglodesp[$y][22] ?> </td>
-								<td id="fila4"> <?php echo $arreglodesp[$y][7] ?> </td>
-								<td id="fila4"> <?php echo $arreglodesp[$y][9] ?> </td>
-								<td id="fila4"> <?php echo $arreglodesp[$y][20] ?> </td>
-								<td id="filax"> <?php echo $arreglodesp[$y][6] ?> </td>
-								<td id="filax"> <?php echo $arreglodesp[$y][12] ?> </td>
-								<td id="filax"> <?php echo $arreglodesp[$y][21] ?> </td>
-								<td id="filax"> <?php echo $arreglodesp[$y][23] ?> </td>
-								<td id="filax"> <?php echo $arreglodesp[$y][24] ?> </td>
-								<td id="filax"> <?php echo $arreglodesp[$y][25] ?> </td>
-								<td id="fila4"> <?php echo number_format(doubleval($arreglodesp[$y][26]), 5, '.', ''); ?> </td>
-							</tr>
-					<?php
-							$y = $y + 1;
-						}
-					}
-					?>
-				</table>
 
 			</div>
 
@@ -258,6 +162,7 @@
 		let data = '<?php echo json_encode($res) ?>';
 		data = JSON.parse(data);
 		console.log('data: ', data);
+
 
 		if (data.length > 0) {
 			Tabla(data);
