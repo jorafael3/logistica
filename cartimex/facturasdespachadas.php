@@ -50,9 +50,8 @@
 			$arreglodesp = array();
 			$x = 0;
 			$res =  $result->fetchAll(PDO::FETCH_ASSOC);
-
 			for ($i = 0; $i < count($res); $i++) {
-				$res[$i]["Detalle"] = str_replace(["\n", "\r", "\t",'"'], '', $res["Detalle"]);
+				$res[$i]["Detalle"] = str_replace(["\n", "\r", "\t", '"'], '', $res[$i]["Detalle"]);
 			}
 
 			// print_r($res);
@@ -215,6 +214,21 @@
 				}, {
 					data: "prepapor",
 					title: "PREPA. POR",
+				}, {
+					data: "fprepa",
+					title: "FECHA PREPA.",
+					render: function(x) {
+						if (x == null) {
+							x = '';
+						} else {
+							x = `
+						<span>` + moment(x).format("YYYY-MM-DD") + `</span><br>
+						<span>` + moment(x).format("hh:mm") + `</span><br>
+						`
+						}
+
+						return x;
+					}
 				}, {
 					data: "verifpor",
 					title: "VERIF. POR",
