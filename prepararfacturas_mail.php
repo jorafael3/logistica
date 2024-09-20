@@ -124,7 +124,7 @@ function enviar_correo($ARRAY)
         $mail->Host       = 'mail.cartimex.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = 'sgo';
-        $mail->Password   = 'sistema2021*';
+        $mail->Password   = 'revolutionary*10$2024';
         // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->addAddress($correoDestino);
         // $mail->addAddress('gcassis@cartimex.com');

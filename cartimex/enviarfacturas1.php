@@ -143,7 +143,7 @@
 								$m->SMTPAuth = true;
 								$m->Host = 'mail.cartimex.com';
 								$m->Username = 'sgo';
-								$m->Password = 'sistema2021*';
+								$m->Password = 'revolutionary*10$2024';
 								$m->SMTPSecure = 'ssl';
 								$m->Port = 465;
 								$m->From = 'facturacion@cartimex.com';
