@@ -121,15 +121,15 @@ function enviar_correo($ARRAY)
         include 'vendor/autoload.php';
         $mail = new PHPMailer();
         $mail->isSMTP();
-        $mail->Host       = 'mail.cartimex.com';
+        $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = 'sgo';
-        $mail->Password   = 'revolutionary*10$2024';
+        $mail->Password   = 'nyai liux sagy jtsk';
         // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->addAddress($correoDestino);
         // $mail->addAddress('gcassis@cartimex.com');
         // $mail->addAddress('jalvarado@cartimex.com');
-        $mail->setFrom('sgo@cartimex.com', 'CARTIMEX');
+        $mail->setFrom('sgocarticompu@gmail.com', 'CARTIMEX');
         $mail->AddCC("gcassis@cartimex.com");
         $mail->isHTML(true);
         $mail->CharSet = 'UTF-8';

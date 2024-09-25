@@ -581,9 +581,9 @@ function mailmailcourier($factura, $bodegaFAC)
 					$m->CharSet = 'UTF-8';
 					$m->isSMTP();
 					$m->SMTPAuth = true;
-					$m->Host = 'mail.cartimex.com';
+					$m->Host = 'smtp.gmail.com';
 					$m->Username = 'sgo';
-					$m->Password = 'revolutionary*10$2024';
+					$m->Password = 'nyai liux sagy jtsk';
 					$m->SMTPSecure = 'ssl';
 					$m->Port = 465;
 					$m->From = 'facturacion@compu-tron.net';
@@ -730,9 +730,9 @@ function mailretiroenotratienda($factura, $bodegaFAC)
 				$m->CharSet = 'UTF-8';
 				$m->isSMTP();
 				$m->SMTPAuth = true;
-				$m->Host = 'mail.cartimex.com';
+				$m->Host = 'smtp.gmail.com';
 				$m->Username = 'sgo';
-				$m->Password = 'revolutionary*10$2024';
+				$m->Password = 'nyai liux sagy jtsk';
 				$m->SMTPSecure = 'ssl';
 				$m->Port = 465;
 				$m->From = 'facturacion@compu-tron.net';

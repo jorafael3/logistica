@@ -442,12 +442,12 @@ function Correo($row)
 			$m->CharSet = 'UTF-8';
 			$m->isSMTP();
 			$m->SMTPAuth = true;
-			$m->Host = 'mail.cartimex.com';
-			$m->Username = "sgo";
-			$m->Password = 'revolutionary*10$2024';
+			$m->Host = 'smtp.gmail.com';
+			$m->Username = "sgocarticompu@gmail.com";
+			$m->Password = 'nyai liux sagy jtsk';
 			$m->SMTPSecure = 'ssl';
 			$m->Port = 465;
-			$m->setFrom('sgo@cartimex.com', "DESPACHO REALIZADO");
+			$m->setFrom('sgocarticompu@gmail.com', "DESPACHO REALIZADO");
 			// $m->addBCC('pchavez@cartimex.com');
 			// $m->FromName = 'Computron';
 			//$destinatario = "fmortola@cartimex.com";
