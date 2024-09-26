@@ -8,6 +8,15 @@
 
 	<?php
 	session_start();
+
+	use PHPMailer\PHPMailer\PHPMailer;
+	use PHPMailer\PHPMailer\SMTP;
+	use PHPMailer\PHPMailer\Exception;
+
+	require 'PHPMailer/src/Exception.php';
+	require 'PHPMailer/src/PHPMailer.php';
+	require 'PHPMailer/src/SMTP.php';
+
 	if (isset($_SESSION['loggedin'])) {
 		$usuario = $_SESSION['usuario'];
 		$base = $_SESSION['base'];
@@ -232,14 +241,14 @@
 						default:
 							$mailsender = "cartimexmail5@gmail.com";
 					}
-					require_once '../vendor/autoload.php';
+					// require_once '../vendor/autoload.php';
 					$m = new PHPMailer();
 					$m->CharSet = 'UTF-8';
 					$m->isSMTP();
 					$m->SMTPAuth = true;
 					$m->Host = 'smtp.gmail.com';
-					$m->Username = $mailsender;
-					$m->Password = 'Bruno2001';
+					$m->Username = "sgocarticompu@gmail.com";
+					$m->Password = 'nyai liux sagy jtsk';
 					$m->SMTPSecure = 'ssl';
 					$m->Port = 465;
 					$m->From = $mailsender;

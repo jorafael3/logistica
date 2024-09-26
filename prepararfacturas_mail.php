@@ -127,7 +127,7 @@ function enviar_correo($ARRAY)
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'sgo';
+        $mail->Username   = 'sgocarticompu@gmail.com';
         $mail->Password   = 'nyai liux sagy jtsk';
         // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->addAddress($correoDestino);
