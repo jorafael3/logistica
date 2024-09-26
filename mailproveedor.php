@@ -170,7 +170,7 @@
 		$msg = $msg .  "</table>";
 
 		require_once '../vendor/autoload.php';
-		$m = new PHPMailer;
+		$m = new PHPMailer();
 		$m->CharSet = 'UTF-8';
 		$m->isSMTP();
 		$m->SMTPAuth = true;
