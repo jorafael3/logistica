@@ -1,5 +1,14 @@
 <?php
 
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
 if (isset($_POST['Cargar_guias'])) {
 	include('conexion_2.php');
 
@@ -438,7 +447,8 @@ function Correo($row)
 
 
 		if ($EMAIL_ENVIO != "") {
-			include 'vendor/autoload.php';
+			// include 'vendor/autoload.php';
+
 			$m = new PHPMailer();
 			$m->CharSet = 'UTF-8';
 			$m->isSMTP();
