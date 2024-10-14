@@ -97,7 +97,7 @@
 		$m->SMTPAuth = true;
 		$m->Host = 'smtp.gmail.com';
 		$m->Username = 'sgo';
-		$m->Password = 'nyai liux sagy jtsk';
+		$m->Password = 'qonp bilx kxsi yqah';
 		$m->SMTPSecure = 'ssl';
 		$m->Port = 465;
 		$m->From = 'facturacion@cartimex.com';

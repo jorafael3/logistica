@@ -455,7 +455,7 @@ function Correo($row)
 			$m->SMTPAuth = true;
 			$m->Host = 'smtp.gmail.com';
 			$m->Username = "sgocarticompu@gmail.com";
-			$m->Password = 'nyai liux sagy jtsk';
+			$m->Password = 'qonp bilx kxsi yqah';
 			$m->SMTPSecure = 'ssl';
 			$m->Port = 465;
 			$m->setFrom('sgocarticompu@gmail.com', "DESPACHO REALIZADO");
