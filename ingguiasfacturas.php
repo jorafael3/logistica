@@ -183,7 +183,7 @@
 								x.ACTIVAR_LINK = 1
 								x.sucufact = x.bodegsuc
 							}
-							if (x.Sucursal == "72" || x.Sucursal == "55") {
+							if (x.Sucursal == "72") {
 								x.ACTIVAR_LINK = 1
 							}
 							if ((obj[0]["formapago"] == "Tienda" && x.bodegsuc != obj[0]["sucursal"]) &&
