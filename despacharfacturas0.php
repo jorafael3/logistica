@@ -247,8 +247,8 @@
 					$m->isSMTP();
 					$m->SMTPAuth = true;
 					$m->Host = 'smtp.gmail.com';
-					$m->Username = "sgocarticompu@gmail.com";
-					$m->Password = 'qonp bilx kxsi yqah';
+					$m->Username = "sgoinfocorreo@gmail.com";
+					$m->Password = 'csxj xbqb uncn yuuc';
 					$m->SMTPSecure = 'ssl';
 					$m->Port = 465;
 					$m->From = $mailsender;

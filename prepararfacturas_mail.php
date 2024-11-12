@@ -127,13 +127,13 @@ function enviar_correo($ARRAY)
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'sgocarticompu@gmail.com';
-        $mail->Password   = 'qonp bilx kxsi yqah';
+        $mail->Username   = 'sgoinfocorreo@gmail.com';
+        $mail->Password   = 'csxj xbqb uncn yuuc';
         // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->addAddress($correoDestino);
         // $mail->addAddress('gcassis@cartimex.com');
         // $mail->addAddress('jalvarado@cartimex.com');
-        $mail->setFrom('sgocarticompu@gmail.com', 'CARTIMEX');
+        $mail->setFrom('sgoinfocorreo@gmail.com', 'CARTIMEX');
         $mail->AddCC("gcassis@cartimex.com");
         $mail->isHTML(true);
         $mail->CharSet = 'UTF-8';
