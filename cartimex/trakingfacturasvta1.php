@@ -80,7 +80,7 @@
 			$x = 0;
 			while ($row1 = $result1->fetch(PDO::FETCH_ASSOC)) {
 				$TipoPedido = $row1['TipoPedido'];
-
+				$bloqueo = $row1['bloqueo'];
 				$PREPARADOPOR = $row1['PREPARADOPOR'];
 				$FECHAYHORA = $row1['FECHAYHORA'];
 				$VERIFICADO = $row1['VERIFICADO'];
@@ -128,7 +128,7 @@
 
 		</div>
 		<hr>
-
+		<h1><?php echo $bloqueo ?></h1>
 		<div id="cuerpo2" class=\"table-responsive-xs\">
 			<div align="center" width=100%>
 				<table border=2 width=100% id="traking">
