@@ -194,16 +194,16 @@
 						<td id="label4"> <a> <?php echo $Telefono ?> </a> </td>
 						<td id="td1"> <strong> Email: </strong> </td>
 						<td id="label4"> <a> <?php echo $Mail ?> </a> </td>
-						
+
 					</tr>
 					<tr>
-					<td id="td1"> <strong> TipoPedido: </strong> </td>
+						<td id="td1"> <strong> TipoPedido: </strong> </td>
 						<td id="label4"> <a> <?php echo $TipoPedido ?></a></td>
 						<td id="td1"> <strong> Vendedor: </strong> </td>
 						<td id="label4"> <a> <?php echo $vendedor ?> </a> </td>
 						<td id="td1"> <strong> F.Pago: </strong> </td>
 						<td id="label4" colspan="4"> <a> <?php echo $FPago ?> </a> </td>
-					
+
 					</tr>
 					<tr>
 						<td id="td1"> <strong> Fecha Factura: </strong> </td>
@@ -345,7 +345,7 @@
 					?>
 						<img style="width: 300px;" src="<?php echo $FIRMA ?>" alt="">
 					<?php
-		
+
 					}
 					?>
 
