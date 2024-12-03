@@ -82,7 +82,6 @@
 				// echo $row;
 				$TipoPedido = $row1['TipoPedido'];
 				$bloqueo = $row1['bloqueo'];
-
 				$PREPARADOPOR = $row1['PREPARADOPOR'];
 				$FECHAYHORA = $row1['FECHAYHORA'];
 				$VERIFICADO = $row1['VERIFICADO'];

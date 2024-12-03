@@ -387,7 +387,17 @@
 							// columns.eq(2).children().val("");
 						} else {
 							newarray.serie = serie;
-							Guardar_Serie(newarray, x);
+							Swal.fire({
+								title: "Se guardaran los datos?",
+								showDenyButton: true,
+								showCancelButton: true,
+								confirmButtonText: "Guardar",
+								denyButtonText: `Cancelar`
+							}).then((result) => {
+								if (result.isConfirmed) {
+									Guardar_Serie(newarray, x);
+								}
+							});
 							// if (parseFloat(data.estado) == 1) {
 							// } else if (parseFloat(data.estado) == 0) {
 							// }

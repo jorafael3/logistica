@@ -260,11 +260,9 @@
 					$selected = 'selected';
 				}
 ?>			
-			
 				<option value="<?php  echo $row1['id']; ?>" <?php echo $selected ?> ><?php echo $row1['Código']; ?></option>
 <?php
 			}
-		 
 ?>
 				</select>
 			</td>

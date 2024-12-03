@@ -15,6 +15,8 @@
 			$acceso	=$_SESSION['acceso'];
 			$secu	=$_SESSION['secu'];
 			$bodegaFAC= $_SESSION['bodegaFAC'];
+			// echo $bodegaFAC;
+			// echo $secu;
 			$bodega	=$_SESSION['bodega'];
 			$nomsuc = $_SESSION['nomsuc'];
 			$usuario1= trim($usuario); 
