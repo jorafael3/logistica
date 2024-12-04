@@ -34,16 +34,12 @@
 			$bodega = $_SESSION['bodega'];
 			$nomsuc = $_SESSION['nomsuc'];
 
-
-
 			$usuario1 = $usuario;
 			if ($base == 'CARTIMEX') {
 				require '../headcarti.php';
 			} else {
 				require '../headcompu.php';
 			}
-
-
 		?>
 	</div>
 

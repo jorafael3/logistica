@@ -65,6 +65,7 @@
 							<th id="fila4"> Fecha</th>
 							<th id="fila4" colspan="2"> Destino</th>
 							<th id="fila4">Transferencias</th>
+							<th id="fila4"></th>
 						</tr>
 						<?php
 
@@ -114,6 +115,10 @@
 								<td id="filax"> <?php echo $arreglo[$y][6] ?></td>
 								<td id="fila4"> <?php echo $arreglo[$y][3] ?></td>
 								<td id="fila4"> <?php echo $transferencias ?> </td>
+								<td>
+									<button onclick="REVERSAR(this)">ELIMINAR</button>
+								</td>
+								<td hidden id="ID"> <?php echo $arreglo[$y][7] ?></td>
 							</tr>
 						<?php
 
@@ -142,3 +147,76 @@
 	?>
 	</div>
 </body>
+
+<link href="../assets/freeze/freeze-ui.min.css" type="text/css" rel="stylesheet" />
+<script src="../assets/freeze/freeze-ui.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+	function REVERSAR(button) {
+		event.preventDefault();
+		const row = button.closest('tr'); // Selecciona la fila padre del botón
+
+		const id = row.querySelector('#ID').innerText;
+
+		let para = {
+			"REVERSAR_TR": 1,
+			usuario: '<?php echo $_SESSION['usuario'] ?>',
+			ID: id
+		}
+		console.log('para: ', para);
+
+		Swal.fire({
+			title: "Se Eliminara?",
+			showDenyButton: true,
+			showCancelButton: true,
+			confirmButtonText: "Continuar",
+			denyButtonText: `Cancelar`
+		}).then((result) => {
+			/* Read more about isConfirmed, isDenied below */
+			if (result.isConfirmed) {
+				AjaxSend(para, function(x) {
+					console.log('x: ', x);
+
+					if (x.success) {
+						Swal.fire({
+							title: "Transferencia Eliminada",
+							text: "",
+							icon: "success"
+						});
+
+						setTimeout(() => {
+							window.location.reload()
+						}, 200);
+					} else {
+						Swal.fire({
+							title: "Error",
+							text: "",
+							icon: "error"
+						});
+					}
+
+				})
+			}
+		});
+
+
+	}
+
+	function AjaxSend(param, callback) {
+		FreezeUI({
+			text: 'Cargando'
+		});
+		$.ajax({
+			data: param,
+			datatype: 'json',
+			url: 'preparartransferencias_f.php',
+			type: 'POST',
+			success: function(x) {
+				x = JSON.parse(x)
+				UnFreezeUI();
+				callback(x)
+			}
+		})
+	}
+</script>
