@@ -645,4 +645,15 @@
 </div>
 </body>
 
+<script>
+	var usuario = "<?php echo $usuario; ?>";
+
+	function imprimirConexionActiva() {
+
+		console.log("conexión activa: " + usuario);
+	}
+
+	setInterval(imprimirConexionActiva, 2000);
+</script>
+
 </html>
